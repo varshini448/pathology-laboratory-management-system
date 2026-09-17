@@ -4,11 +4,12 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const patientRoutes = require("./routes/patientRoutes");
-
+const doctorRoutes = require("./routes/doctorRoutes");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 
 app.get("/", (req, res) => {
   res.json({
@@ -19,5 +20,5 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/patients", patientRoutes);
-
+app.use("/doctors", doctorRoutes);
 module.exports = app;
