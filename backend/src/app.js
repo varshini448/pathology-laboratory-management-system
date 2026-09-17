@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const caseRoutes = require("./routes/caseRoutes");
+const specimenRoutes = require("./routes/specimenRoutes");
 const app = express();
 
 app.use(cors());
@@ -23,4 +24,5 @@ app.use("/users", userRoutes);
 app.use("/patients", patientRoutes);
 app.use("/doctors", doctorRoutes);
 app.use("/cases", caseRoutes);
+app.use("/specimens", specimenRoutes);
 module.exports = app;
