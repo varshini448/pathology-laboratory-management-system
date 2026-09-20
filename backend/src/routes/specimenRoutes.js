@@ -13,6 +13,15 @@ const {
 
 const router = express.Router();
 
+// Get all specimens
+router.get(
+  "/",
+  protect,
+  authorize("ADMIN", "TECHNICIAN", "PATHOLOGIST", "QUALITY_MANAGER"),
+  getSpecimens
+);
+
+// Create specimen
 router.post(
   "/",
   protect,
@@ -20,6 +29,7 @@ router.post(
   createSpecimen
 );
 
+// Get specimens by case
 router.get(
   "/case/:caseId",
   protect,
@@ -27,6 +37,7 @@ router.get(
   getSpecimensByCase
 );
 
+// Get specimen by ID
 router.get(
   "/:id",
   protect,
@@ -34,6 +45,7 @@ router.get(
   getSpecimenById
 );
 
+// Update specimen
 router.put(
   "/:id",
   protect,
