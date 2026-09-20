@@ -10,6 +10,7 @@ const specimenRoutes = require("./routes/specimenRoutes");
 const blockRoutes = require("./routes/blockRoutes");
 const app = express();
 const slideRoutes = require("./routes/slideRoutes");
+const workflowRoutes = require("./routes/workflowRoutes");
 app.use(cors());
 app.use(express.json());
 
@@ -28,4 +29,5 @@ app.use("/cases", caseRoutes);
 app.use("/specimens", specimenRoutes);
 app.use("/blocks", blockRoutes);
 app.use("/slides", slideRoutes);
+app.use("/workflow", workflowRoutes);
 module.exports = app;

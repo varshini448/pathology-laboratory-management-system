@@ -10,6 +10,11 @@ export const getBlocksByCase = async (caseId) => {
   return response.blocks;
 };
 
+export const getBlockById = async (blockId) => {
+  const response = await api.get(`/blocks/${blockId}`);
+  return response.block;
+};
+
 export const createBlock = async (blockData) => {
   const response = await api.post("/blocks", blockData);
   return response.block;

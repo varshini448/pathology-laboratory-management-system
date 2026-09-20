@@ -38,6 +38,26 @@ const getSpecimens = async (req, res) => {
   }
 };
 
+const getSpecimensByCase = async (req, res) => {
+  try {
+    const specimens = await Specimen.find({
+      case: req.params.caseId,
+    })
+      .populate("case", "caseId caseType priority status")
+      .populate("collectedBy", "name email role")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      specimens,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch specimens for case",
+      error: error.message,
+    });
+  }
+};
+
 const getSpecimenById = async (req, res) => {
   try {
     const specimen = await Specimen.findById(req.params.id)
@@ -93,6 +113,7 @@ const updateSpecimen = async (req, res) => {
 module.exports = {
   createSpecimen,
   getSpecimens,
+  getSpecimensByCase,
   getSpecimenById,
   updateSpecimen,
 };

@@ -6,6 +6,7 @@ const authorize = require("../middleware/roleMiddleware");
 const {
   createSpecimen,
   getSpecimens,
+  getSpecimensByCase,
   getSpecimenById,
   updateSpecimen,
 } = require("../controllers/specimenController");
@@ -20,10 +21,10 @@ router.post(
 );
 
 router.get(
-  "/",
+  "/case/:caseId",
   protect,
   authorize("ADMIN", "TECHNICIAN", "PATHOLOGIST", "QUALITY_MANAGER"),
-  getSpecimens
+  getSpecimensByCase
 );
 
 router.get(
