@@ -9,7 +9,7 @@ const caseRoutes = require("./routes/caseRoutes");
 const specimenRoutes = require("./routes/specimenRoutes");
 const blockRoutes = require("./routes/blockRoutes");
 const app = express();
-
+const slideRoutes = require("./routes/slideRoutes");
 app.use(cors());
 app.use(express.json());
 
@@ -27,4 +27,5 @@ app.use("/doctors", doctorRoutes);
 app.use("/cases", caseRoutes);
 app.use("/specimens", specimenRoutes);
 app.use("/blocks", blockRoutes);
+app.use("/slides", slideRoutes);
 module.exports = app;
