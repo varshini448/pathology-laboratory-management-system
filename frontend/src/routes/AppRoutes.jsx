@@ -25,6 +25,15 @@ import Slides from "../pages/slides/Slides";
 import SlideDetails from "../pages/slides/SlideDetails";
 import AddSlide from "../pages/slides/AddSlide";
 
+import QCDashboard from "../pages/qc/QCDashboard";
+import AddQCRecord from "../pages/qc/AddQCRecord";
+import QCRecords from "../pages/qc/QCRecords";
+
+import Reports from "../pages/reports/Reports";
+import CreateReport from "../pages/reports/CreateReport";
+import ReportDetails from "../pages/reports/ReportDetails";
+import SignOutReport from "../pages/reports/SignOutReport";
+
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -53,6 +62,15 @@ const AppRoutes = () => {
         <Route path="/slides" element={<Slides />} />
         <Route path="/slides/add" element={<AddSlide />} />
         <Route path="/slides/:id" element={<SlideDetails />} />
+
+        <Route path="/qc" element={<QCDashboard />} />
+        <Route path="/qc/add" element={<AddQCRecord />} />
+        <Route path="/qc/:id" element={<QCRecords />} />
+
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/reports/create" element={<CreateReport />} />
+        <Route path="/reports/:id" element={<ReportDetails />} />
+        <Route path="/reports/:id/sign-out" element={<SignOutReport />} />
       </Routes>
     </BrowserRouter>
   );

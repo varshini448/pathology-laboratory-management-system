@@ -47,6 +47,14 @@ const Dashboard = () => {
         {" | "}
         <Link to="/slides/add">Add Slide</Link>
       </div>
+            <div>
+        <h3>QA / QC Management</h3>
+        <Link to="/qc">QC Dashboard</Link>
+        {" | "}
+        <Link to="/qc/add">Add QC Record</Link>
+        {" | "}
+        <Link to="/qc/records">View QC Records</Link>
+      </div>
     </div>
   );
 };

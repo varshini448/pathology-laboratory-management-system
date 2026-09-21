@@ -1,7 +1,13 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { createQCRecord } from "../../services/qcService";
+import { getCases } from "../../services/caseService";
+import { getSlides } from "../../services/slideService";
 
 const AddQCRecord = () => {
+  const [cases, setCases] = useState([]);
+  const [slides, setSlides] = useState([]);
+
   const [formData, setFormData] = useState({
     qcId: "",
     case: "",
@@ -15,8 +21,29 @@ const AddQCRecord = () => {
     correctiveAction: "",
   });
 
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [caseData, slideData] = await Promise.all([
+          getCases(),
+          getSlides(),
+        ]);
+
+        setCases(caseData);
+        setSlides(slideData);
+      } catch (err) {
+        setError(err.message || "Failed to load cases and slides");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -55,6 +82,10 @@ const AddQCRecord = () => {
     }
   };
 
+  if (loading) {
+    return <div>Loading cases and slides...</div>;
+  }
+
   return (
     <div>
       <h1>Add QC Record</h1>
@@ -76,27 +107,39 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Case ID</label>
-          <input
-            type="text"
+          <label>Case</label>
+          <select
             name="case"
             value={formData.case}
             onChange={handleChange}
-            placeholder="MongoDB Case ID"
             required
-          />
+          >
+            <option value="">Select Case</option>
+
+            {cases.map((caseItem) => (
+              <option key={caseItem._id} value={caseItem._id}>
+                {caseItem.caseId} - {caseItem.caseType}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
-          <label>Slide ID</label>
-          <input
-            type="text"
+          <label>Slide</label>
+          <select
             name="slide"
             value={formData.slide}
             onChange={handleChange}
-            placeholder="MongoDB Slide ID"
             required
-          />
+          >
+            <option value="">Select Slide</option>
+
+            {slides.map((slide) => (
+              <option key={slide._id} value={slide._id}>
+                {slide.slideId} - {slide.slideType}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
