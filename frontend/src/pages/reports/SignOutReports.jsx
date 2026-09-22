@@ -1,44 +1,47 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getReports } from "../../services/reportService";
 
-const Reports = () => {
+import { getPendingSignOutReports } from "../../services/reportService";
+
+const SignOutReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadReports = async () => {
+    const loadPendingReports = async () => {
       try {
-        const data = await getReports();
+        const data = await getPendingSignOutReports();
         setReports(data || []);
       } catch (err) {
-        setError(err.message || "Failed to load reports");
+        setError(
+          err.message || "Failed to load reports pending sign-out."
+        );
       } finally {
         setLoading(false);
       }
     };
 
-    loadReports();
+    loadPendingReports();
   }, []);
 
   if (loading) {
-    return <div>Loading reports...</div>;
+    return <div>Loading reports pending sign-out...</div>;
   }
 
   return (
     <div>
-      <h1>Pathology Reports</h1>
+      <h1>Pending Final Sign-out</h1>
 
       <p>
-        Reports are displayed here for viewing. Report content is
-        read-only from this page.
+        Review pathology report drafts that are ready for final
+        pathologist sign-out.
       </p>
 
       {error && <p>Error: {error}</p>}
 
       {!error && reports.length === 0 && (
-        <p>No reports found.</p>
+        <p>No reports are currently pending final sign-out.</p>
       )}
 
       {!error && reports.length > 0 && (
@@ -49,7 +52,6 @@ const Reports = () => {
               <th>Case</th>
               <th>Patient</th>
               <th>Slide</th>
-              <th>Status</th>
               <th>Prepared By</th>
               <th>Created At</th>
               <th>Action</th>
@@ -61,25 +63,13 @@ const Reports = () => {
               <tr key={report._id}>
                 <td>{report.reportId}</td>
 
-                <td>
-                  {report.case?.caseId || "-"}
-                </td>
+                <td>{report.case?.caseId || "-"}</td>
 
-                <td>
-                  {report.case?.patient?.name || "-"}
-                </td>
+                <td>{report.case?.patient?.name || "-"}</td>
 
-                <td>
-                  {report.slide?.slideId || "-"}
-                </td>
+                <td>{report.slide?.slideId || "-"}</td>
 
-                <td>
-                  {report.reportStatus}
-                </td>
-
-                <td>
-                  {report.preparedBy?.name || "-"}
-                </td>
+                <td>{report.preparedBy?.name || "-"}</td>
 
                 <td>
                   {report.createdAt
@@ -88,8 +78,8 @@ const Reports = () => {
                 </td>
 
                 <td>
-                  <Link to={`/reports/${report._id}`}>
-                    View Report
+                  <Link to={`/reports/${report._id}/sign-out`}>
+                    Review for Sign-out
                   </Link>
                 </td>
               </tr>
@@ -97,8 +87,14 @@ const Reports = () => {
           </tbody>
         </table>
       )}
+
+      <p>
+        <Link to="/pathologist-workspace">
+          Back to Pathologist Workspace
+        </Link>
+      </p>
     </div>
   );
 };
 
-export default Reports;
+export default SignOutReports;

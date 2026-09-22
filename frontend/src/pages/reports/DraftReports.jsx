@@ -1,44 +1,50 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { getReports } from "../../services/reportService";
 
-const Reports = () => {
+const DraftReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadReports = async () => {
+    const loadDraftReports = async () => {
       try {
         const data = await getReports();
-        setReports(data || []);
+
+        const draftReports = (data || []).filter(
+          (report) => report.reportStatus === "DRAFT"
+        );
+
+        setReports(draftReports);
       } catch (err) {
-        setError(err.message || "Failed to load reports");
+        setError(err.message || "Failed to load draft reports.");
       } finally {
         setLoading(false);
       }
     };
 
-    loadReports();
+    loadDraftReports();
   }, []);
 
   if (loading) {
-    return <div>Loading reports...</div>;
+    return <div>Loading draft reports...</div>;
   }
 
   return (
     <div>
-      <h1>Pathology Reports</h1>
+      <h1>Draft Reports</h1>
 
       <p>
-        Reports are displayed here for viewing. Report content is
-        read-only from this page.
+        Review pathology reports that are currently being prepared by
+        pathologists.
       </p>
 
       {error && <p>Error: {error}</p>}
 
       {!error && reports.length === 0 && (
-        <p>No reports found.</p>
+        <p>No draft reports found.</p>
       )}
 
       {!error && reports.length > 0 && (
@@ -49,7 +55,6 @@ const Reports = () => {
               <th>Case</th>
               <th>Patient</th>
               <th>Slide</th>
-              <th>Status</th>
               <th>Prepared By</th>
               <th>Created At</th>
               <th>Action</th>
@@ -61,25 +66,13 @@ const Reports = () => {
               <tr key={report._id}>
                 <td>{report.reportId}</td>
 
-                <td>
-                  {report.case?.caseId || "-"}
-                </td>
+                <td>{report.case?.caseId || "-"}</td>
 
-                <td>
-                  {report.case?.patient?.name || "-"}
-                </td>
+                <td>{report.case?.patient?.name || "-"}</td>
 
-                <td>
-                  {report.slide?.slideId || "-"}
-                </td>
+                <td>{report.slide?.slideId || "-"}</td>
 
-                <td>
-                  {report.reportStatus}
-                </td>
-
-                <td>
-                  {report.preparedBy?.name || "-"}
-                </td>
+                <td>{report.preparedBy?.name || "-"}</td>
 
                 <td>
                   {report.createdAt
@@ -89,7 +82,7 @@ const Reports = () => {
 
                 <td>
                   <Link to={`/reports/${report._id}`}>
-                    View Report
+                    Open Draft
                   </Link>
                 </td>
               </tr>
@@ -97,8 +90,14 @@ const Reports = () => {
           </tbody>
         </table>
       )}
+
+      <p>
+        <Link to="/pathologist-workspace">
+          Back to Pathologist Workspace
+        </Link>
+      </p>
     </div>
   );
 };
 
-export default Reports;
+export default DraftReports;

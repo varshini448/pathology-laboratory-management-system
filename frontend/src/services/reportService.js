@@ -19,13 +19,23 @@ export const getReportById = async (reportId) => {
   const response = await api.get(`/reports/${reportId}`);
   return response.report;
 };
+export const getPendingSignOutReports = async () => {
+  const response = await api.get("/reports/pending-sign-out");
+  return response.reports;
+};
 
+export const signOutReport = async (reportId) => {
+  const response = await api.post(`/reports/${reportId}/sign-out`);
+  return response.report;
+};
 export const createReport = async (reportData) => {
   const response = await api.post("/reports", reportData);
   return response.report;
 };
-
 export const updateReport = async (reportId, reportData) => {
   const response = await api.put(`/reports/${reportId}`, reportData);
   return response.report;
 };
+
+
+

@@ -33,7 +33,9 @@ import Reports from "../pages/reports/Reports";
 import CreateReport from "../pages/reports/CreateReport";
 import ReportDetails from "../pages/reports/ReportDetails";
 import SignOutReport from "../pages/reports/SignOutReport";
-
+import PathologistWorkspace from "../pages/reports/PathologistWorkspace";
+import DraftReports from "../pages/reports/DraftReports";
+import SignOutReports from "../pages/reports/SignOutReports";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -71,6 +73,9 @@ const AppRoutes = () => {
         <Route path="/reports/create" element={<CreateReport />} />
         <Route path="/reports/:id" element={<ReportDetails />} />
         <Route path="/reports/:id/sign-out" element={<SignOutReport />} />
+        <Route path="/pathologist-workspace" element={<PathologistWorkspace />} />
+        <Route path="/reports/drafts" element={<DraftReports />} />
+        <Route path="/reports/sign-out" element={<SignOutReports />} />
       </Routes>
     </BrowserRouter>
   );

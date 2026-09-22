@@ -1,3 +1,4 @@
+
 const express = require("express");
 
 const protect = require("../middleware/authMiddleware");
@@ -5,16 +6,24 @@ const authorize = require("../middleware/roleMiddleware");
 
 const {
   generateReportData,
+} = require("../controllers/reports/reportDataController");
+
+const {
   createReport,
   getReports,
   getReportsByCase,
   getReportById,
   updateReport,
-} = require("../controllers/reportController");
+} = require("../controllers/reports/reportController");
+
+const {
+  getPendingSignOutReports,
+  signOutReport,
+} = require("../controllers/reports/reportSignOutController");
 
 const router = express.Router();
 
-// Generate report data automatically from a case
+// Generate report data from a case
 router.get(
   "/generate/:caseId",
   protect,
@@ -22,7 +31,7 @@ router.get(
   generateReportData
 );
 
-// Create a report
+// Create report draft
 router.post(
   "/",
   protect,
@@ -34,27 +43,58 @@ router.post(
 router.get(
   "/",
   protect,
-  authorize("ADMIN", "PATHOLOGIST", "QUALITY_MANAGER", "TECHNICIAN"),
+  authorize(
+    "ADMIN",
+    "PATHOLOGIST",
+    "QUALITY_MANAGER",
+    "TECHNICIAN"
+  ),
   getReports
 );
 
-// Get reports for a specific case
+// Get reports pending final sign-out
+router.get(
+  "/pending-sign-out",
+  protect,
+  authorize("ADMIN", "PATHOLOGIST"),
+  getPendingSignOutReports
+);
+
+// Get reports by case
 router.get(
   "/case/:caseId",
   protect,
-  authorize("ADMIN", "PATHOLOGIST", "QUALITY_MANAGER", "TECHNICIAN"),
+  authorize(
+    "ADMIN",
+    "PATHOLOGIST",
+    "QUALITY_MANAGER",
+    "TECHNICIAN"
+  ),
   getReportsByCase
 );
 
-// Get a specific report
+// Final sign-out
+router.post(
+  "/:id/sign-out",
+  protect,
+  authorize("ADMIN", "PATHOLOGIST"),
+  signOutReport
+);
+
+// Get single report
 router.get(
   "/:id",
   protect,
-  authorize("ADMIN", "PATHOLOGIST", "QUALITY_MANAGER", "TECHNICIAN"),
+  authorize(
+    "ADMIN",
+    "PATHOLOGIST",
+    "QUALITY_MANAGER",
+    "TECHNICIAN"
+  ),
   getReportById
 );
 
-// Update / finalize a report
+// Update draft report
 router.put(
   "/:id",
   protect,
