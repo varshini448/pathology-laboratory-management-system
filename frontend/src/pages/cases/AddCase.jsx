@@ -1,38 +1,99 @@
-import { useState } from "react";
-import CaseForm from "../../components/forms/CaseForm";
-import { createCase } from "../../services/caseService";
 
-const AddCase = () => {
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-  const handleSubmit = async (formData) => {
-    try {
-      setLoading(true);
-      setMessage("");
+import { getCases } from "../../services/caseService";
 
-      await createCase(formData);
+const Cases = () => {
+  const [cases, setCases] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-      setMessage("Case created successfully");
-    } catch (error) {
-      setMessage(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const loadCases = async () => {
+      try {
+        const data = await getCases();
+        setCases(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCases();
+  }, []);
+
+  if (loading) {
+    return <p>Loading cases...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div>
-      <h1>Add Case</h1>
+      <h1>Cases</h1>
 
-      <CaseForm
-        onSubmit={handleSubmit}
-        loading={loading}
-      />
+      <Link to="/cases/add">Add Case</Link>
 
-      {message && <p>{message}</p>}
+      {cases.length === 0 ? (
+        <p>No cases found.</p>
+      ) : (
+        <div>
+          {cases.map((caseData) => (
+            <div key={caseData._id}>
+              <h3>
+                <Link to={`/cases/${caseData._id}`}>
+                  {caseData.caseId}
+                </Link>
+              </h3>
+
+              <p>
+                <strong>Case Type:</strong>{" "}
+                {caseData.caseType}
+              </p>
+
+              <p>
+                <strong>Priority:</strong>{" "}
+                {caseData.priority}
+              </p>
+
+              <p>
+                <strong>Status:</strong>{" "}
+                {caseData.status}
+              </p>
+
+              <p>
+                <strong>Patient:</strong>{" "}
+                {caseData.patient?.name || caseData.patient}
+              </p>
+
+              <p>
+                <strong>Doctor:</strong>{" "}
+                {caseData.doctor?.name || caseData.doctor}
+              </p>
+
+              <div>
+                <Link to={`/cases/${caseData._id}`}>
+                  View Case
+                </Link>
+
+                {" | "}
+
+                <Link to={`/tat/${caseData.caseId}`}>
+                  View TAT
+                </Link>
+              </div>
+
+              <hr />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default AddCase;
+export default Cases;

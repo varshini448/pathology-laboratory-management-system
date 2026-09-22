@@ -1,62 +1,28 @@
-import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  return (
-    <div>
-      <h1>Pathology Laboratory Management System</h1>
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-      <p>
-        Welcome{user?.name ? `, ${user.name}` : ""}!
-      </p>
+  switch (user.role) {
+    case "ADMIN":
+      return <Navigate to="/admin-dashboard" replace />;
 
-      <h2>Dashboard</h2>
+    case "TECHNICIAN":
+      return <Navigate to="/technician-dashboard" replace />;
 
-      <div>
-        <h3>Patient Management</h3>
-        <Link to="/patients">View Patients</Link>
-        {" | "}
-        <Link to="/patients/add">Add Patient</Link>
-      </div>
+    case "PATHOLOGIST":
+      return <Navigate to="/pathologist-dashboard" replace />;
 
-      <div>
-        <h3>Case Management</h3>
-        <Link to="/cases">View Cases</Link>
-        {" | "}
-        <Link to="/cases/add">Add Case</Link>
-      </div>
+    case "QUALITY_MANAGER":
+      return <Navigate to="/quality-dashboard" replace />;
 
-      <div>
-        <h3>Specimen Management</h3>
-        <Link to="/specimens">View Specimens</Link>
-        {" | "}
-        <Link to="/specimens/add">Add Specimen</Link>
-      </div>
-
-      <div>
-        <h3>Block Management</h3>
-        <Link to="/blocks">View Blocks</Link>
-        {" | "}
-        <Link to="/blocks/add">Add Block</Link>
-      </div>
-
-      <div>
-        <h3>Slide Management</h3>
-        <Link to="/slides">View Slides</Link>
-        {" | "}
-        <Link to="/slides/add">Add Slide</Link>
-      </div>
-            <div>
-        <h3>QA / QC Management</h3>
-        <Link to="/qc">QC Dashboard</Link>
-        {" | "}
-        <Link to="/qc/add">Add QC Record</Link>
-        {" | "}
-        <Link to="/qc/records">View QC Records</Link>
-      </div>
-    </div>
-  );
+    default:
+      return <Navigate to="/unauthorized" replace />;
+  }
 };
 
 export default Dashboard;

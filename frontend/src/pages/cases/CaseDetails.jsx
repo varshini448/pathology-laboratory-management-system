@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { getCaseById } from "../../services/caseService";
 import { getWorkflowEventsByCase } from "../../services/workflowService";
@@ -112,6 +112,11 @@ const CaseDetails = () => {
         <strong>Clinical History:</strong>{" "}
         {caseData.clinicalHistory || "-"}
       </p>
+      <div>
+        <Link to={`/tat/${caseData.caseId}`}>
+          View Turnaround Time (TAT)
+        </Link>
+      </div>
 
       <hr />
 
