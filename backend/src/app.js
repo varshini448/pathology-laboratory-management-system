@@ -13,6 +13,7 @@ const slideRoutes = require("./routes/slideRoutes");
 const workflowRoutes = require("./routes/workflowRoutes");
 const qcRoutes = require("./routes/qcRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const tatRoutes = require("./routes/tatRoutes");
 app.use(cors());
 app.use(express.json());
 
@@ -34,4 +35,5 @@ app.use("/slides", slideRoutes);
 app.use("/workflow", workflowRoutes);
 app.use("/qc", qcRoutes);
 app.use("/reports", reportRoutes);
-module.exports = app;
+app.use("/tat", tatRoutes);
+module.exports = app;2

@@ -1,8 +1,616 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+a {
+    color: inherit;
 }
 
 #root {
     min-height: 100vh;
+}
+
+/* =========================================
+   TAT PAGE
+========================================= */
+
+.tat-page {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px 48px 60px;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.tat-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.tat-page-header h1 {
+    margin: 4px 0 8px;
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #172033;
+}
+
+.tat-page-description {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.tat-eyebrow {
+    margin: 0;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.tat-header-case-id {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 12px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 13px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.tat-back-link {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #4f46e5;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.tat-back-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.tat-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.tat-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 110px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.tat-summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.tat-icon-progress {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.tat-icon-completed {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.tat-summary-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.tat-summary-card strong {
+    display: block;
+    color: #172033;
+    font-size: 26px;
+    line-height: 1;
+}
+
+/* =========================================
+   COMMON CARD
+========================================= */
+
+.tat-card {
+    margin-bottom: 24px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.tat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.tat-card-header h2 {
+    margin: 0 0 5px;
+    color: #172033;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.tat-card-header p {
+    margin: 0;
+    color: #7b8494;
+    font-size: 13px;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.tat-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tat-table {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.tat-table th {
+    padding: 14px 18px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e6eaf0;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tat-table td {
+    padding: 17px 18px;
+    border-bottom: 1px solid #edf0f4;
+    color: #334155;
+    font-size: 14px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.tat-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tat-table tbody tr:hover {
+    background: #fafbff;
+}
+
+.tat-table td:first-child,
+.tat-table th:first-child {
+    padding-left: 24px;
+}
+
+.tat-table td:last-child,
+.tat-table th:last-child {
+    padding-right: 24px;
+}
+
+.tat-case-link {
+    color: #4338ca;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.tat-case-link:hover {
+    text-decoration: underline;
+}
+
+.tat-patient strong {
+    color: #172033;
+    font-weight: 600;
+}
+
+.tat-case-status {
+    color: #475569;
+    font-size: 13px;
+}
+
+/* =========================================
+   BADGES
+========================================= */
+
+.tat-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.tat-badge-normal {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.tat-badge-urgent {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.tat-badge-stat {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* =========================================
+   PROCESSING STATUS
+========================================= */
+
+.tat-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.tat-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.tat-status-progress {
+    color: #c2410c;
+}
+
+.tat-status-progress .tat-status-dot {
+    background: #f97316;
+}
+
+.tat-status-completed {
+    color: #047857;
+}
+
+.tat-status-completed .tat-status-dot {
+    background: #10b981;
+}
+.tat-status-delayed {
+    color: #b42318;
+}
+
+.tat-status-within {
+    color: #027a48;
+}
+
+.tat-status-delayed .tat-status-dot {
+    background: #d92d20;
+}
+
+.tat-status-within .tat-status-dot {
+    background: #12b76a;
+}
+
+.tat-target-text {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+/* =========================================
+   ACTION BUTTON
+========================================= */
+
+.tat-view-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 11px;
+    border: 1px solid #dfe3eb;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #4338ca;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.tat-view-button:hover {
+    background: #f5f3ff;
+    border-color: #c7d2fe;
+}
+
+/* =========================================
+   DETAILS GRID
+========================================= */
+
+.tat-details-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+}
+
+.tat-detail-item {
+    min-height: 105px;
+    padding: 20px 22px;
+    border-right: 1px solid #edf0f4;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.tat-detail-item:nth-child(4n) {
+    border-right: none;
+}
+
+.tat-detail-item:nth-last-child(-n + 4) {
+    border-bottom: none;
+}
+
+.tat-detail-item>span:first-child {
+    display: block;
+    margin-bottom: 8px;
+    color: #7b8494;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tat-detail-item>strong {
+    display: block;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.tat-detail-highlight {
+    background: #fafaff;
+}
+
+.tat-detail-highlight>strong {
+    color: #4338ca;
+    font-size: 18px;
+}
+
+/* =========================================
+   STAGE TABLE
+========================================= */
+
+.tat-stage-table {
+    min-width: 850px;
+}
+
+.tat-stage-table th:first-child,
+.tat-stage-table td:first-child {
+    width: 60px;
+    text-align: center;
+}
+
+.tat-stage-number {
+    color: #94a3b8 !important;
+    font-size: 12px !important;
+    font-weight: 700;
+}
+
+.tat-stage-table td:nth-child(2) {
+    min-width: 220px;
+    color: #172033;
+}
+
+.tat-stage-table td:nth-child(3),
+.tat-stage-table td:nth-child(4) {
+    min-width: 210px;
+}
+
+.tat-stage-table td:nth-child(5) {
+    min-width: 120px;
+    color: #4338ca;
+}
+
+/* =========================================
+   EMPTY / ERROR / LOADING
+========================================= */
+
+.tat-empty {
+    padding: 50px 24px;
+    text-align: center;
+}
+
+.tat-empty h3,
+.tat-empty h2 {
+    margin: 0 0 8px;
+    color: #334155;
+}
+
+.tat-empty p {
+    margin: 0;
+    color: #7b8494;
+    font-size: 14px;
+}
+
+.tat-error {
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+}
+
+.tat-error h2 {
+    margin: 0 0 8px;
+    color: #991b1b;
+}
+
+.tat-error p {
+    margin: 0;
+    color: #b91c1c;
+}
+
+.tat-loading {
+    display: flex;
+    min-height: 300px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #64748b;
+}
+
+.tat-loading p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.tat-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #4f46e5;
+    border-radius: 50%;
+    animation: tat-spin 0.8s linear infinite;
+}
+
+@keyframes tat-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+    .tat-page {
+        padding: 32px 28px 50px;
+    }
+
+    .tat-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tat-detail-item:nth-child(4n) {
+        border-right: 1px solid #edf0f4;
+    }
+
+    .tat-detail-item:nth-child(2n) {
+        border-right: none;
+    }
+
+    .tat-detail-item:nth-last-child(-n + 4) {
+        border-bottom: 1px solid #edf0f4;
+    }
+
+    .tat-detail-item:nth-last-child(-n + 2) {
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .tat-page {
+        padding: 24px 16px 40px;
+    }
+
+    .tat-page-header h1 {
+        font-size: 26px;
+    }
+
+    .tat-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tat-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tat-detail-item,
+    .tat-detail-item:nth-child(2n),
+    .tat-detail-item:nth-child(4n) {
+        border-right: none;
+        border-bottom: 1px solid #edf0f4;
+    }
+
+    .tat-detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .tat-card-header {
+        padding: 18px;
+    }
+
+    .tat-table td:first-child,
+    .tat-table th:first-child {
+        padding-left: 18px;
+    }
+
+    .tat-table td:last-child,
+    .tat-table th:last-child {
+        padding-right: 18px;
+    }
 }
