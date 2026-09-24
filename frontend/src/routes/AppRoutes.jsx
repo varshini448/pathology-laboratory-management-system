@@ -1,8 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "../pages/home/Home";
-import Register from "../pages/auth/Register";
+
+import RegisterSelector from "../pages/auth/RegisterSelector";
+import InternalRegister from "../pages/auth/InternalRegister";
+import PatientRegister from "../pages/auth/PatientRegister";
+import DoctorRegister from "../pages/auth/DoctorRegister";
+
 import Login from "../pages/auth/Login";
+import ForgotPassword from "../pages/auth/ForgotPassword";
+import ResetPassword from "../pages/auth/ResetPassword";
+import VerifyEmail from "../pages/auth/VerifyEmail";
+import PendingApproval from "../pages/auth/PendingApproval";
 import Unauthorized from "../pages/auth/Unauthorized";
 
 import Dashboard from "../pages/dashboard/Dashboard";
@@ -62,9 +71,54 @@ const AppRoutes = () => {
 
         <Route path="/login" element={<Login />} />
 
-        <Route path="/register" element={<Register />} />
+        {/* Registration selector */}
+        <Route
+          path="/register"
+          element={<RegisterSelector />}
+        />
 
-        <Route path="/unauthorized" element={<Unauthorized />} />
+        {/* Internal staff registration */}
+        <Route
+          path="/register/internal"
+          element={<InternalRegister />}
+        />
+
+        {/* Patient registration */}
+        <Route
+          path="/register/patient"
+          element={<PatientRegister />}
+        />
+
+        {/* Doctor registration */}
+        <Route
+          path="/register/doctor"
+          element={<DoctorRegister />}
+        />
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+
+        <Route
+          path="/reset-password/:token"
+          element={<ResetPassword />}
+        />
+
+        <Route
+          path="/verify-email/:token"
+          element={<VerifyEmail />}
+        />
+
+        <Route
+          path="/pending-approval"
+          element={<PendingApproval />}
+        />
+
+        <Route
+          path="/unauthorized"
+          element={<Unauthorized />}
+        />
 
 
         {/* =========================
@@ -74,39 +128,59 @@ const AppRoutes = () => {
         <Route element={<ProtectedRoute />}>
 
           {/* General dashboard */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
 
 
           {/* =========================
-              ROLE-SPECIFIC DASHBOARDS
+              ROLE DASHBOARDS
           ========================= */}
 
           <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
+
             <Route
               path="/admin-dashboard"
               element={<AdminDashboard />}
             />
+
           </Route>
 
+
           <Route element={<RoleRoute allowedRoles={["TECHNICIAN"]} />}>
+
             <Route
               path="/technician-dashboard"
               element={<TechnicianDashboard />}
             />
+
           </Route>
 
+
           <Route element={<RoleRoute allowedRoles={["PATHOLOGIST"]} />}>
+
             <Route
               path="/pathologist-dashboard"
               element={<PathologistDashboard />}
             />
+
           </Route>
 
-          <Route element={<RoleRoute allowedRoles={["QUALITY_MANAGER"]} />}>
+
+          <Route
+            element={
+              <RoleRoute
+                allowedRoles={["QUALITY_MANAGER"]}
+              />
+            }
+          >
+
             <Route
               path="/quality-dashboard"
               element={<QualityDashboard />}
             />
+
           </Route>
 
 
@@ -114,61 +188,130 @@ const AppRoutes = () => {
               PATIENT MANAGEMENT
           ========================= */}
 
-          <Route path="/patients" element={<Patients />} />
-          <Route path="/patients/add" element={<AddPatient />} />
-          <Route path="/patients/:id" element={<PatientDetails />} />
+          <Route
+            path="/patients"
+            element={<Patients />}
+          />
+
+          <Route
+            path="/patients/add"
+            element={<AddPatient />}
+          />
+
+          <Route
+            path="/patients/:id"
+            element={<PatientDetails />}
+          />
 
 
           {/* =========================
               CASE MANAGEMENT
           ========================= */}
 
-          <Route path="/cases" element={<Cases />} />
-          <Route path="/cases/add" element={<AddCase />} />
-          <Route path="/cases/:id" element={<CaseDetails />} />
+          <Route
+            path="/cases"
+            element={<Cases />}
+          />
+
+          <Route
+            path="/cases/add"
+            element={<AddCase />}
+          />
+
+          <Route
+            path="/cases/:id"
+            element={<CaseDetails />}
+          />
 
 
           {/* =========================
               SPECIMEN MANAGEMENT
           ========================= */}
 
-          <Route path="/specimens" element={<Specimens />} />
-          <Route path="/specimens/add" element={<AddSpecimen />} />
-          <Route path="/specimens/:id" element={<SpecimenDetails />} />
+          <Route
+            path="/specimens"
+            element={<Specimens />}
+          />
+
+          <Route
+            path="/specimens/add"
+            element={<AddSpecimen />}
+          />
+
+          <Route
+            path="/specimens/:id"
+            element={<SpecimenDetails />}
+          />
 
 
           {/* =========================
               BLOCK MANAGEMENT
           ========================= */}
 
-          <Route path="/blocks" element={<Blocks />} />
-          <Route path="/blocks/add" element={<AddBlock />} />
-          <Route path="/blocks/:id" element={<BlockDetails />} />
+          <Route
+            path="/blocks"
+            element={<Blocks />}
+          />
+
+          <Route
+            path="/blocks/add"
+            element={<AddBlock />}
+          />
+
+          <Route
+            path="/blocks/:id"
+            element={<BlockDetails />}
+          />
 
 
           {/* =========================
               SLIDE MANAGEMENT
           ========================= */}
 
-          <Route path="/slides" element={<Slides />} />
-          <Route path="/slides/add" element={<AddSlide />} />
-          <Route path="/slides/:id" element={<SlideDetails />} />
+          <Route
+            path="/slides"
+            element={<Slides />}
+          />
+
+          <Route
+            path="/slides/add"
+            element={<AddSlide />}
+          />
+
+          <Route
+            path="/slides/:id"
+            element={<SlideDetails />}
+          />
 
 
           {/* =========================
               QA / QC
           ========================= */}
 
-          <Route path="/qc" element={<QCDashboard />} />
-          <Route path="/qc/add" element={<AddQCRecord />} />
-          <Route path="/qc/:id" element={<QCRecords />} />
+          <Route
+            path="/qc"
+            element={<QCDashboard />}
+          />
+
+          <Route
+            path="/qc/add"
+            element={<AddQCRecord />}
+          />
+
+          <Route
+            path="/qc/:id"
+            element={<QCRecords />}
+          />
 
 
           {/* =========================
               REPORTS
           ========================= */}
 
-          <Route path="/reports" element={<Reports />} />
+          <Route
+            path="/reports"
+            element={<Reports />}
+          />
 
           <Route
             path="/reports/create"
@@ -205,7 +348,10 @@ const AppRoutes = () => {
               TURNAROUND TIME
           ========================= */}
 
-          <Route path="/tat" element={<TATDashboard />} />
+          <Route
+            path="/tat"
+            element={<TATDashboard />}
+          />
 
           <Route
             path="/tat/:caseId"

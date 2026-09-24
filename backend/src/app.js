@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
+const externalAuthRoutes = require("./routes/externalAuthRoutes");
+const doctorVerificationRoutes = require("./routes/doctorVerificationRoutes");
 const userRoutes = require("./routes/userRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
@@ -25,6 +27,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/external-auth", externalAuthRoutes);
+app.use("/doctor-verification", doctorVerificationRoutes);
 app.use("/users", userRoutes);
 app.use("/patients", patientRoutes);
 app.use("/doctors", doctorRoutes);

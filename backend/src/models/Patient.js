@@ -26,13 +26,18 @@ const patientSchema = new mongoose.Schema(
 
     phone: {
       type: String,
+      required: true,
+      unique: true,
       trim: true,
+      match: [/^\+91[6-9]\d{9}$/, "Please enter a valid Indian phone number"],
     },
 
     email: {
       type: String,
-      trim: true,
       lowercase: true,
+      trim: true,
+      unique: true,
+      sparse: true,
     },
 
     address: {
@@ -43,6 +48,28 @@ const patientSchema = new mongoose.Schema(
     bloodGroup: {
       type: String,
       trim: true,
+    },
+
+    abhaId: {
+      type: String,
+      trim: true,
+      sparse: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["ACTIVE", "INACTIVE", "SUSPENDED"],
+      default: "ACTIVE",
+    },
+
+    lastLogin: {
+      type: Date,
+      default: null,
     },
 
     createdBy: {

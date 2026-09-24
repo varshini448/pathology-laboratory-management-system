@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { registerUser } from "../../services/authService";
 
 import CommonRegistrationFields from "./register/CommonRegistrationFields";
 import RoleSelector from "./register/RoleSelector";
 import TechnicianRegistrationFields from "./register/TechnicianRegistrationFields";
 import PathologistRegistrationFields from "./register/PathologistRegistrationFields";
+import QualityManagerRegistrationFields from "./register/QualityManagerRegistrationFields";
 import RegistrationMessages from "./register/RegistrationMessages";
 
-const Register = () => {
+const InternalRegister = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -27,10 +29,13 @@ const Register = () => {
     assignedShift: "",
     workstation: "",
     certification: "",
+
     medicalRegistrationId: "",
     specialization: "",
     registrationAuthority: "",
     registrationValidUntil: "",
+
+    auditResponsibility: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -61,11 +66,15 @@ const Register = () => {
     }
 
     if (!formData.email.trim()) {
-      return "Email address is required.";
+      return "Official email is required.";
     }
 
     if (!formData.password) {
       return "Password is required.";
+    }
+
+    if (formData.password.length < 8) {
+      return "Password must contain at least 8 characters.";
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -78,8 +87,8 @@ const Register = () => {
 
     const phonePattern = /^\+91[6-9]\d{9}$/;
 
-    if (!phonePattern.test(formData.phone)) {
-      return "Please enter a valid Indian phone number in +91XXXXXXXXXX format.";
+    if (!phonePattern.test(formData.phone.trim())) {
+      return "Enter a valid Indian phone number, for example +919876543210.";
     }
 
     if (!formData.department.trim()) {
@@ -87,30 +96,37 @@ const Register = () => {
     }
 
     if (!formData.role) {
-      return "Please select a role.";
+      return "Please select your role.";
     }
 
-    if (formData.role === "TECHNICIAN") {
+    if (
+      formData.role === "TECHNICIAN" ||
+      formData.role === "QUALITY_MANAGER"
+    ) {
       if (!profile.employeeId.trim()) {
-        return "Employee ID is required for technicians.";
+        return "Employee ID is required.";
       }
 
       if (!profile.qualification.trim()) {
-        return "Qualification is required for technicians.";
+        return "Qualification is required.";
       }
     }
 
     if (formData.role === "PATHOLOGIST") {
       if (!profile.medicalRegistrationId.trim()) {
-        return "Medical Registration ID is required for pathologists.";
+        return "Medical Registration ID is required.";
       }
 
       if (!profile.qualification.trim()) {
-        return "Qualification is required for pathologists.";
+        return "Qualification is required.";
       }
 
       if (!profile.specialization.trim()) {
-        return "Specialization is required for pathologists.";
+        return "Specialization is required.";
+      }
+
+      if (!profile.registrationAuthority.trim()) {
+        return "Registration authority is required.";
       }
     }
 
@@ -134,25 +150,24 @@ const Register = () => {
       setLoading(true);
 
       const registrationData = {
-        name: formData.name,
-        email: formData.email,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
         password: formData.password,
-        phone: formData.phone,
-        department: formData.department,
+        phone: formData.phone.trim(),
+        department: formData.department.trim(),
         role: formData.role,
         profile,
       };
 
-      const response = await registerUser(registrationData);
+      await registerUser(registrationData);
 
       setSuccess(
-        response.message ||
-          "Registration submitted successfully. Please wait for administrator approval."
+        "Registration submitted successfully. Your account is pending administrator approval."
       );
 
       setTimeout(() => {
-        navigate("/login");
-      }, 2500);
+        navigate("/pending-approval");
+      }, 1500);
     } catch (err) {
       setError(err.message || "Registration failed.");
     } finally {
@@ -161,15 +176,20 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-container">
-        <h1>Create Account</h1>
+    <div className="auth-page">
+      <div className="auth-container internal-register-container">
 
-        <p>
-          Register for the Pathology Laboratory Management System.
-        </p>
+        <div className="auth-header">
+          <h1>Staff Registration</h1>
+
+          <p>
+            Register as a laboratory staff member. Your account will
+            require administrator approval before you can access the system.
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit}>
+
           <CommonRegistrationFields
             formData={formData}
             handleChange={handleChange}
@@ -194,6 +214,13 @@ const Register = () => {
             />
           )}
 
+          {formData.role === "QUALITY_MANAGER" && (
+            <QualityManagerRegistrationFields
+              profile={profile}
+              handleProfileChange={handleProfileChange}
+            />
+          )}
+
           <RegistrationMessages
             error={error}
             success={success}
@@ -201,14 +228,30 @@ const Register = () => {
 
           <button
             type="submit"
+            className="auth-submit-button"
             disabled={loading}
           >
             {loading ? "Submitting..." : "Submit Registration"}
           </button>
+
         </form>
+
+        <div className="auth-footer">
+
+          <p>
+            Already have an account?{" "}
+            <Link to="/login">Login</Link>
+          </p>
+
+          <Link to="/register" className="back-home-link">
+            ← Back to Registration Options
+          </Link>
+
+        </div>
+
       </div>
     </div>
   );
 };
 
-export default Register;
+export default InternalRegister;
