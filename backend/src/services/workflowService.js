@@ -16,6 +16,24 @@ const createWorkflowEvent = async (data) => {
     performedBy,
   } = data;
 
+  if (!caseId) {
+    throw new Error("Case is required for workflow event");
+  }
+
+  if (!stage) {
+    throw new Error("Workflow stage is required");
+  }
+
+  if (!status) {
+    throw new Error("Workflow status is required");
+  }
+
+  const caseData = await Case.findById(caseId);
+
+  if (!caseData) {
+    throw new Error("Case not found");
+  }
+
   let updatedEntity;
 
   switch (stage) {
@@ -27,13 +45,20 @@ const createWorkflowEvent = async (data) => {
       updatedEntity = await Specimen.findByIdAndUpdate(
         specimenId,
         {
-          status: status === "COMPLETED" ? "COLLECTED" : "COLLECTED",
+          status: "COLLECTED",
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      if (status === "COMPLETED") {
+        await Case.findByIdAndUpdate(caseId, {
+          status: "SPECIMEN_COLLECTED",
+        });
+      }
+
       break;
 
     case "ACCESSIONING":
@@ -51,6 +76,11 @@ const createWorkflowEvent = async (data) => {
           runValidators: true,
         }
       );
+
+      await Case.findByIdAndUpdate(caseId, {
+        status: "IN_PROCESS",
+      });
+
       break;
 
     case "GROSSING":
@@ -61,13 +91,19 @@ const createWorkflowEvent = async (data) => {
       updatedEntity = await Block.findByIdAndUpdate(
         blockId,
         {
-          processingStatus: "GROSSING",
+          processingStatus:
+            status === "COMPLETED" ? "EMBEDDING" : "GROSSING",
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      await Case.findByIdAndUpdate(caseId, {
+        status: "IN_PROCESS",
+      });
+
       break;
 
     case "EMBEDDING":
@@ -78,13 +114,19 @@ const createWorkflowEvent = async (data) => {
       updatedEntity = await Block.findByIdAndUpdate(
         blockId,
         {
-          processingStatus: "EMBEDDING",
+          processingStatus:
+            status === "COMPLETED" ? "SECTIONING" : "EMBEDDING",
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      await Case.findByIdAndUpdate(caseId, {
+        status: "IN_PROCESS",
+      });
+
       break;
 
     case "SECTIONING":
@@ -95,13 +137,19 @@ const createWorkflowEvent = async (data) => {
       updatedEntity = await Block.findByIdAndUpdate(
         blockId,
         {
-          processingStatus: "SECTIONING",
+          processingStatus:
+            status === "COMPLETED" ? "COMPLETED" : "SECTIONING",
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      await Case.findByIdAndUpdate(caseId, {
+        status: "IN_PROCESS",
+      });
+
       break;
 
     case "STAINING":
@@ -112,13 +160,18 @@ const createWorkflowEvent = async (data) => {
       updatedEntity = await Slide.findByIdAndUpdate(
         slideId,
         {
-          status: "STAINING",
+          status: status === "COMPLETED" ? "STAINED" : "STAINING",
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      await Case.findByIdAndUpdate(caseId, {
+        status: "IN_PROCESS",
+      });
+
       break;
 
     case "SCANNING":
@@ -136,6 +189,11 @@ const createWorkflowEvent = async (data) => {
           runValidators: true,
         }
       );
+
+      await Case.findByIdAndUpdate(caseId, {
+        status: "IN_PROCESS",
+      });
+
       break;
 
     case "PATHOLOGIST_REVIEW":
@@ -146,13 +204,25 @@ const createWorkflowEvent = async (data) => {
       updatedEntity = await Slide.findByIdAndUpdate(
         slideId,
         {
-          status: "UNDER_REVIEW",
+          status:
+            status === "COMPLETED" ? "COMPLETED" : "UNDER_REVIEW",
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      if (status === "COMPLETED") {
+        await Case.findByIdAndUpdate(caseId, {
+          status: "COMPLETED",
+        });
+      } else {
+        await Case.findByIdAndUpdate(caseId, {
+          status: "IN_PROCESS",
+        });
+      }
+
       break;
 
     default:
