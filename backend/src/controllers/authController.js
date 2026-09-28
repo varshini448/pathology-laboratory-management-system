@@ -154,12 +154,22 @@ const register = async (req, res) => {
         });
       }
     }
+    // --------------------------------------
+// Remove unused role-specific profile fields
+// --------------------------------------
+
+const cleanedProfile = Object.fromEntries(
+  Object.entries(profile).filter(
+    ([, value]) => value !== "" && value !== null && value !== undefined
+  )
+);
 
     // --------------------------------------
     // Hash password
     // --------------------------------------
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
 
     // --------------------------------------
     // Create account
@@ -173,7 +183,7 @@ const register = async (req, res) => {
       department: department.trim(),
       role,
       status: "PENDING_APPROVAL",
-      profile,
+      profile: cleanedProfile,
     });
 
     // --------------------------------------

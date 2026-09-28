@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
+const passwordResetRoutes = require("./routes/passwordResetRoutes");
+const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 const externalAuthRoutes = require("./routes/externalAuthRoutes");
 const doctorVerificationRoutes = require("./routes/doctorVerificationRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/password-reset", passwordResetRoutes);
+app.use("/email-verification", emailVerificationRoutes);
 app.use("/external-auth", externalAuthRoutes);
 app.use("/doctor-verification", doctorVerificationRoutes);
 app.use("/users", userRoutes);
@@ -40,4 +44,4 @@ app.use("/workflow", workflowRoutes);
 app.use("/qc", qcRoutes);
 app.use("/reports", reportRoutes);
 app.use("/tat", tatRoutes);
-module.exports = app;2
+module.exports = app;

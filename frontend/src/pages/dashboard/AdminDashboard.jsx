@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-
+import AdminPendingApprovals from "./AdminPendingApprovals";
 const AdminDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
     <div className="dashboard-page">
+      <AdminPendingApprovals />
+      <hr />  
       <h1>Admin Dashboard</h1>
 
       <p>
