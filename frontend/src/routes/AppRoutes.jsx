@@ -47,6 +47,7 @@ import QCRecords from "../pages/qc/QCRecords";
 import Reports from "../pages/reports/Reports";
 import CreateReport from "../pages/reports/CreateReport";
 import ReportDetails from "../pages/reports/ReportDetails";
+import EditReport from "../pages/reports/EditReport";
 import SignOutReport from "../pages/reports/SignOutReport";
 import PathologistWorkspace from "../pages/reports/PathologistWorkspace";
 import DraftReports from "../pages/reports/DraftReports";
@@ -322,6 +323,18 @@ const AppRoutes = () => {
             path="/reports/:id"
             element={<ReportDetails />}
           />
+          <Route
+          element={
+          <RoleRoute
+          allowedRoles={["ADMIN", "PATHOLOGIST"]}
+          />
+        }
+      >
+        <Route
+        path="/reports/:id/edit"
+        element={<EditReport />}
+        />
+        </Route>
 
           <Route
             path="/reports/:id/sign-out"

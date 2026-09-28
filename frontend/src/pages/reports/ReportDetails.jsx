@@ -114,12 +114,22 @@ const ReportDetails = () => {
       )}
 
       <div>
-        <Link to="/reports">Back to Reports</Link>
-        {" | "}
-        <Link to={`/reports/${report._id}/sign-out`}>
-          Final Sign-out
-        </Link>
-      </div>
+  <Link to="/reports">Back to Reports</Link>
+
+  {report.reportStatus === "DRAFT" && (
+    <>
+      {" | "}
+      <Link to={`/reports/${report._id}/edit`}>
+        Edit Draft
+      </Link>
+
+      {" | "}
+      <Link to={`/reports/${report._id}/sign-out`}>
+        Final Sign-out
+      </Link>
+    </>
+  )}
+</div>
     </div>
   );
 };

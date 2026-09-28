@@ -20,7 +20,7 @@ const {
   getPendingSignOutReports,
   signOutReport,
 } = require("../controllers/reports/reportSignOutController");
-
+const { validateReport } = require("../validators/reportValidator");
 const router = express.Router();
 
 // Generate report data from a case
@@ -36,6 +36,7 @@ router.post(
   "/",
   protect,
   authorize("ADMIN", "PATHOLOGIST"),
+  validateReport,
   createReport
 );
 
@@ -99,6 +100,7 @@ router.put(
   "/:id",
   protect,
   authorize("ADMIN", "PATHOLOGIST"),
+  validateReport,
   updateReport
 );
 
