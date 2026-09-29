@@ -86,8 +86,9 @@ const getCaseTAT = async (caseId) => {
   }
 
   const report = await Report.findOne({
-    case: caseData._id,
-  });
+  case: caseData._id,
+  reportStatus: "FINAL",
+});
 
   const startTime = caseData.createdAt;
 
@@ -116,14 +117,18 @@ const getAllCaseTAT = async () => {
     .sort({ createdAt: -1 });
 
   const reports = await Report.find({
-    case: { $in: cases.map((caseData) => caseData._id) },
-  });
+  case: { $in: cases.map((caseData) => caseData._id) },
+  reportStatus: "FINAL",
+});
 
   const reportMap = new Map();
+  
 
   reports.forEach((report) => {
     reportMap.set(report.case.toString(), report);
   });
+  
+
 
   return cases.map((caseData) => {
     const report = reportMap.get(caseData._id.toString());
