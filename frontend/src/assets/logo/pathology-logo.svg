@@ -1,0 +1,70 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 220 64"
+  role="img"
+  aria-labelledby="logoTitle logoDesc"
+>
+  <title id="logoTitle">Pathology Laboratory</title>
+  <desc id="logoDesc">
+    Pathology Laboratory Management System logo
+  </desc>
+
+  <!-- Medical laboratory mark -->
+  <rect
+    x="4"
+    y="8"
+    width="48"
+    height="48"
+    rx="12"
+    fill="#2F6F95"
+  />
+
+  <!-- Microscope-inspired mark -->
+  <path
+    d="M25 17h8v18h-8z"
+    fill="#FFFFFF"
+  />
+
+  <path
+    d="M20 31h18v7H20z"
+    fill="#FFFFFF"
+  />
+
+  <path
+    d="M17 45h28"
+    stroke="#FFFFFF"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M34 38c0 4-3 7-7 7"
+    fill="none"
+    stroke="#6B9EAA"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+
+  <!-- Brand text -->
+  <text
+    x="66"
+    y="31"
+    font-family="Inter, Arial, sans-serif"
+    font-size="18"
+    font-weight="700"
+    fill="#263238"
+  >
+    Pathology
+  </text>
+
+  <text
+    x="66"
+    y="49"
+    font-family="Inter, Arial, sans-serif"
+    font-size="13"
+    font-weight="500"
+    fill="#6B9EAA"
+  >
+    Laboratory
+  </text>
+</svg>

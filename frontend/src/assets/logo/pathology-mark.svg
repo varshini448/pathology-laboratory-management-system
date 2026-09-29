@@ -1,0 +1,43 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-labelledby="markTitle"
+>
+  <title id="markTitle">Pathology Laboratory</title>
+
+  <rect
+    x="4"
+    y="4"
+    width="56"
+    height="56"
+    rx="14"
+    fill="#2F6F95"
+  />
+
+  <!-- Microscope-inspired mark -->
+  <path
+    d="M25 14h9v21h-9z"
+    fill="#FFFFFF"
+  />
+
+  <path
+    d="M20 30h20v8H20z"
+    fill="#FFFFFF"
+  />
+
+  <path
+    d="M17 47h30"
+    stroke="#FFFFFF"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M36 38c0 5-4 9-9 9"
+    fill="none"
+    stroke="#6B9EAA"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+</svg>
