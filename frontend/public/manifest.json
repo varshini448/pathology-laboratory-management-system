@@ -1,0 +1,16 @@
+{
+  "name": "Pathology Laboratory Management System",
+  "short_name": "Pathology LIS",
+  "description": "Laboratory Information System for pathology workflow, specimen tracking, quality control, reporting, and turnaround time monitoring.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F7F9",
+  "theme_color": "#2F6F95",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
