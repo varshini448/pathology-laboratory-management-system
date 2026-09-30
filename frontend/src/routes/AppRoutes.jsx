@@ -20,6 +20,23 @@ import PathologistDashboard from "../pages/dashboard/PathologistDashboard";
 import QualityDashboard from "../pages/dashboard/QualityDashboard";
 import TechnicianDashboard from "../pages/dashboard/TechnicianDashboard";
 
+import DoctorDashboard from "../pages/doctor/DoctorDashboard";
+import PatientDashboard from "../pages/patient/PatientDashboard";
+
+import AuditLogs from "../pages/audit/AuditLogs";
+
+import ConsentDetails from "../pages/consent/ConsentDetails";
+import ConsentRequests from "../pages/consent/ConsentRequests";
+import SharedRecords from "../pages/consent/SharedRecords";
+
+import Users from "../pages/users/Users";
+import AddUser from "../pages/users/AddUser";
+import UserDetails from "../pages/users/UserDetails";
+
+import NotFound from "../pages/errors/NotFound";
+import ServerError from "../pages/errors/ServerError";
+import Maintenance from "../pages/errors/Maintenance";
+
 import Patients from "../pages/patients/Patients";
 import PatientDetails from "../pages/patients/PatientDetails";
 import AddPatient from "../pages/patients/AddPatient";
@@ -148,6 +165,24 @@ const AppRoutes = () => {
             path="/dashboard"
             element={<Dashboard />}
           />
+
+          <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+          <Route path="/patient-dashboard" element={<PatientDashboard />} />
+
+          <Route path="/audit-logs" element={<AuditLogs />} />
+
+          <Route path="/consent" element={<ConsentRequests />} />
+          <Route path="/consent/:id" element={<ConsentDetails />} />
+          <Route path="/shared-records" element={<SharedRecords />} />
+
+          <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/add" element={<AddUser />} />
+            <Route path="/users/:id" element={<UserDetails />} />
+          </Route>
+
+          <Route path="/server-error" element={<ServerError />} />
+          <Route path="/maintenance" element={<Maintenance />} />
 
 
           {/* =========================
@@ -391,6 +426,8 @@ const AppRoutes = () => {
 
         </Route>
 
+        {/* FALLBACK */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
