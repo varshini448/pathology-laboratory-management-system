@@ -57,6 +57,7 @@ import TATDashboard from "../pages/tat/TATDashboard";
 import TATDetails from "../pages/tat/TATDetails";
 
 import ProtectedRoute from "./ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 import RoleRoute from "./RoleRoute";
 
 const AppRoutes = () => {
@@ -68,47 +69,9 @@ const AppRoutes = () => {
             PUBLIC ROUTES
         ========================= */}
 
-        <Route path="/" element={<Home />} />
-
-        <Route path="/login" element={<Login />} />
-
-        {/* Registration selector */}
         <Route
-          path="/register"
-          element={<RegisterSelector />}
-        />
-
-        {/* Internal staff registration */}
-        <Route
-          path="/register/internal"
-          element={<InternalRegister />}
-        />
-
-        {/* Patient registration */}
-        <Route
-          path="/register/patient"
-          element={<PatientRegister />}
-        />
-
-        {/* Doctor registration */}
-        <Route
-          path="/register/doctor"
-          element={<DoctorRegister />}
-        />
-
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
-        />
-
-        <Route
-          path="/reset-password/:token"
-          element={<ResetPassword />}
-        />
-
-        <Route
-          path="/verify-email/:token"
-          element={<VerifyEmail />}
+          path="/"
+          element={<Home />}
         />
 
         <Route
@@ -123,12 +86,64 @@ const AppRoutes = () => {
 
 
         {/* =========================
+            GUEST ROUTES
+        ========================= */}
+
+        <Route element={<GuestRoute />}>
+
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/register"
+            element={<RegisterSelector />}
+          />
+
+          <Route
+            path="/register/internal"
+            element={<InternalRegister />}
+          />
+
+          <Route
+            path="/register/patient"
+            element={<PatientRegister />}
+          />
+
+          <Route
+            path="/register/doctor"
+            element={<DoctorRegister />}
+          />
+
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
+
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPassword />}
+          />
+
+          <Route
+            path="/verify-email/:token"
+            element={<VerifyEmail />}
+          />
+
+        </Route>
+
+
+        {/* =========================
             PROTECTED ROUTES
         ========================= */}
 
         <Route element={<ProtectedRoute />}>
 
-          {/* General dashboard */}
+          {/* =========================
+              GENERAL DASHBOARD
+          ========================= */}
+
           <Route
             path="/dashboard"
             element={<Dashboard />}
@@ -323,18 +338,21 @@ const AppRoutes = () => {
             path="/reports/:id"
             element={<ReportDetails />}
           />
+
           <Route
-          element={
-          <RoleRoute
-          allowedRoles={["ADMIN", "PATHOLOGIST"]}
-          />
-        }
-      >
-        <Route
-        path="/reports/:id/edit"
-        element={<EditReport />}
-        />
-        </Route>
+            element={
+              <RoleRoute
+                allowedRoles={["ADMIN", "PATHOLOGIST"]}
+              />
+            }
+          >
+
+            <Route
+              path="/reports/:id/edit"
+              element={<EditReport />}
+            />
+
+          </Route>
 
           <Route
             path="/reports/:id/sign-out"
