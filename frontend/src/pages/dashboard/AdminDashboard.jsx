@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import AdminPendingApprovals from "./AdminPendingApprovals";
+
 const AdminDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
     <div className="dashboard-page">
       <AdminPendingApprovals />
-      <hr />  
+
+      <hr />
+
       <h1>Admin Dashboard</h1>
 
       <p>
@@ -66,8 +69,6 @@ const AdminDashboard = () => {
         <div>
           <h3>QA / QC</h3>
           <Link to="/qc">QC Dashboard</Link>
-          {" | "}
-          <Link to="/qc/records">QC Records</Link>
         </div>
 
         <div>
