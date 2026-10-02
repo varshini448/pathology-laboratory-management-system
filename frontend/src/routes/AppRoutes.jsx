@@ -76,7 +76,7 @@ import TATDetails from "../pages/tat/TATDetails";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import RoleRoute from "./RoleRoute";
-
+import AppShell from "../layouts/AppShell";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -156,6 +156,7 @@ const AppRoutes = () => {
         ========================= */}
 
         <Route element={<ProtectedRoute />}>
+        <Route element={<AppShell />}>
 
           {/* =========================
               GENERAL DASHBOARD
@@ -424,6 +425,7 @@ const AppRoutes = () => {
             element={<TATDetails />}
           />
 
+        </Route>
         </Route>
 
         {/* FALLBACK */}
