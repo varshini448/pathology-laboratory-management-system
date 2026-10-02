@@ -3158,3 +3158,255 @@ a {
         gap: 6px;
     }
 }
+/* =========================================
+   HOME PAGE
+========================================= */
+
+.home-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(79, 70, 229, 0.10), transparent 32%),
+    linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  color: #172033;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 7%;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+}
+
+.home-logo h2 {
+  margin: 0;
+  color: #312e81;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.home-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 10px 18px;
+  border: 1px solid #d7dce5;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.home-nav-button:hover {
+  border-color: #6366f1;
+  color: #4338ca;
+  transform: translateY(-1px);
+}
+
+.home-nav-button.primary {
+  border-color: #4f46e5;
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.home-nav-button.primary:hover {
+  background: #4338ca;
+  border-color: #4338ca;
+  color: #ffffff;
+}
+
+.home-content {
+  width: 100%;
+}
+
+.home-hero {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 90px 32px 72px;
+  text-align: center;
+}
+
+.home-hero h1 {
+  max-width: 900px;
+  margin: 0 auto 22px;
+  color: #172033;
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+.home-hero p {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #64748b;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.home-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  padding: 13px 24px;
+  border-radius: 9px;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.20);
+  transition: all 0.2s ease;
+}
+
+.home-button:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.25);
+}
+
+.home-button.secondary {
+  background: #ffffff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+  box-shadow: none;
+}
+
+.home-button.secondary:hover {
+  background: #eef2ff;
+  border-color: #818cf8;
+}
+
+.home-features {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+.home-features > h2 {
+  margin: 0 0 28px;
+  color: #172033;
+  font-size: 28px;
+  font-weight: 750;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  min-height: 190px;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: #c7d2fe;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.09);
+}
+
+.feature-card h3 {
+  margin: 0 0 12px;
+  color: #312e81;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-hero {
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-header {
+    padding: 16px 20px;
+  }
+
+  .home-logo h2 {
+    font-size: 18px;
+  }
+
+  .home-navigation {
+    gap: 7px;
+  }
+
+  .home-nav-button {
+    min-width: auto;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .home-hero {
+    padding: 60px 20px 55px;
+  }
+
+  .home-hero h1 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .home-hero p {
+    font-size: 16px;
+  }
+
+  .home-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-features {
+    padding: 0 20px 60px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

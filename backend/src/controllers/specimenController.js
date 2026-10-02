@@ -40,8 +40,20 @@ const getSpecimens = async (req, res) => {
 
 const getSpecimensByCase = async (req, res) => {
   try {
+    const Case = require("../models/Case");
+
+    const caseData = await Case.findOne({
+      caseId: req.params.caseId,
+    });
+
+    if (!caseData) {
+      return res.status(404).json({
+        message: "Case not found",
+      });
+    }
+
     const specimens = await Specimen.find({
-      case: req.params.caseId,
+      case: caseData._id,
     })
       .populate("case", "caseId caseType priority status")
       .populate("collectedBy", "name email role")

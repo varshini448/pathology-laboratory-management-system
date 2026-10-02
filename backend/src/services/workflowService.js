@@ -248,7 +248,13 @@ const createWorkflowEvent = async (data) => {
 };
 
 const getWorkflowEventsByCase = async (caseId) => {
-  return WorkflowEvent.find({ case: caseId })
+  const caseData = await Case.findOne({ caseId });
+
+  if (!caseData) {
+    throw new Error("Case not found");
+  }
+
+  return WorkflowEvent.find({ case: caseData._id })
     .populate("specimen", "specimenId specimenType status")
     .populate("block", "blockId blockType processingStatus")
     .populate("slide", "slideId slideType status")

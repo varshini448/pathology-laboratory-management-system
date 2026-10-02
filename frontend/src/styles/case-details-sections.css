@@ -1,0 +1,181 @@
+/* =========================================================
+   SHARED CASE SECTION HEADER
+   ========================================================= */
+
+.case-section-header {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 18px;
+}
+
+.case-section-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #eef5f8;
+    color: #2f6f95;
+}
+
+.case-section-eyebrow {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    color: #82919c;
+}
+
+.case-section-header h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 750;
+    color: #354954;
+}
+
+.case-section-header p {
+    margin: 3px 0 0;
+    font-size: 9px;
+    line-height: 1.5;
+    color: #82919c;
+}
+
+/* =========================================================
+   CASE INFORMATION
+   ========================================================= */
+
+.case-information-card {
+    max-width: 1150px;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.case-information-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid #edf1f4;
+    border-bottom: 1px solid #edf1f4;
+}
+
+.case-information-item {
+    padding: 14px 15px;
+    border-right: 1px solid #edf1f4;
+}
+
+.case-information-item:first-child {
+    padding-left: 0;
+}
+
+.case-information-item:last-child {
+    border-right: 0;
+}
+
+.case-information-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    font-size: 8px;
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8a9aa4;
+}
+
+.case-information-item strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #465d69;
+}
+
+.case-clinical-history {
+    padding-top: 16px;
+}
+
+.case-clinical-history .case-information-label {
+    margin-bottom: 6px;
+}
+
+.case-clinical-history p {
+    margin: 0;
+    padding: 11px 13px;
+    border: 1px solid #e4eaee;
+    border-radius: 6px;
+    background: #fafcfd;
+    font-size: 10px;
+    line-height: 1.6;
+    color: #596d78;
+}
+
+/* =========================================================
+   PROCESSING SUMMARY
+   ========================================================= */
+
+.case-processing-card {
+    max-width: 1150px;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.case-processing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.case-processing-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 14px 15px;
+    background: #fafcfd;
+    border: 1px solid #e1e8ec;
+    border-radius: 8px;
+}
+
+.case-processing-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #eef5f8;
+    color: #2f6f95;
+}
+
+.case-processing-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.case-processing-content span {
+    font-size: 8px;
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8a9aa4;
+}
+
+.case-processing-content strong {
+    margin-top: 2px;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 750;
+    color: #354954;
+}
+
+.case-processing-content small {
+    margin-top: 3px;
+    font-size: 8px;
+    line-height: 1.4;
+    color: #82919c;
+}

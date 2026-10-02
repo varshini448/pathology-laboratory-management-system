@@ -16,6 +16,8 @@
     background: var(--color-brand-950);
     color: var(--color-text-inverse);
     border-right: 1px solid rgba(255, 255, 255, 0.08);
+    transition: width var(--transition-normal);
+    overflow: hidden;
 }
 
 .app-shell-brand {
@@ -38,6 +40,14 @@
     color: #ffffff;
     font-size: 18px;
     font-weight: var(--font-weight-bold);
+}
+
+.app-shell-brand-text {
+    min-width: 0;
+    white-space: nowrap;
+    transition:
+        opacity var(--transition-fast),
+        visibility var(--transition-fast);
 }
 
 .app-shell-brand strong,
@@ -75,6 +85,7 @@
     font-weight: var(--font-weight-bold);
     letter-spacing: 1.2px;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .app-shell-nav-item {
@@ -98,9 +109,30 @@
     color: #ffffff;
 }
 
+.app-shell-nav-icon {
+    width: 24px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.app-shell-nav-text {
+    margin-left: var(--space-2);
+    white-space: nowrap;
+    transition:
+        opacity var(--transition-fast),
+        visibility var(--transition-fast);
+}
+
 .app-shell-sidebar-footer {
     padding: var(--space-4) var(--space-5);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+    transition:
+        opacity var(--transition-fast),
+        visibility var(--transition-fast);
 }
 
 .app-shell-sidebar-footer span,
@@ -123,6 +155,9 @@
     width: calc(100% - var(--sidebar-width));
     min-height: 100vh;
     margin-left: var(--sidebar-width);
+    transition:
+        width var(--transition-normal),
+        margin-left var(--transition-normal);
 }
 
 .app-shell-topbar {
@@ -140,8 +175,44 @@
     backdrop-filter: blur(12px);
 }
 
+.app-shell-topbar-left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex: 1;
+}
+
+.app-shell-menu-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.app-shell-menu-button:hover {
+    background: var(--color-brand-50);
+    border-color: var(--color-brand-100);
+    color: var(--color-brand-700);
+}
+
+.app-shell-menu-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
 .app-shell-search {
-    width: min(480px, 45%);
+    width: min(480px, 100%);
     height: 40px;
     display: flex;
     align-items: center;
@@ -244,6 +315,42 @@
     padding: var(--space-8);
 }
 
+/* Collapsed sidebar */
+
+.app-shell--collapsed .app-shell-sidebar {
+    width: 0;
+    min-width: 0;
+    border-right: none;
+    overflow: hidden;
+}
+
+.app-shell--collapsed .app-shell-main {
+    width: 100%;
+    margin-left: 0;
+}
+
+.app-shell--collapsed .app-shell-brand {
+    justify-content: center;
+    padding: 0;
+}
+
+.app-shell--collapsed .app-shell-brand-text,
+.app-shell--collapsed .app-shell-nav-label,
+.app-shell--collapsed .app-shell-nav-text,
+.app-shell--collapsed .app-shell-sidebar-footer {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.app-shell--collapsed .app-shell-nav-item {
+    justify-content: center;
+    padding: 0;
+}
+
+.app-shell--collapsed .app-shell-nav-icon {
+    width: 100%;
+}
+
 @media (max-width: 900px) {
     .app-shell-sidebar {
         width: 220px;
@@ -256,40 +363,5 @@
 
     .app-shell-topbar {
         padding: 0 var(--space-5);
-    }
-
-    .app-shell-content {
-        padding: var(--space-5);
-    }
-
-    .app-shell-user div:last-child {
-        display: none;
-    }
-}
-
-@media (max-width: 680px) {
-    .app-shell-sidebar {
-        display: none;
-    }
-
-    .app-shell-main {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .app-shell-topbar {
-        gap: var(--space-3);
-    }
-
-    .app-shell-search {
-        width: 100%;
-    }
-
-    .app-shell-topbar-actions {
-        gap: var(--space-2);
-    }
-
-    .app-shell-user {
-        display: none;
     }
 }

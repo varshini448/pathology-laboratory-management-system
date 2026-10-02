@@ -1,29 +1,38 @@
 import { Link, useNavigate } from "react-router-dom";
+import { UserRound, Stethoscope, ShieldCheck, ArrowLeft } from "lucide-react";
+
+import "../../styles/auth.css";
+import "../../styles/register.css";
 
 const RegisterSelector = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="auth-page">
-      <div className="auth-container register-selector-container">
+    <div className="auth-page register-page">
+      <div className="register-shell">
 
-        <div className="auth-header">
+        <div className="register-header">
+          <span className="register-eyebrow">
+            PATHOLOGY LIS
+          </span>
+
           <h1>Create an Account</h1>
+
           <p>
-            Choose the type of account you want to create.
+            Choose the account type that matches your role in the
+            pathology laboratory system.
           </p>
         </div>
 
         <div className="registration-options">
 
-          {/* Internal Staff */}
           <button
             type="button"
             className="registration-option"
             onClick={() => navigate("/register/internal")}
           >
             <div className="registration-option-icon">
-              👨‍⚕️
+              <ShieldCheck size={27} />
             </div>
 
             <div className="registration-option-content">
@@ -40,14 +49,13 @@ const RegisterSelector = () => {
             </div>
           </button>
 
-          {/* Patient */}
           <button
             type="button"
             className="registration-option"
             onClick={() => navigate("/register/patient")}
           >
             <div className="registration-option-icon">
-              🧑‍🦱
+              <UserRound size={27} />
             </div>
 
             <div className="registration-option-content">
@@ -59,19 +67,18 @@ const RegisterSelector = () => {
               </p>
 
               <span>
-                Personal health information • Reports • Consent
+                Personal information • Reports • Consent
               </span>
             </div>
           </button>
 
-          {/* Doctor */}
           <button
             type="button"
             className="registration-option"
             onClick={() => navigate("/register/doctor")}
           >
             <div className="registration-option-icon">
-              🩺
+              <Stethoscope size={27} />
             </div>
 
             <div className="registration-option-content">
@@ -90,14 +97,15 @@ const RegisterSelector = () => {
 
         </div>
 
-        <div className="auth-footer">
-          <p>
+        <div className="register-footer">
+          <div>
             Already have an account?{" "}
             <Link to="/login">Login</Link>
-          </p>
+          </div>
 
-          <Link to="/" className="back-home-link">
-            ← Back to Home
+          <Link to="/" className="register-back-home">
+            <ArrowLeft size={15} />
+            Back to home
           </Link>
         </div>
 

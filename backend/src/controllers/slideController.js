@@ -40,7 +40,21 @@ const getSlides = async (req, res) => {
 
 const getSlidesByCase = async (req, res) => {
   try {
-    const slides = await Slide.find({ case: req.params.caseId })
+    const Case = require("../models/Case");
+
+    const caseData = await Case.findOne({
+      caseId: req.params.caseId,
+    });
+
+    if (!caseData) {
+      return res.status(404).json({
+        message: "Case not found",
+      });
+    }
+
+    const slides = await Slide.find({
+      case: caseData._id,
+    })
       .populate("block", "blockId blockType processingStatus")
       .populate("case", "caseId caseType priority status")
       .sort({ createdAt: -1 });

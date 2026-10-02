@@ -39,7 +39,7 @@ const getCases = async (req, res) => {
 
 const getCaseById = async (req, res) => {
   try {
-    const caseData = await Case.findById(req.params.id)
+    const caseData = await Case.findOne({ caseId: req.params.id })
       .populate("patient", "patientId name")
       .populate("doctor", "doctorId name specialization");
 

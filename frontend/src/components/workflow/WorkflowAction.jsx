@@ -1,4 +1,11 @@
 import { useState } from "react";
+import {
+  CheckCircle2,
+  ClipboardList,
+  FileText,
+  Loader2,
+  Save,
+} from "lucide-react";
 import { createWorkflowEvent } from "../../services/workflowService";
 
 const workflowStages = [
@@ -74,56 +81,119 @@ const WorkflowAction = ({
   };
 
   return (
-    <div>
-      <h3>Workflow Action</h3>
+    <section className="workflow-action-card">
+      <div className="workflow-action-header">
+        <div className="workflow-action-icon">
+          <ClipboardList size={20} />
+        </div>
 
-      <form onSubmit={handleSubmit}>
         <div>
-          <label>Stage</label>
+          <span className="workflow-action-eyebrow">
+            WORKFLOW CONTROL
+          </span>
+          <h3>Update Workflow</h3>
+          <p>
+            Record the next laboratory processing event for this case.
+          </p>
+        </div>
+      </div>
 
-          <select
-            value={stage}
-            onChange={(e) => setStage(e.target.value)}
+      <form className="workflow-action-form" onSubmit={handleSubmit}>
+        <div className="workflow-action-fields">
+          <div className="workflow-action-field">
+            <label htmlFor="workflow-stage">Stage</label>
+
+            <div className="workflow-action-input">
+              <ClipboardList size={17} />
+
+              <select
+                id="workflow-stage"
+                value={stage}
+                onChange={(e) => setStage(e.target.value)}
+              >
+                <option value="">Select workflow stage</option>
+
+                {workflowStages.map((workflowStage) => (
+                  <option key={workflowStage} value={workflowStage}>
+                    {workflowStage.replaceAll("_", " ")}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="workflow-action-field">
+            <label htmlFor="workflow-status">Status</label>
+
+            <div className="workflow-action-input">
+              <CheckCircle2 size={17} />
+
+              <select
+                id="workflow-status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="STARTED">Started</option>
+                <option value="COMPLETED">Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="workflow-action-field">
+          <label htmlFor="workflow-notes">Notes</label>
+
+          <div className="workflow-action-textarea">
+            <FileText size={17} />
+
+            <textarea
+              id="workflow-notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Enter workflow notes..."
+              rows={4}
+            />
+          </div>
+        </div>
+
+        <div className="workflow-action-footer">
+          <div className="workflow-action-message">
+            {message && (
+              <span
+                className={
+                  message.includes("successfully")
+                    ? "workflow-success"
+                    : "workflow-error"
+                }
+              >
+                {message.includes("successfully") && (
+                  <CheckCircle2 size={16} />
+                )}
+                {message}
+              </span>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="workflow-action-submit"
+            disabled={loading}
           >
-            <option value="">Select stage</option>
-
-            {workflowStages.map((workflowStage) => (
-              <option key={workflowStage} value={workflowStage}>
-                {workflowStage.replaceAll("_", " ")}
-              </option>
-            ))}
-          </select>
+            {loading ? (
+              <>
+                <Loader2 size={17} className="workflow-spinner" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save size={17} />
+                Save Workflow Event
+              </>
+            )}
+          </button>
         </div>
-
-        <div>
-          <label>Status</label>
-
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="STARTED">Started</option>
-            <option value="COMPLETED">Completed</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Notes</label>
-
-          <textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Enter workflow notes"
-          />
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save Workflow Event"}
-        </button>
       </form>
-
-      {message && <p>{message}</p>}
-    </div>
+    </section>
   );
 };
 

@@ -1,0 +1,353 @@
+/* =========================================================
+   CASE DETAILS PAGE
+   ========================================================= */
+
+.case-details-page {
+    min-height: 100vh;
+    padding: 28px 34px 55px;
+
+    background: #f5f7f9;
+    color: #263238;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.case-details-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 22px;
+}
+
+.case-details-back-link {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-bottom: 14px;
+
+    color: #6d7f8b;
+
+    font-size: 10px;
+    font-weight: 650;
+
+    text-decoration: none;
+}
+
+.case-details-back-link:hover {
+    color: #2f6f95;
+}
+
+.case-details-title-row {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.case-details-title-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #eaf3f7;
+    color: #2f6f95;
+}
+
+.case-details-eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+
+    color: #2f6f95;
+}
+
+.case-details-title-row h1 {
+    margin: 0;
+
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 750;
+
+    color: #263238;
+}
+
+.case-details-title-row p {
+    margin: 6px 0 0;
+
+    font-size: 12px;
+
+    color: #6b7c8f;
+}
+
+.case-details-tat-button {
+    min-height: 39px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d1dfe6;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #2f6f95;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+}
+
+.case-details-tat-button:hover {
+    background: #f2f7f9;
+    border-color: #b9ced9;
+}
+
+/* =========================================================
+   CASE OVERVIEW — PROFESSIONAL IDENTITY BAR
+   ========================================================= */
+
+.case-details-overview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+
+    margin: 24px 0 18px;
+    padding: 20px 24px;
+
+    background: #ffffff;
+    border: 1px solid #dce5ed;
+    border-radius: 14px;
+
+    box-shadow: 0 3px 14px rgba(38, 50, 56, 0.05);
+}
+
+/* =========================================================
+   CASE IDENTITY
+   ========================================================= */
+
+.case-details-overview-main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.case-details-case-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+
+    background: #eef5fb;
+    border: 1px solid #d8e7f3;
+    border-radius: 11px;
+
+    color: #1976d2;
+}
+
+.case-details-overview-identity {
+    min-width: 0;
+}
+
+.case-details-label {
+    display: block;
+    margin-bottom: 4px;
+
+    color: #90a4ae;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.case-details-overview-id-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.case-details-overview-id-row h2 {
+    margin: 0;
+
+    color: #263238;
+    font-size: 23px;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.case-details-overview-type {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 8px;
+
+    background: #f4f7f9;
+    border: 1px solid #e2e8ed;
+    border-radius: 5px;
+
+    color: #546e7a;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.case-details-overview-identity p {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin: 5px 0 0;
+
+    color: #78909c;
+    font-size: 11px;
+}
+
+.case-details-overview-separator {
+    color: #b0bec5;
+    font-weight: 700;
+}
+
+/* =========================================================
+   PRIORITY + STATUS
+   ========================================================= */
+
+.case-details-overview-status {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    flex-shrink: 0;
+}
+
+.case-details-overview-status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.case-details-overview-status-label {
+    color: #90a4ae;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.case-detail-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 76px;
+    padding: 6px 10px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.case-detail-priority-stat {
+    background: #fff0f0;
+    border: 1px solid #f2caca;
+    color: #b42318;
+}
+
+.case-detail-priority-urgent {
+    background: #fff7e8;
+    border: 1px solid #f0d6a5;
+    color: #9a6700;
+}
+
+.case-detail-priority-normal {
+    background: #eef6f1;
+    border: 1px solid #cce3d5;
+    color: #28704f;
+}
+
+.case-detail-status-complete {
+    background: #edf7f1;
+    border: 1px solid #cce6d7;
+    color: #28704f;
+}
+
+.case-detail-status-process {
+    background: #eef5fc;
+    border: 1px solid #d3e4f5;
+    color: #1769aa;
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.case-details-overview-divider {
+    width: 1px;
+    height: 38px;
+
+    background: #e1e8ed;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 760px) {
+    .case-details-overview {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .case-details-overview-status {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .case-details-overview {
+        padding: 18px;
+    }
+
+    .case-details-overview-status {
+        gap: 12px;
+    }
+
+    .case-details-overview-id-row h2 {
+        font-size: 20px;
+    }
+}

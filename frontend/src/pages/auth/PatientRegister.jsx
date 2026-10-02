@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import "../../styles/external-register.css";
 import PatientRegistrationFields from "./external/PatientRegistrationFields";
 
 const PatientRegister = () => {

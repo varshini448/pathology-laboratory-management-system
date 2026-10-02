@@ -1,0 +1,168 @@
+/* =========================================================
+   PROFESSIONAL REGISTRATION SELECTOR
+   ========================================================= */
+
+.register-page {
+    padding: 24px;
+}
+
+.register-shell {
+    width: 100%;
+    max-width: 980px;
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(38, 50, 56, 0.14);
+    padding: 52px;
+}
+
+.register-header {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 36px;
+}
+
+.register-eyebrow {
+    display: inline-block;
+    color: #2f6f95;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    margin-bottom: 10px;
+}
+
+.register-header h1 {
+    margin: 0 0 12px;
+    color: #263238;
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.register-header p {
+    margin: 0;
+    color: #607080;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.registration-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.registration-option {
+    width: 100%;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.registration-option:hover {
+    border-color: #2f6f95;
+    box-shadow: 0 14px 30px rgba(47, 111, 149, 0.12);
+    transform: translateY(-3px);
+}
+
+.registration-option-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: #eaf3f7;
+    color: #2f6f95;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.registration-option-content h2 {
+    margin: 0 0 9px;
+    color: #263238;
+    font-size: 19px;
+}
+
+.registration-option-content p {
+    margin: 0 0 14px;
+    color: #607080;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.registration-option-content span {
+    margin-top: auto;
+    color: #2f6f95;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.register-footer {
+    text-align: center;
+    border-top: 1px solid #d9e2ec;
+    margin-top: 34px;
+    padding-top: 22px;
+    color: #607080;
+    font-size: 13px;
+}
+
+.register-footer a {
+    color: #2f6f95;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.register-footer a:hover {
+    text-decoration: underline;
+}
+
+.register-back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    color: #607080;
+    text-decoration: none;
+}
+
+.register-back-home:hover {
+    color: #2f6f95;
+}
+
+@media (max-width: 850px) {
+    .register-shell {
+        padding: 38px 28px;
+    }
+
+    .registration-options {
+        grid-template-columns: 1fr;
+    }
+
+    .registration-option {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .register-page {
+        padding: 12px;
+    }
+
+    .register-shell {
+        padding: 30px 20px;
+        border-radius: 18px;
+    }
+
+    .register-header h1 {
+        font-size: 26px;
+    }
+}

@@ -40,7 +40,21 @@ const getBlocks = async (req, res) => {
 
 const getBlocksByCase = async (req, res) => {
   try {
-    const blocks = await Block.find({ case: req.params.caseId })
+    const Case = require("../models/Case");
+
+    const caseData = await Case.findOne({
+      caseId: req.params.caseId,
+    });
+
+    if (!caseData) {
+      return res.status(404).json({
+        message: "Case not found",
+      });
+    }
+
+    const blocks = await Block.find({
+      case: caseData._id,
+    })
       .populate("specimen", "specimenId specimenType status")
       .populate("case", "caseId caseType priority status")
       .sort({ createdAt: -1 });
@@ -55,7 +69,6 @@ const getBlocksByCase = async (req, res) => {
     });
   }
 };
-
 const getBlockById = async (req, res) => {
   try {
     const block = await Block.findById(req.params.id)

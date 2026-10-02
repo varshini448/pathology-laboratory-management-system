@@ -1,6 +1,16 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Microscope,
+  ShieldCheck,
+  LockKeyhole,
+  Eye,
+  EyeOff,
+  ArrowLeft,
+} from "lucide-react";
 
+import "../../styles/auth.css";
+import "../../styles/login.css";
 import {
   loginUser,
   loginPatient,
@@ -118,11 +128,9 @@ const Login = () => {
 
         if (externalUserType === "patient") {
           response = await loginPatient(loginData);
-
           navigate("/patient");
         } else {
           response = await loginDoctor(loginData);
-
           navigate("/doctor");
         }
       }
@@ -134,128 +142,163 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container login-container">
-        <div className="auth-header">
-          <h1>Login</h1>
+    <div className="auth-page login-page">
+      <div className="login-shell">
+
+        {/* LEFT BRAND PANEL */}
+        <section className="login-brand-panel">
+          <div className="auth-brand-icon">
+            <Microscope size={30} />
+          </div>
+
+          <div className="login-brand-label">
+            PATHOLOGY LIS
+          </div>
+
+          <h1>
+            Laboratory
+            <br />
+            Management
+            <br />
+            System
+          </h1>
 
           <p>
-            Access the Pathology Laboratory Management System
+            Securely manage patients, specimens, laboratory workflows,
+            quality control, and pathology reports in one centralized
+            system.
           </p>
-        </div>
 
-        <div className="account-type-selector">
-          <button
-            type="button"
-            className={
-              accountType === "internal"
-                ? "account-type-button active"
-                : "account-type-button"
-            }
-            onClick={() => handleAccountTypeChange("internal")}
-          >
-            Internal User
-          </button>
+          <div className="login-security-list">
+            <div>
+              <ShieldCheck size={20} />
+              <span>Role-based access control</span>
+            </div>
 
-          <button
-            type="button"
-            className={
-              accountType === "external"
-                ? "account-type-button active"
-                : "account-type-button"
-            }
-            onClick={() => handleAccountTypeChange("external")}
-          >
-            Patient / Doctor
-          </button>
-        </div>
+            <div>
+              <LockKeyhole size={20} />
+              <span>Secure authentication</span>
+            </div>
 
-        <div className="login-account-info">
-          {accountType === "internal" ? (
-            <>
-              <h2>Internal User Login</h2>
+            <div>
+              <ShieldCheck size={20} />
+              <span>Protected laboratory data</span>
+            </div>
+          </div>
+        </section>
 
-              <p>
-                For administrators, technicians, pathologists and
-                quality managers.
-              </p>
-            </>
-          ) : (
-            <>
-              <h2>Patient / Doctor Login</h2>
+        {/* RIGHT LOGIN PANEL */}
+        <section className="login-form-panel">
 
-              <p>
-                Login using your registered patient or doctor account.
-              </p>
+          <div className="login-form-header">
+            <span className="login-welcome">WELCOME BACK</span>
 
-              <div className="account-type-selector">
-                <button
-                  type="button"
-                  className={
-                    externalUserType === "patient"
-                      ? "account-type-button active"
-                      : "account-type-button"
-                  }
-                  onClick={() => {
-                    setExternalUserType("patient");
-                    setError("");
-                  }}
-                >
-                  Patient
-                </button>
+            <h2>Sign in to your account</h2>
 
-                <button
-                  type="button"
-                  className={
-                    externalUserType === "doctor"
-                      ? "account-type-button active"
-                      : "account-type-button"
-                  }
-                  onClick={() => {
-                    setExternalUserType("doctor");
-                    setError("");
-                  }}
-                >
-                  Doctor
-                </button>
-              </div>
-            </>
+            <p>
+              Enter your credentials to continue to the laboratory
+              management system.
+            </p>
+          </div>
+
+          {/* ACCOUNT TYPE */}
+          <div className="login-type-selector">
+            <button
+              type="button"
+              className={
+                accountType === "internal"
+                  ? "login-type-button active"
+                  : "login-type-button"
+              }
+              onClick={() => handleAccountTypeChange("internal")}
+            >
+              Internal Staff
+            </button>
+
+            <button
+              type="button"
+              className={
+                accountType === "external"
+                  ? "login-type-button active"
+                  : "login-type-button"
+              }
+              onClick={() => handleAccountTypeChange("external")}
+            >
+              Patient / Doctor
+            </button>
+          </div>
+
+          {accountType === "external" && (
+            <div className="external-type-selector">
+              <button
+                type="button"
+                className={
+                  externalUserType === "patient"
+                    ? "external-type-button active"
+                    : "external-type-button"
+                }
+                onClick={() => {
+                  setExternalUserType("patient");
+                  setError("");
+                }}
+              >
+                Patient
+              </button>
+
+              <button
+                type="button"
+                className={
+                  externalUserType === "doctor"
+                    ? "external-type-button active"
+                    : "external-type-button"
+                }
+                onClick={() => {
+                  setExternalUserType("doctor");
+                  setError("");
+                }}
+              >
+                Doctor
+              </button>
+            </div>
           )}
-        </div>
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <LoginFields
-            identifier={formData.identifier}
-            password={formData.password}
-            handleChange={handleChange}
-          />
-
-          <LoginOptions
-            rememberMe={rememberMe}
-            handleRememberMe={handleRememberMe}
-          />
-
-          <LoginMessages error={error} />
-
-          <button
-            type="submit"
-            className="auth-button"
-            disabled={loading}
+          <form
+            onSubmit={handleSubmit}
+            className="professional-login-form"
           >
-            {loading ? "Signing in..." : "Login"}
-          </button>
-        </form>
+            <LoginFields
+              identifier={formData.identifier}
+              password={formData.password}
+              handleChange={handleChange}
+            />
 
-        <div className="auth-footer">
-          <p>
-            Don't have an account?{" "}
+            <LoginOptions
+              rememberMe={rememberMe}
+              handleRememberMe={handleRememberMe}
+            />
+
+            <LoginMessages error={error} />
+
+            <button
+              type="submit"
+              className="professional-login-button"
+              disabled={loading}
+            >
+              {loading ? "Signing in..." : "Sign In"}
+            </button>
+          </form>
+
+          <div className="login-register-link">
+            <span>Don't have an account?</span>{" "}
             <Link to="/register">Create an account</Link>
-          </p>
+          </div>
 
-          <Link to="/" className="back-home-link">
-            ← Back to Home
+          <Link to="/" className="login-back-home">
+            <ArrowLeft size={16} />
+            Back to home
           </Link>
-        </div>
+
+        </section>
       </div>
     </div>
   );

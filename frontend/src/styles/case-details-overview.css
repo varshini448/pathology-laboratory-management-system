@@ -1,0 +1,136 @@
+/* =========================================================
+   CASE OVERVIEW
+   ========================================================= */
+
+.case-details-overview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    max-width: 1150px;
+
+    margin-bottom: 17px;
+    padding: 19px 21px;
+
+    background: #ffffff;
+
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(38, 50, 56, 0.035);
+}
+
+.case-details-overview-main {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+}
+
+.case-details-case-icon {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #eef5f8;
+    color: #2f6f95;
+}
+
+.case-details-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+
+    color: #82919c;
+}
+
+.case-details-overview-main h2 {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 750;
+
+    color: #354954;
+}
+
+.case-details-overview-main p {
+    margin: 3px 0 0;
+
+    font-size: 10px;
+
+    color: #82919c;
+}
+
+.case-details-overview-badges {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.case-detail-badge {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 25px;
+
+    padding: 0 9px;
+
+    border-radius: 5px;
+
+    font-size: 8px;
+    font-weight: 750;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.case-detail-priority-normal {
+    background: #f2f5f6;
+    border: 1px solid #dfe6e9;
+
+    color: #667983;
+}
+
+.case-detail-priority-urgent {
+    background: #fff5e8;
+    border: 1px solid #f0d7ae;
+
+    color: #9a671f;
+}
+
+.case-detail-priority-stat {
+    background: #fbecec;
+    border: 1px solid #ecc8c8;
+
+    color: #a14f4f;
+}
+
+.case-detail-status-process {
+    background: #eef5f8;
+    border: 1px solid #d4e4eb;
+
+    color: #376f8d;
+}
+
+.case-detail-status-complete {
+    background: #eef7f1;
+    border: 1px solid #d4e6d9;
+
+    color: #4c785a;
+}
+
