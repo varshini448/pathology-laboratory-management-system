@@ -1,6 +1,5 @@
 /* =========================================================
-   PATIENT FORM STYLES
-   Shared by PatientForm and AddPatient
+   PATIENT REGISTRATION PAGE
    ========================================================= */
 
 @import "./patient-registration/patient-registration-header.css";
@@ -18,7 +17,7 @@
 }
 
 /* =========================================================
-   RESPONSIVE PAGE SHELL
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 900px) {

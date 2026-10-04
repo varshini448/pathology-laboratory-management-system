@@ -1,0 +1,49 @@
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+    .patients-page {
+        padding: 25px 22px 40px;
+    }
+
+    .patients-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .patients-add-button {
+        align-self: flex-start;
+    }
+
+    .patients-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .patients-page {
+        padding: 20px 15px 35px;
+    }
+
+    .patients-heading {
+        align-items: flex-start;
+    }
+
+    .patients-heading h1 {
+        font-size: 23px;
+    }
+
+    .patients-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+
+        padding: 19px;
+    }
+
+    .patients-table th,
+    .patients-table td {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+}

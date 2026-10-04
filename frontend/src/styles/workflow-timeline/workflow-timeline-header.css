@@ -1,0 +1,29 @@
+/* =========================================================
+   STAGE HEADER
+   ========================================================= */
+
+.workflow-stage-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.workflow-stage-number {
+    display: block;
+    margin-bottom: 4px;
+
+    color: #90a4ae;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.workflow-stage-header h4 {
+    margin: 0;
+
+    color: #263238;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+}

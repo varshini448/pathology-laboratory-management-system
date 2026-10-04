@@ -1,0 +1,27 @@
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+    .workflow-stage-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .workflow-stage-header {
+        flex-direction: column;
+    }
+
+    .workflow-stage-status {
+        align-self: flex-start;
+    }
+
+    .workflow-history-event {
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-history-event time {
+        text-align: left;
+    }
+}

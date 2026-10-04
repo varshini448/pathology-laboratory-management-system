@@ -1,0 +1,57 @@
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.patient-registration-header {
+    margin-bottom: 24px;
+}
+
+.patient-registration-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.patient-registration-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #eaf3f7;
+    color: #2f6f95;
+}
+
+.patient-registration-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+
+    color: #2f6f95;
+}
+
+.patient-registration-heading h1 {
+    margin: 0;
+
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 750;
+
+    color: #263238;
+}
+
+.patient-registration-heading p {
+    margin: 6px 0 0;
+
+    font-size: 13px;
+    color: #6b7c8f;
+}

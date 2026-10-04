@@ -1,0 +1,48 @@
+/* =========================================================
+   COMPLETED / ACTIVE STAGE
+   ========================================================= */
+
+.workflow-stage-card--completed .workflow-stage-marker {
+    border-color: #2e7d5b;
+    background: #edf7f1;
+    color: #2e7d5b;
+}
+
+.workflow-stage-card--completed .workflow-stage-line {
+    background: #a8cdb9;
+}
+
+.workflow-stage-card--active .workflow-stage-marker {
+    border-color: #1976d2;
+    background: #eef5fc;
+    color: #1976d2;
+    box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.07);
+}
+
+.workflow-stage-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    flex-shrink: 0;
+
+    padding: 6px 9px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.workflow-stage-status--completed {
+    background: #edf7f1;
+    border: 1px solid #cce6d7;
+    color: #28704f;
+}
+
+.workflow-stage-status--active {
+    background: #eef5fc;
+    border: 1px solid #d3e4f5;
+    color: #1769aa;
+}

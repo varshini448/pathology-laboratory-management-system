@@ -1,0 +1,81 @@
+/* =========================================================
+   FORM FOOTER
+   ========================================================= */
+
+.patient-form-footer {
+    min-height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 17px 27px;
+
+    background: #fbfcfd;
+
+    border-top: 1px solid #e5ebf0;
+}
+
+.patient-form-required-note {
+    display: flex;
+    align-items: center;
+
+    font-size: 10px;
+
+    color: #7c8c99;
+}
+
+.patient-form-required-note span {
+    margin-right: 3px;
+
+    color: #2f6f95;
+
+    font-weight: 700;
+}
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
+
+.patient-form-submit {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 18px;
+
+    border: 1px solid #2f6f95;
+    border-radius: 7px;
+
+    background: #2f6f95;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.patient-form-submit:hover:not(:disabled) {
+    background: #275e7e;
+    border-color: #275e7e;
+}
+
+.patient-form-submit:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.patient-form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

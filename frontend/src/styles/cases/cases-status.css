@@ -1,0 +1,80 @@
+/* =========================================================
+   CASE PRIORITY + STATUS
+   ========================================================= */
+
+.case-priority,
+.case-status {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 23px;
+
+    padding: 0 8px;
+
+    border-radius: 5px;
+
+    font-size: 8px;
+    font-weight: 750;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   PRIORITY
+   ========================================================= */
+
+.case-priority-normal {
+    background: #f2f5f6;
+    border: 1px solid #dfe6e9;
+
+    color: #667983;
+}
+
+.case-priority-urgent {
+    background: #fff5e8;
+    border: 1px solid #f0d7ae;
+
+    color: #9a671f;
+}
+
+.case-priority-stat {
+    background: #fbecec;
+    border: 1px solid #ecc8c8;
+
+    color: #a14f4f;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.case-status-default {
+    background: #f2f5f6;
+    border: 1px solid #dfe6e9;
+
+    color: #667983;
+}
+
+.case-status-process {
+    background: #eef5f8;
+    border: 1px solid #d4e4eb;
+
+    color: #376f8d;
+}
+
+.case-status-completed {
+    background: #eef7f1;
+    border: 1px solid #d4e6d9;
+
+    color: #4c785a;
+}
+
+.case-status-reported {
+    background: #f1f0f8;
+    border: 1px solid #dedbec;
+
+    color: #665b88;
+}
