@@ -239,7 +239,7 @@ const Cases = () => {
                     {/* CASE ID */}
                     <td>
                       <Link
-                        to={`/cases/${caseData._id}`}
+                        to={`/cases/${caseData.caseId}`}
                         className="case-id-link"
                       >
                         {caseData.caseId}
@@ -304,7 +304,7 @@ const Cases = () => {
                     {/* RECORD */}
                     <td>
                       <Link
-                        to={`/cases/${caseData._id}`}
+                        to={`/cases/${caseData.caseId}`}
                         className="case-view-link"
                       >
                         View

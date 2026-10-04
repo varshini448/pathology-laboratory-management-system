@@ -5,10 +5,25 @@ const {
   login,
 } = require("../controllers/authController");
 
+const {
+  validateRegister,
+  validateLogin,
+} = require("../validators/authValidator");
+
 const router = express.Router();
 
 // Internal user authentication
-router.post("/register", register);
-router.post("/login", login);
+
+router.post(
+  "/register",
+  validateRegister,
+  register
+);
+
+router.post(
+  "/login",
+  validateLogin,
+  login
+);
 
 module.exports = router;

@@ -23,6 +23,7 @@ import "../../styles/case-details-information.css";
 import "../../styles/case-details-sections.css";
 
 import "../../styles/workflow-action.css";
+import "../../styles/workflow-status.css";
 import "../../styles/workflow-timeline.css";
 import "../../styles/workflow-stepper.css";
 const CaseDetails = () => {

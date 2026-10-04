@@ -10,12 +10,15 @@ const {
   updateCase,
 } = require("../controllers/caseController");
 
+const { validateCase } = require("../validators/caseValidator");
+
 const router = express.Router();
 
 router.post(
   "/",
   protect,
   authorize("ADMIN", "TECHNICIAN"),
+  validateCase,
   createCase
 );
 

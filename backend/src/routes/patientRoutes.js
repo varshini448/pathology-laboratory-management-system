@@ -10,12 +10,15 @@ const {
   updatePatient,
 } = require("../controllers/patientController");
 
+const { validatePatient } = require("../validators/patientValidator");
+
 const router = express.Router();
 
 router.post(
   "/",
   protect,
   authorize("ADMIN", "TECHNICIAN"),
+  validatePatient,
   createPatient
 );
 

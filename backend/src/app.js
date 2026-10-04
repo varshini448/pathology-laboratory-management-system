@@ -18,6 +18,12 @@ const workflowRoutes = require("./routes/workflowRoutes");
 const qcRoutes = require("./routes/qcRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const tatRoutes = require("./routes/tatRoutes");
+const auditRoutes = require("./routes/auditRoutes");
+
+const notificationRoutes = require("./routes/notificationRoutes");
+const notFound = require("./middleware/notFoundMiddleware");
+
+const errorHandler = require("./middleware/errorMiddleware");
 app.use(cors());
 app.use(express.json());
 
@@ -44,4 +50,9 @@ app.use("/workflow", workflowRoutes);
 app.use("/qc", qcRoutes);
 app.use("/reports", reportRoutes);
 app.use("/tat", tatRoutes);
+app.use("/audit", auditRoutes);
+app.use("/notifications", notificationRoutes);
+app.use(notFound);
+
+app.use(errorHandler);
 module.exports = app;

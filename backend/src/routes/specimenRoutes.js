@@ -11,9 +11,12 @@ const {
   updateSpecimen,
 } = require("../controllers/specimenController");
 
+const { validateSpecimen } = require("../validators/specimenValidator");
+
 const router = express.Router();
 
 // Get all specimens
+
 router.get(
   "/",
   protect,
@@ -22,14 +25,17 @@ router.get(
 );
 
 // Create specimen
+
 router.post(
   "/",
   protect,
   authorize("ADMIN", "TECHNICIAN"),
+  validateSpecimen,
   createSpecimen
 );
 
 // Get specimens by case
+
 router.get(
   "/case/:caseId",
   protect,
@@ -38,6 +44,7 @@ router.get(
 );
 
 // Get specimen by ID
+
 router.get(
   "/:id",
   protect,
@@ -46,6 +53,7 @@ router.get(
 );
 
 // Update specimen
+
 router.put(
   "/:id",
   protect,
