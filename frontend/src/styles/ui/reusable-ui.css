@@ -1,0 +1,457 @@
+/* ---------- Button ---------- */
+
+.ui-button {
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ui-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ui-button-small {
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+.ui-button-medium {
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+.ui-button-large {
+    padding: 12px 20px;
+    font-size: 15px;
+}
+
+.ui-button-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.ui-button-primary:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.ui-button-secondary {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.ui-button-secondary:hover:not(:disabled) {
+    background: #d1d5db;
+}
+
+.ui-button-danger {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.ui-button-danger:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+.ui-button-success {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.ui-button-success:hover:not(:disabled) {
+    background: #15803d;
+}
+
+/* ---------- Card ---------- */
+
+.ui-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+}
+
+.ui-card-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.ui-card-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #111827;
+}
+
+.ui-card-header p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.ui-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ui-card-body {
+    padding: 20px;
+}
+
+/* ---------- Loading State ---------- */
+
+.ui-loading-state {
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.ui-loading-full-page {
+    min-height: 60vh;
+}
+
+.ui-loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: ui-spinner 0.8s linear infinite;
+}
+
+@keyframes ui-spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Empty State ---------- */
+
+.ui-empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6b7280;
+}
+
+.ui-empty-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #9ca3af;
+}
+
+.ui-empty-state h3 {
+    margin: 0 0 6px;
+    color: #374151;
+    font-size: 17px;
+}
+
+.ui-empty-state p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ---------- Filter Bar ---------- */
+
+.ui-filter-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.ui-filter-search {
+    min-width: 220px;
+    flex: 1;
+}
+
+.ui-filter-search label,
+.ui-date-range-picker label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.ui-filter-search input,
+.ui-date-range-picker input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #111827;
+    outline: none;
+}
+
+.ui-filter-search input:focus,
+.ui-date-range-picker input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.ui-filter-controls {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ui-filter-reset {
+    padding: 9px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #374151;
+    cursor: pointer;
+}
+
+.ui-filter-reset:hover {
+    background: #f9fafb;
+}
+
+/* ---------- Filter Chips ---------- */
+
+.ui-filter-chips {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.ui-filter-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ui-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 13px;
+    border: 1px solid #bfdbfe;
+}
+
+.ui-filter-chip button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+}
+
+.ui-filter-clear {
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ---------- Data Table ---------- */
+
+.ui-data-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.ui-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+    background: #ffffff;
+}
+
+.ui-data-table th {
+    padding: 12px 14px;
+    text-align: left;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.ui-data-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #4b5563;
+    font-size: 13px;
+}
+
+.ui-data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ui-data-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* ---------- Column Selector ---------- */
+
+.ui-column-selector {
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.ui-column-selector-title {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+}
+
+.ui-column-selector-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+}
+
+.ui-column-selector-list label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #4b5563;
+    cursor: pointer;
+}
+
+.ui-column-selector-list input {
+    accent-color: #2563eb;
+}
+
+/* ---------- Sort Button ---------- */
+
+.ui-sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+.ui-sort-button:hover {
+    color: #2563eb;
+}
+
+/* ---------- Date Range Picker ---------- */
+
+.ui-date-range-picker {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.ui-date-range-picker label {
+    min-width: 140px;
+}
+
+/* ---------- Export Button ---------- */
+
+.ui-export-button {
+    padding: 9px 14px;
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ui-export-button:hover:not(:disabled) {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.ui-export-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+    .ui-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ui-filter-bar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .ui-filter-search {
+        min-width: 100%;
+    }
+
+    .ui-filter-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .ui-date-range-picker {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ui-date-range-picker label {
+        min-width: 100%;
+    }
+
+    .ui-column-selector-list {
+        flex-direction: column;
+    }
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { getAllCaseTAT } from "../../services/tatService";
-
+import "../../styles/tat/tat.css";
 const formatDuration = (minutes) => {
   if (minutes === null || minutes === undefined) {
     return "N/A";

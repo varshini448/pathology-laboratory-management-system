@@ -1,0 +1,129 @@
+/* ---------- Barcode Scanner ---------- */
+
+.workflow-barcode-scanner {
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.workflow-barcode-scanner label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.workflow-barcode-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.workflow-barcode-input-group input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    outline: none;
+    font-size: 14px;
+}
+
+.workflow-barcode-input-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.workflow-barcode-input-group button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.workflow-barcode-input-group button:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.workflow-barcode-input-group button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---------- Specimen Mismatch Alert ---------- */
+
+.workflow-mismatch-alert {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid #fca5a5;
+    border-radius: 10px;
+    background: #fef2f2;
+    color: #7f1d1d;
+}
+
+.workflow-mismatch-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dc2626;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.workflow-mismatch-content {
+    flex: 1;
+}
+
+.workflow-mismatch-content h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+}
+
+.workflow-mismatch-content p {
+    margin: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.workflow-mismatch-details {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.workflow-mismatch-details div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.workflow-mismatch-details span {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+.workflow-mismatch-details strong {
+    font-size: 14px;
+}
+
+.workflow-mismatch-content button {
+    padding: 7px 12px;
+    border: 1px solid #b91c1c;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #991b1b;
+    font-weight: 600;
+    cursor: pointer;
+}

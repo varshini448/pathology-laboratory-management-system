@@ -5,7 +5,7 @@ import {
   getCaseTAT,
   getStageTAT,
 } from "../../services/tatService";
-
+import "../../styles/tat/tat.css";
 const formatDuration = (minutes) => {
   if (minutes === null || minutes === undefined) {
     return "N/A";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "../../styles/workflow-utilities/workflow-tat-history.css";
 const getRemainingTime = (targetTime) => {
   if (!targetTime) {
     return null;

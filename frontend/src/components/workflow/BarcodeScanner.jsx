@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import "../../styles/workflow-utilities/workflow-tools.css";
 const BarcodeScanner = ({
   onScan,
   placeholder = "Enter or scan barcode",

@@ -1,0 +1,126 @@
+/* ---------- TAT Countdown ---------- */
+
+.workflow-tat-countdown {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px 15px;
+    border: 1px solid #bfdbfe;
+    border-radius: 9px;
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+.workflow-tat-countdown.expired {
+    border-color: #fca5a5;
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+.workflow-tat-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.workflow-tat-countdown>strong {
+    font-size: 15px;
+}
+
+.workflow-tat-time {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+}
+
+.workflow-tat-time span {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+    font-size: 11px;
+}
+
+.workflow-tat-time strong {
+    font-size: 20px;
+}
+
+/* ---------- Workflow History ---------- */
+
+.workflow-history {
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.workflow-history-empty {
+    padding: 30px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.workflow-history-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.workflow-history-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.workflow-history-item:last-child {
+    border-bottom: none;
+}
+
+.workflow-history-step {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.workflow-history-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.workflow-history-content p {
+    margin: 6px 0;
+    color: #4b5563;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+    .workflow-barcode-input-group {
+        flex-direction: column;
+    }
+
+    .workflow-mismatch-alert {
+        flex-direction: column;
+    }
+
+    .workflow-event-top,
+    .workflow-history-title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .workflow-tat-time {
+        gap: 6px;
+    }
+}

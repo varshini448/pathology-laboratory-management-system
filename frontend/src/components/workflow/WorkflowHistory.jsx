@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../../styles/workflow-utilities/workflow-tat-history.css";
 const WorkflowHistory = ({ events = [] }) => {
   if (events.length === 0) {
     return (

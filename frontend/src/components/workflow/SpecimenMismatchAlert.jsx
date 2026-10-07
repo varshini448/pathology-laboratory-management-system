@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../../styles/workflow-utilities/workflow-tools.css";
 const SpecimenMismatchAlert = ({
   expectedSpecimen,
   scannedSpecimen,

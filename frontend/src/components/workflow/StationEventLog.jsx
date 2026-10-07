@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../../styles/workflow-utilities/workflow-events.css";
 const StationEventLog = ({ events = [] }) => {
   if (events.length === 0) {
     return (

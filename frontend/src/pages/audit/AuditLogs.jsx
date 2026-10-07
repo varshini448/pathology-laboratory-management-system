@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import AuditLogTable from "../../components/audit/AuditLogTable";
-
+import "../../styles/audit/audit.css";
 const DEMO_AUDIT_LOGS = [
   {
     id: "AUD001",
