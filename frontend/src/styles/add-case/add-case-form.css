@@ -1,0 +1,180 @@
+/* =========================================================
+   ADD CASE — FORM
+   ========================================================= */
+
+.add-case-form {
+  max-width: 1150px;
+}
+
+.add-case-card {
+  overflow: hidden;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(38, 50, 56, 0.04);
+}
+
+.add-case-card-header {
+  padding: 22px 27px;
+  border-bottom: 1px solid #e4ebf0;
+  background: #fbfcfd;
+}
+
+.add-case-card-header h2 {
+  margin: 0;
+  color: #263238;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.add-case-card-header p {
+  margin: 6px 0 0;
+  color: #71818c;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.add-case-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 27px;
+}
+
+.add-case-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.add-case-field-full {
+  grid-column: 1 / -1;
+}
+
+.add-case-field label {
+  margin-bottom: 7px;
+  color: #3f515d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.add-case-field label span {
+  color: #c24b4b;
+}
+
+.add-case-field input,
+.add-case-field select,
+.add-case-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccd8e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #263238;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.add-case-field input,
+.add-case-field select {
+  height: 42px;
+  padding: 0 12px;
+}
+
+.add-case-field textarea {
+  min-height: 120px;
+  padding: 11px 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.add-case-field input::placeholder,
+.add-case-field textarea::placeholder {
+  color: #9aa8b1;
+}
+
+.add-case-field input:focus,
+.add-case-field select:focus,
+.add-case-field textarea:focus {
+  border-color: #4c89ad;
+  box-shadow: 0 0 0 3px rgba(47, 111, 149, 0.09);
+}
+
+.add-case-field small {
+  margin-top: 6px;
+  color: #84939d;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.add-case-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 0 0;
+}
+
+.add-case-cancel-button,
+.add-case-submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 17px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.add-case-cancel-button {
+  border: 1px solid #ccd8e1;
+  background: #ffffff;
+  color: #526777;
+}
+
+.add-case-cancel-button:hover:not(:disabled) {
+  border-color: #aebfca;
+  background: #f8fafb;
+}
+
+.add-case-submit-button {
+  border: 1px solid #2f6f95;
+  background: #2f6f95;
+  color: #ffffff;
+}
+
+.add-case-submit-button:hover:not(:disabled) {
+  background: #285f80;
+  border-color: #285f80;
+}
+
+.add-case-submit-button:active:not(:disabled),
+.add-case-cancel-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.add-case-cancel-button:disabled,
+.add-case-submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.add-case-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #71818c;
+  font-size: 13px;
+}

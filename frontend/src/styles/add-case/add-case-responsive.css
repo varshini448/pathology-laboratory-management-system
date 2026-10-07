@@ -1,0 +1,31 @@
+/* =========================================================
+   ADD CASE — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .add-case-page {
+    padding: 22px 18px 40px;
+  }
+
+  .add-case-grid {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .add-case-field-full {
+    grid-column: auto;
+  }
+
+  .add-case-card-header {
+    padding: 20px;
+  }
+
+  .add-case-form-footer {
+    flex-direction: column-reverse;
+  }
+
+  .add-case-cancel-button,
+  .add-case-submit-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,24 @@
+/* =========================================================
+   ADD CASE — MESSAGES
+   ========================================================= */
+
+.add-case-message {
+  margin-bottom: 18px;
+  padding: 11px 14px;
+  border: 1px solid;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.add-case-message-error {
+  border-color: #e2b9b9;
+  background: #fff5f5;
+  color: #a33a3a;
+}
+
+.add-case-message-success {
+  border-color: #b9d9c7;
+  background: #f3faf6;
+  color: #28734b;
+}
