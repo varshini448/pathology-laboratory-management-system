@@ -1,0 +1,24 @@
+/* =========================================================
+   WORKFLOW STATUS — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .workflow-status-main {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .workflow-status-header {
+    flex-direction: column;
+  }
+
+  .workflow-current-badge {
+    align-self: flex-start;
+  }
+
+  .workflow-status-meta {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,12 @@
+/* =========================================================
+   WORKFLOW STATUS — CARD
+   ========================================================= */
+
+.workflow-status-card {
+  width: 100%;
+  padding: 22px 24px;
+  background: #ffffff;
+  border: 1px solid #dce5ed;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(38, 50, 56, 0.04);
+}
