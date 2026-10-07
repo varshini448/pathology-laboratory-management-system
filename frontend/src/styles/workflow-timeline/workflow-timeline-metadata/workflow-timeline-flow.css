@@ -1,0 +1,20 @@
+/* =========================================================
+   STARTED → COMPLETED FLOW
+   ========================================================= */
+
+.workflow-stage-flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    color: #90a4ae;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.workflow-stage-flow-line {
+    width: 28px;
+    height: 1px;
+    background: #cbd8e1;
+}

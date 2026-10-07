@@ -1,0 +1,37 @@
+/* =========================================================
+   PROCESSING NOTE
+   ========================================================= */
+
+.workflow-stage-notes {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 12px;
+    padding: 11px 12px;
+    background: #fafbfc;
+    border-left: 3px solid #cbd8e1;
+    border-radius: 0 7px 7px 0;
+    color: #607d8b;
+}
+
+.workflow-stage-notes > svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.workflow-stage-notes span {
+    display: block;
+    margin-bottom: 3px;
+    color: #78909c;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.workflow-stage-notes p {
+    margin: 0;
+    color: #546e7a;
+    font-size: 11px;
+    line-height: 1.5;
+}
