@@ -1,0 +1,49 @@
+/* =========================================================
+   PATIENTS — DETAILS, GENDER & ACTIONS
+   ========================================================= */
+
+.patients-detail-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5f7380;
+}
+
+.patients-detail-cell svg {
+  flex-shrink: 0;
+  color: #8a9ba6;
+}
+
+.patients-gender-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 8px;
+  border: 1px solid #dfe7eb;
+  border-radius: 5px;
+  background: #f8fafb;
+  font-size: 9px;
+  font-weight: 700;
+  color: #647984;
+}
+
+.patients-view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #2f6f95;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.patients-view-link:hover {
+  color: #275e7e;
+}
+
+.patients-view-link svg {
+  transition: transform 0.12s ease;
+}
+
+.patients-view-link:hover svg {
+  transform: translateX(2px);
+}
