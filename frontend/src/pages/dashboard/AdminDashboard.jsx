@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import AdminDashboardOverview from "./AdminDashboardOverview";
 import AdminDashboardManagement from "./AdminDashboardManagement";
-import "../../styles/admin-dashboard.css";
-import "../../styles/admin-dashboard-stats.css";
-import "../../styles/admin-dashboard-panels.css";
-import "../../styles/admin-dashboard-workflow.css";
-import "../../styles/admin-dashboard-actions.css";
+import "../../styles/admin-dashboard/admin-dashboard.css";
+import "../../styles/admin-dashboard/admin-dashboard-stats.css";
+import "../../styles/admin-dashboard/admin-dashboard-panels.css";
+import "../../styles/admin-dashboard/admin-dashboard-workflow.css";
+import "../../styles/admin-dashboard/admin-dashboard-actions.css";
 
 const AdminDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
