@@ -1,0 +1,69 @@
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.auth-form label,
+.auth-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--auth-text);
+    margin-bottom: 7px;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form textarea,
+.auth-field input,
+.auth-field select,
+.auth-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--auth-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: var(--auth-text);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-form input:focus,
+.auth-form select:focus,
+.auth-form textarea:focus,
+.auth-field input:focus,
+.auth-field select:focus,
+.auth-field textarea:focus {
+    border-color: var(--auth-primary);
+    box-shadow: 0 0 0 3px rgba(47, 111, 149, 0.12);
+}
+
+.auth-submit-button,
+.auth-button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 18px;
+    background: var(--auth-primary);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.auth-submit-button:hover,
+.auth-button:hover {
+    background: var(--auth-primary-dark);
+    transform: translateY(-1px);
+}
+
+.auth-submit-button:disabled,
+.auth-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}

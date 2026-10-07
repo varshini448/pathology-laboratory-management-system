@@ -1,0 +1,46 @@
+@media (min-width: 850px) {
+    .auth-shell {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+    }
+}
+
+@media (max-width: 849px) {
+    .auth-brand-panel {
+        display: none;
+    }
+
+    .auth-content {
+        padding: 32px 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .auth-page {
+        padding: 16px;
+    }
+
+    .auth-content {
+        padding: 24px 18px;
+    }
+
+    .auth-header h1 {
+        font-size: 25px;
+    }
+
+    .registration-option {
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .registration-option-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 22px;
+    }
+
+    .account-type-selector {
+        flex-direction: column;
+    }
+}

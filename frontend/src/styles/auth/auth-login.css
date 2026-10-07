@@ -1,0 +1,45 @@
+.account-type-selector {
+    display: flex;
+    gap: 8px;
+    background: #eef3f6;
+    padding: 5px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.account-type-button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--auth-muted);
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.account-type-button.active {
+    background: white;
+    color: var(--auth-primary-dark);
+    box-shadow: 0 2px 8px rgba(38, 50, 56, 0.08);
+}
+
+.login-account-info {
+    padding: 18px;
+    background: #f7fafc;
+    border: 1px solid var(--auth-border);
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.login-account-info h2 {
+    font-size: 18px;
+    margin: 0 0 6px;
+}
+
+.login-account-info p {
+    color: var(--auth-muted);
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.5;
+}
