@@ -1,0 +1,14 @@
+@media (max-width: 900px) {
+    .app-shell-sidebar {
+        width: 220px;
+    }
+
+    .app-shell-main {
+        width: calc(100% - 220px);
+        margin-left: 220px;
+    }
+
+    .app-shell-topbar {
+        padding: 0 var(--space-5);
+    }
+}

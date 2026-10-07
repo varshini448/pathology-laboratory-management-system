@@ -1,0 +1,147 @@
+.app-shell-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: 0 var(--space-8);
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+}
+
+.app-shell-topbar-left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex: 1;
+}
+
+.app-shell-menu-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.app-shell-menu-button:hover {
+    background: var(--color-brand-50);
+    border-color: var(--color-brand-100);
+    color: var(--color-brand-700);
+}
+
+.app-shell-menu-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.app-shell-search {
+    width: min(480px, 100%);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+    background: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+}
+
+.app-shell-search span {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.app-shell-search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+}
+
+.app-shell-search input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.app-shell-search kbd {
+    padding: 3px 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 10px;
+}
+
+.app-shell-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.app-shell-icon-button {
+    min-height: 36px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+}
+
+.app-shell-icon-button:hover {
+    background: var(--color-surface-subtle);
+}
+
+.app-shell-user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.app-shell-user-avatar {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-brand-100);
+    color: var(--color-brand-700);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+}
+
+.app-shell-user strong,
+.app-shell-user span {
+    display: block;
+}
+
+.app-shell-user strong {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.app-shell-user span {
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
