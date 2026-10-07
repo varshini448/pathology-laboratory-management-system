@@ -1,0 +1,76 @@
+/* =========================================================
+   LOGIN — FORM CONTROLS & FOOTER
+   ========================================================= */
+
+.professional-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.professional-login-form input {
+  border-radius: 9px;
+  min-height: 44px;
+}
+
+.professional-login-form input:focus {
+  border-color: #2f6f95;
+  box-shadow: 0 0 0 3px rgba(47, 111, 149, 0.1);
+}
+
+.professional-login-button {
+  width: 100%;
+  min-height: 46px;
+  border: none;
+  border-radius: 9px;
+  background: #2f6f95;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-top: 4px;
+}
+
+.professional-login-button:hover {
+  background: #255b7a;
+  transform: translateY(-1px);
+}
+
+.professional-login-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login-register-link {
+  text-align: center;
+  margin-top: 24px;
+  color: #607080;
+  font-size: 13px;
+}
+
+.login-register-link a {
+  color: #2f6f95;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-register-link a:hover {
+  text-decoration: underline;
+}
+
+.login-back-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 18px;
+  color: #607080;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.login-back-home:hover {
+  color: #2f6f95;
+}

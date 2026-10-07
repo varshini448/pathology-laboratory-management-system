@@ -1,0 +1,89 @@
+/* =========================================================
+   LOGIN — PAGE & SHELL
+   ========================================================= */
+
+.login-page {
+  padding: 24px;
+}
+
+.login-shell {
+  width: 100%;
+  max-width: 1080px;
+  min-height: 680px;
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(38, 50, 56, 0.14);
+  border: 1px solid #d9e2ec;
+}
+
+.login-brand-panel {
+  background: linear-gradient(
+    145deg,
+    #255b7a 0%,
+    #2f6f95 55%,
+    #6b9eaa 140%
+  );
+  color: #ffffff;
+  padding: 52px 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-brand-panel .auth-brand-icon {
+  margin-bottom: 22px;
+}
+
+.login-brand-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.login-brand-panel h1 {
+  font-size: 42px;
+  line-height: 1.08;
+  margin: 0 0 22px;
+  color: #ffffff;
+  letter-spacing: -1px;
+}
+
+.login-brand-panel > p {
+  max-width: 430px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.login-security-list {
+  margin-top: 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-security-list div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.login-security-list svg {
+  flex-shrink: 0;
+}
+
+.login-form-panel {
+  padding: 54px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
