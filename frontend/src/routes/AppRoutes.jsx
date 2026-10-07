@@ -16,7 +16,8 @@ import SystemRoutes from "./routeGroups/SystemRoutes";
 // Route Guards
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
-
+import UserRoutes from "./routeGroups/UserRoutes";
+import PatientRoutes from "./routeGroups/PatientRoutes";
 // Layout
 import AppShell from "../layouts/AppShell";
 
@@ -63,6 +64,8 @@ const AppRoutes = () => {
                         ================================================== */}
 
                         {ManagementRoutes}
+                        {UserRoutes}
+                        {PatientRoutes}
 
 
                         {/* =================================================
