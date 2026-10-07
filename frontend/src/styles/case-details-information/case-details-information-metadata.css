@@ -1,0 +1,46 @@
+/* =========================================================
+   CASE INFORMATION CARD
+   ========================================================= */
+
+.case-details-card {
+    max-width: 1150px;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.case-details-metadata-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid #edf1f4;
+    border-bottom: 1px solid #edf1f4;
+}
+
+.case-details-metadata-item {
+    padding: 14px 15px;
+    border-right: 1px solid #edf1f4;
+}
+
+.case-details-metadata-item:first-child {
+    padding-left: 0;
+}
+
+.case-details-metadata-item:last-child {
+    border-right: 0;
+}
+
+.case-details-metadata-item span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 8px;
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8a9aa4;
+}
+
+.case-details-metadata-item strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #465d69;
+}

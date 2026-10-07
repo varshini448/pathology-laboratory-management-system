@@ -1,0 +1,78 @@
+/* =========================================================
+   TWO-COLUMN INFORMATION CARDS
+   ========================================================= */
+
+.case-details-grid {
+    max-width: 1150px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.case-details-info-card,
+.case-details-card,
+.case-details-workflow-card {
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(38, 50, 56, 0.035);
+}
+
+.case-details-info-card {
+    padding: 20px;
+}
+
+.case-details-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.case-details-card-icon {
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #eef5f8;
+    color: #2f6f95;
+}
+
+.case-details-card-heading h2 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #354954;
+}
+
+.case-details-card-heading p {
+    margin: 3px 0 0;
+    font-size: 9px;
+    color: #82919c;
+}
+
+.case-details-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 14px;
+    border-top: 1px solid #edf1f4;
+}
+
+.case-details-info-row span {
+    font-size: 10px;
+    color: #82919c;
+}
+
+.case-details-info-row strong {
+    max-width: 65%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #465d69;
+    text-align: right;
+}
