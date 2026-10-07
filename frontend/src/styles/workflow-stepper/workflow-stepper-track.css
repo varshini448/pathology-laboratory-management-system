@@ -1,0 +1,51 @@
+/* =========================================================
+   WORKFLOW STEPPER — TRACK & NODES
+   ========================================================= */
+
+.workflow-stepper-track {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+}
+
+.workflow-step {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-width: 120px;
+}
+
+.workflow-step-node-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.workflow-step-node {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: 2px solid #cbd8e1;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #90a4ae;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.workflow-step-connector {
+  height: 2px;
+  flex: 1;
+  margin: 0 8px;
+  background: #dce5eb;
+}

@@ -1,0 +1,84 @@
+/* =========================================================
+   WORKFLOW STEPPER — CONTENT & STATES
+   ========================================================= */
+
+.workflow-step-content {
+  position: absolute;
+  top: 46px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 105px;
+  padding-right: 12px;
+}
+
+.workflow-step-number {
+  color: #90a4ae;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.workflow-step-content strong {
+  color: #455a64;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.workflow-step-status {
+  color: #90a4ae;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.workflow-step--completed .workflow-step-node {
+  border-color: #2e7d5b;
+  background: #2e7d5b;
+  color: #ffffff;
+}
+
+.workflow-step--completed .workflow-step-connector {
+  background: #8abca5;
+}
+
+.workflow-step--completed .workflow-step-number {
+  color: #2e7d5b;
+}
+
+.workflow-step--completed .workflow-step-content strong {
+  color: #263238;
+}
+
+.workflow-step--completed .workflow-step-status {
+  color: #2e7d5b;
+}
+
+.workflow-step--current .workflow-step-node {
+  border-color: #1976d2;
+  background: #eaf3fc;
+  color: #1976d2;
+  box-shadow: 0 0 0 5px rgba(25, 118, 210, 0.08);
+}
+
+.workflow-step--current .workflow-step-number {
+  color: #1976d2;
+}
+
+.workflow-step--current .workflow-step-content strong {
+  color: #1565c0;
+}
+
+.workflow-step--current .workflow-step-status {
+  color: #1976d2;
+  font-weight: 700;
+}
+
+.workflow-step--pending .workflow-step-node {
+  background: #f8fafb;
+}
+
+.workflow-step--pending .workflow-step-content strong {
+  color: #78909c;
+}

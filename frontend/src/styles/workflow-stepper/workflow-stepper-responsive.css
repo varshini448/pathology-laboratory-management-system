@@ -1,0 +1,32 @@
+/* =========================================================
+   WORKFLOW STEPPER — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .workflow-stepper {
+    padding: 20px;
+  }
+
+  .workflow-stepper-track {
+    padding-bottom: 12px;
+  }
+
+  .workflow-step {
+    min-width: 145px;
+  }
+}
+
+@media (max-width: 600px) {
+  .workflow-stepper-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .workflow-stepper-count {
+    align-self: flex-start;
+  }
+
+  .workflow-stepper-track {
+    padding-bottom: 10px;
+  }
+}

@@ -1,0 +1,12 @@
+/* =========================================================
+   WORKFLOW STEPPER — BASE
+   ========================================================= */
+
+.workflow-stepper {
+  width: 100%;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #dce5ed;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(38, 50, 56, 0.05);
+}
