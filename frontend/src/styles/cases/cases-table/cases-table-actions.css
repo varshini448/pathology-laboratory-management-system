@@ -1,0 +1,35 @@
+/* =========================================================
+   CASE TYPE
+   ========================================================= */
+
+.case-type {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5f7380;
+}
+
+/* =========================================================
+   VIEW LINK
+   ========================================================= */
+
+.case-view-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: #2f6f95;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.case-view-link:hover {
+    color: #275e7e;
+}
+
+.case-view-link svg {
+    transition: transform 0.12s ease;
+}
+
+.case-view-link:hover svg {
+    transform: translateX(2px);
+}
