@@ -1,136 +1,157 @@
-/* =========================================================
-   CASE OVERVIEW
-   ========================================================= */
-
 .case-details-overview {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    gap: 20px;
-
-    max-width: 1150px;
-
-    margin-bottom: 17px;
-    padding: 19px 21px;
-
+    gap: 28px;
+    margin: 24px 0 18px;
+    padding: 20px 24px;
     background: #ffffff;
-
-    border: 1px solid #d9e2ec;
-    border-radius: 10px;
-
-    box-shadow: 0 2px 8px rgba(38, 50, 56, 0.035);
+    border: 1px solid #dce5ed;
+    border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(38, 50, 56, 0.05);
 }
 
 .case-details-overview-main {
     display: flex;
     align-items: center;
-
-    gap: 13px;
+    gap: 14px;
+    min-width: 0;
 }
 
 .case-details-case-icon {
-    width: 43px;
-    height: 43px;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    background: #eef5fb;
+    border: 1px solid #d8e7f3;
+    border-radius: 11px;
+    color: #1976d2;
+}
 
-    border-radius: 8px;
-
-    background: #eef5f8;
-    color: #2f6f95;
+.case-details-overview-identity {
+    min-width: 0;
 }
 
 .case-details-label {
     display: block;
-
-    margin-bottom: 3px;
-
-    font-size: 8px;
-    font-weight: 750;
-    letter-spacing: 0.08em;
-
-    color: #82919c;
-}
-
-.case-details-overview-main h2 {
-    margin: 0;
-
-    font-size: 17px;
-    font-weight: 750;
-
-    color: #354954;
-}
-
-.case-details-overview-main p {
-    margin: 3px 0 0;
-
+    margin-bottom: 4px;
+    color: #90a4ae;
     font-size: 10px;
-
-    color: #82919c;
+    font-weight: 700;
+    letter-spacing: 0.12em;
 }
 
-.case-details-overview-badges {
+.case-details-overview-id-row {
     display: flex;
     align-items: center;
-
-    gap: 7px;
-
     flex-wrap: wrap;
-    justify-content: flex-end;
+    gap: 9px;
+}
+
+.case-details-overview-id-row h2 {
+    margin: 0;
+    color: #263238;
+    font-size: 23px;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.case-details-overview-type {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: #f4f7f9;
+    border: 1px solid #e2e8ed;
+    border-radius: 5px;
+    color: #546e7a;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.case-details-overview-identity p {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 5px 0 0;
+    color: #78909c;
+    font-size: 11px;
+}
+
+.case-details-overview-separator {
+    color: #b0bec5;
+    font-weight: 700;
+}
+
+.case-details-overview-status {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.case-details-overview-status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.case-details-overview-status-label {
+    color: #90a4ae;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
 }
 
 .case-detail-badge {
     display: inline-flex;
     align-items: center;
-
-    min-height: 25px;
-
-    padding: 0 9px;
-
-    border-radius: 5px;
-
-    font-size: 8px;
+    justify-content: center;
+    min-width: 76px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 10px;
     font-weight: 750;
-
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
-.case-detail-priority-normal {
-    background: #f2f5f6;
-    border: 1px solid #dfe6e9;
-
-    color: #667983;
+.case-detail-priority-stat {
+    background: #fff0f0;
+    border: 1px solid #f2caca;
+    color: #b42318;
 }
 
 .case-detail-priority-urgent {
-    background: #fff5e8;
-    border: 1px solid #f0d7ae;
-
-    color: #9a671f;
+    background: #fff7e8;
+    border: 1px solid #f0d6a5;
+    color: #9a6700;
 }
 
-.case-detail-priority-stat {
-    background: #fbecec;
-    border: 1px solid #ecc8c8;
-
-    color: #a14f4f;
-}
-
-.case-detail-status-process {
-    background: #eef5f8;
-    border: 1px solid #d4e4eb;
-
-    color: #376f8d;
+.case-detail-priority-normal {
+    background: #eef6f1;
+    border: 1px solid #cce3d5;
+    color: #28704f;
 }
 
 .case-detail-status-complete {
-    background: #eef7f1;
-    border: 1px solid #d4e6d9;
-
-    color: #4c785a;
+    background: #edf7f1;
+    border: 1px solid #cce6d7;
+    color: #28704f;
 }
 
+.case-detail-status-process {
+    background: #eef5fc;
+    border: 1px solid #d3e4f5;
+    color: #1769aa;
+}
+
+.case-details-overview-divider {
+    width: 1px;
+    height: 38px;
+    background: #e1e8ed;
+}

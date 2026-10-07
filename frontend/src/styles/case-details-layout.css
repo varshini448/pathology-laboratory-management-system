@@ -1,0 +1,92 @@
+.case-details-page {
+    min-height: 100vh;
+    padding: 28px 34px 55px;
+    background: #f5f7f9;
+    color: #263238;
+}
+
+.case-details-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.case-details-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 14px;
+    color: #6d7f8b;
+    font-size: 10px;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.case-details-back-link:hover {
+    color: #2f6f95;
+}
+
+.case-details-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.case-details-title-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #eaf3f7;
+    color: #2f6f95;
+}
+
+.case-details-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #2f6f95;
+}
+
+.case-details-title-row h1 {
+    margin: 0;
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 750;
+    color: #263238;
+}
+
+.case-details-title-row p {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #6b7c8f;
+}
+
+.case-details-tat-button {
+    min-height: 39px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 14px;
+    border: 1px solid #d1dfe6;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #2f6f95;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.case-details-tat-button:hover {
+    background: #f2f7f9;
+    border-color: #b9ced9;
+}

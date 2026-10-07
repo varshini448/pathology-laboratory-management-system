@@ -1,0 +1,24 @@
+@media (max-width: 760px) {
+    .case-details-overview {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .case-details-overview-status {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .case-details-overview {
+        padding: 18px;
+    }
+
+    .case-details-overview-status {
+        gap: 12px;
+    }
+
+    .case-details-overview-id-row h2 {
+        font-size: 20px;
+    }
+}
