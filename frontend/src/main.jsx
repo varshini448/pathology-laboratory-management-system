@@ -6,6 +6,7 @@ import "./styles/design/app-shell.css";
 import "./index.css";
 import "./styles/consent/consent.css";
 import "./styles/digital-pathology/digital-pathology.css";
+import "./styles/reports/reports.css";
 import "./styles/common/common.css";
 import "./styles/ui/reusable-ui.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
