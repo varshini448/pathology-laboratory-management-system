@@ -20,6 +20,7 @@ import {
 import LoginFields from "./login/LoginFields";
 import LoginOptions from "./login/LoginOptions";
 import LoginMessages from "./login/LoginMessages";
+import LoginCaptcha from "./login/LoginCaptcha";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,6 +36,9 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [captcha, setCaptcha] = useState("");
+  const [captchaValue, setCaptchaValue] = useState("");
+  const [captchaRefreshKey, setCaptchaRefreshKey] = useState(0);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,6 +72,15 @@ const Login = () => {
 
     if (!formData.password) {
       return "Password is required.";
+    }
+
+    if (!captcha.trim()) {
+      return "CAPTCHA is required."; 
+    }
+
+    if (captcha.trim().toUpperCase() !== captchaValue) {
+      return "Invalid CAPTCHA. Please try again."; 
+    
     }
 
     return null;
@@ -128,14 +141,16 @@ const Login = () => {
 
         if (externalUserType === "patient") {
           response = await loginPatient(loginData);
-          navigate("/patient");
+          navigate("/patient-dashboard");
         } else {
           response = await loginDoctor(loginData);
-          navigate("/doctor");
+          navigate("/doctor-dashboard");
         }
       }
     } catch (err) {
       setError(err.message || "Login failed.");
+      setCaptcha("");
+      setCaptchaRefreshKey((previousKey) => previousKey + 1);
     } finally {
       setLoading(false);
     }
@@ -275,6 +290,13 @@ const Login = () => {
             <LoginOptions
               rememberMe={rememberMe}
               handleRememberMe={handleRememberMe}
+            />
+
+            <LoginCaptcha
+              key={captchaRefreshKey}
+              value={captcha}
+              onChange={setCaptcha}
+              onCaptchaChange={setCaptchaValue}
             />
 
             <LoginMessages error={error} />

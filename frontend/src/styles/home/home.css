@@ -105,3 +105,172 @@
   margin-right: auto;
   margin-left: auto;
 }
+
+/* =========================================================
+   LOGIN CAPTCHA
+   ========================================================= */
+
+.login-captcha {
+    margin-top: 18px;
+}
+
+.login-captcha-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.login-captcha-header label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.login-captcha-refresh {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d7dee7;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #526170;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.login-captcha-refresh:hover {
+    background: #f1f5f9;
+    color: #1d4ed8;
+    border-color: #b9c8dc;
+}
+
+.login-captcha-refresh:active {
+    transform: rotate(25deg);
+}
+
+.login-captcha-challenge {
+    position: relative;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.08) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 70%, rgba(15, 118, 110, 0.08) 0 2px, transparent 3px),
+        #f8fafc;
+}
+
+.login-captcha-characters {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    user-select: none;
+}
+
+.login-captcha-characters span {
+    display: inline-block;
+    min-width: 20px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 800;
+    color: #26384a;
+    text-shadow: 1px 1px 0 rgba(15, 23, 42, 0.08);
+}
+
+.login-captcha-noise {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.login-captcha-noise-one {
+    background-image:
+        radial-gradient(circle, rgba(30, 64, 175, 0.22) 1px, transparent 1px),
+        radial-gradient(circle, rgba(15, 118, 110, 0.18) 1px, transparent 1px);
+    background-size: 17px 13px, 23px 19px;
+    opacity: 0.45;
+}
+
+.login-captcha-noise-two {
+    background:
+        repeating-linear-gradient(
+            115deg,
+            transparent 0,
+            transparent 12px,
+            rgba(100, 116, 139, 0.08) 13px,
+            transparent 14px
+        );
+    opacity: 0.7;
+}
+
+.login-captcha-line {
+    position: absolute;
+    z-index: 2;
+    left: -5%;
+    width: 110%;
+    height: 2px;
+    border-radius: 999px;
+    pointer-events: none;
+}
+
+.login-captcha-line-one {
+    top: 31px;
+    transform: rotate(-5deg);
+    background: rgba(30, 64, 175, 0.28);
+}
+
+.login-captcha-line-two {
+    top: 47px;
+    transform: rotate(7deg);
+    background: rgba(15, 118, 110, 0.24);
+}
+
+.login-captcha-input-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #d5dde7;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1e293b;
+    font-size: 14px;
+    letter-spacing: 2px;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.login-captcha-input-wrapper input::placeholder {
+    letter-spacing: 0;
+    color: #94a3b8;
+}
+
+.login-captcha-input-wrapper input:focus {
+    border-color: #4f7cac;
+    box-shadow: 0 0 0 3px rgba(79, 124, 172, 0.12);
+}
+
+@media (max-width: 480px) {
+    .login-captcha-challenge {
+        height: 68px;
+    }
+
+    .login-captcha-characters {
+        gap: 3px;
+    }
+
+    .login-captcha-characters span {
+        min-width: 18px;
+    }
+}

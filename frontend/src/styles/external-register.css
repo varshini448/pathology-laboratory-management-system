@@ -195,3 +195,305 @@
         padding: 17px;
     }
 }
+
+/* =========================================================
+   PROFESSIONAL PATIENT / DOCTOR REGISTRATION
+   ========================================================= */
+
+.patient-register-container,
+.doctor-register-container {
+    width: min(820px, calc(100% - 32px));
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 38px 42px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(30, 55, 80, 0.08);
+}
+
+.patient-register-container .auth-header,
+.doctor-register-container .auth-header {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e8edf2;
+}
+
+.patient-register-container .auth-header h1,
+.doctor-register-container .auth-header h1 {
+    margin: 0 0 9px;
+    color: #263238;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.patient-register-container .auth-header p,
+.doctor-register-container .auth-header p {
+    max-width: 680px;
+    margin: 0;
+    color: #607080;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.patient-register-container form,
+.doctor-register-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.patient-register-container .registration-section,
+.doctor-register-container .registration-section {
+    padding: 22px;
+    border: 1px solid #e1e7ee;
+    border-radius: 10px;
+    background: #fafbfd;
+}
+
+.registration-section-header {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e8edf2;
+}
+
+.registration-section-header h2 {
+    margin: 0 0 5px;
+    color: #365f85;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.registration-section-header p {
+    margin: 0;
+    color: #748294;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.patient-register-container .form-grid,
+.doctor-register-container .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.patient-register-container .form-group,
+.doctor-register-container .form-group {
+    min-width: 0;
+}
+
+.patient-register-container .form-group > label,
+.doctor-register-container .form-group > label {
+    display: block;
+    margin-bottom: 7px;
+    color: #2f4052;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.patient-register-container input,
+.patient-register-container select,
+.patient-register-container textarea,
+.doctor-register-container input,
+.doctor-register-container select,
+.doctor-register-container textarea {
+    width: 100%;
+    min-height: 46px;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #d5dee8;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #263238;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.patient-register-container input::placeholder,
+.patient-register-container textarea::placeholder,
+.doctor-register-container input::placeholder,
+.doctor-register-container textarea::placeholder {
+    color: #9aa7b5;
+}
+
+.patient-register-container input:hover,
+.patient-register-container select:hover,
+.patient-register-container textarea:hover,
+.doctor-register-container input:hover,
+.doctor-register-container select:hover,
+.doctor-register-container textarea:hover {
+    border-color: #b9c6d4;
+}
+
+.patient-register-container input:focus,
+.patient-register-container select:focus,
+.patient-register-container textarea:focus,
+.doctor-register-container input:focus,
+.doctor-register-container select:focus,
+.doctor-register-container textarea:focus {
+    border-color: #2f6f95;
+    box-shadow: 0 0 0 3px rgba(47, 111, 149, 0.11);
+}
+
+.patient-register-container select,
+.doctor-register-container select {
+    cursor: pointer;
+}
+
+.patient-register-container textarea,
+.doctor-register-container textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.patient-register-container .registration-section > .form-group {
+    margin-top: 18px;
+}
+
+.patient-register-container .registration-section > .form-group:first-of-type {
+    margin-top: 0;
+}
+
+.patient-register-container .auth-message,
+.doctor-register-container .auth-message {
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.patient-register-container .auth-message.error,
+.doctor-register-container .auth-message.error {
+    border: 1px solid #f1caca;
+    background: #fff7f7;
+    color: #a33a3a;
+}
+
+.patient-register-container .auth-message.success,
+.doctor-register-container .auth-message.success {
+    border: 1px solid #c9e5d4;
+    background: #f4fbf6;
+    color: #27623d;
+}
+
+.patient-register-container .auth-submit-button,
+.doctor-register-container .auth-submit-button {
+    width: 100%;
+    min-height: 47px;
+    margin-top: 2px;
+    border: 0;
+    border-radius: 8px;
+    background: #2f6f95;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(30, 55, 80, 0.12);
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.patient-register-container .auth-submit-button:hover:not(:disabled),
+.doctor-register-container .auth-submit-button:hover:not(:disabled) {
+    background: #255b7a;
+    box-shadow: 0 4px 10px rgba(30, 55, 80, 0.16);
+}
+
+.patient-register-container .auth-submit-button:active:not(:disabled),
+.doctor-register-container .auth-submit-button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.patient-register-container .auth-submit-button:disabled,
+.doctor-register-container .auth-submit-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.patient-register-container .auth-footer,
+.doctor-register-container .auth-footer {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid #e8edf2;
+    text-align: center;
+}
+
+.patient-register-container .auth-footer p,
+.doctor-register-container .auth-footer p {
+    margin: 0 0 10px;
+    color: #687789;
+    font-size: 13px;
+}
+
+.patient-register-container .auth-footer a,
+.doctor-register-container .auth-footer a {
+    color: #365f85;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.patient-register-container .auth-footer a:hover,
+.doctor-register-container .auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.patient-register-container::after {
+    content: "Email or mobile verification will be required before accessing your patient account.";
+    display: block;
+    margin-top: 18px;
+    padding: 11px 13px;
+    border: 1px solid #d9e6ef;
+    border-radius: 8px;
+    background: #f7fafc;
+    color: #607080;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.doctor-register-container::after {
+    content: "Your professional profile must be verified and approved before access to authorized patient reports is granted.";
+    display: block;
+    margin-top: 18px;
+    padding: 11px 13px;
+    border: 1px solid #d9e6ef;
+    border-radius: 8px;
+    background: #f7fafc;
+    color: #607080;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    .patient-register-container,
+    .doctor-register-container {
+        width: calc(100% - 24px);
+        margin: 16px auto;
+        padding: 28px 20px;
+        border-radius: 11px;
+    }
+
+    .patient-register-container .form-grid,
+    .doctor-register-container .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-register-container .registration-section,
+    .doctor-register-container .registration-section {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .patient-register-container,
+    .doctor-register-container {
+        width: calc(100% - 16px);
+        margin: 10px auto;
+        padding: 22px 15px;
+    }
+}
+

@@ -7,7 +7,7 @@ const RoleRoute = ({ allowedRoles = [] }) => {
     return <Navigate to="/login" replace />;
   }
 
-  const userRole = user.role;
+  const userRole = user.role || user.userType;
 
   if (!allowedRoles.includes(userRole)) {
     return <Navigate to="/unauthorized" replace />;

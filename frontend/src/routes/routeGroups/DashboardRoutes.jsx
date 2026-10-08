@@ -17,14 +17,26 @@ const DashboardRoutes = (
         />
 
         <Route
-            path="/doctor-dashboard"
-            element={<DoctorDashboard />}
-        />
+            element={
+                <RoleRoute allowedRoles={["DOCTOR"]} />
+            }
+        >
+            <Route
+                path="/doctor-dashboard"
+                element={<DoctorDashboard />}
+            />
+        </Route>
 
         <Route
-            path="/patient-dashboard"
-            element={<PatientDashboard />}
-        />
+            element={
+                <RoleRoute allowedRoles={["PATIENT"]} />
+            }
+        >
+            <Route
+                path="/patient-dashboard"
+                element={<PatientDashboard />}
+            />
+        </Route>
 
         <Route
             element={
