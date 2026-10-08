@@ -1,19 +1,36 @@
 .home-hero {
-  padding: 80px 0 var(--space-16);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(72px, 9vw, 116px) 0 clamp(64px, 8vw, 96px);
   background:
-    radial-gradient(
-      circle at 85% 15%,
-      rgba(47, 128, 183, 0.08),
-      transparent 32%
-    ),
+    radial-gradient(circle at 82% 18%,
+      rgba(47, 128, 183, 0.1),
+      transparent 30%),
+    radial-gradient(circle at 18% 85%,
+      rgba(47, 128, 183, 0.04),
+      transparent 28%),
     var(--color-bg);
 }
 
+.home-hero::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: rgba(47, 128, 183, 0.035);
+  content: "";
+  pointer-events: none;
+  transform: translate(38%, -42%);
+}
+
 .home-hero-grid {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.1fr);
+  grid-template-columns: minmax(0, 0.88fr) minmax(540px, 1.12fr);
   align-items: center;
-  gap: clamp(40px, 6vw, 88px);
+  gap: clamp(48px, 6vw, 92px);
 }
 
 .home-hero-content {
@@ -21,12 +38,13 @@
 }
 
 .home-hero h1 {
+  max-width: 680px;
   margin: var(--space-4) 0 var(--space-5);
   color: var(--color-text-primary);
-  font-size: clamp(38px, 5vw, 64px);
+  font-size: clamp(42px, 5.1vw, 68px);
   font-weight: var(--font-weight-bold);
-  letter-spacing: -0.045em;
-  line-height: 1.04;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
 }
 
 .home-hero h1 span {
@@ -37,15 +55,22 @@
   max-width: 610px;
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: clamp(16px, 1.5vw, 18px);
-  line-height: var(--line-height-relaxed);
+  font-size: clamp(16px, 1.45vw, 18px);
+  line-height: 1.7;
 }
 
 .home-hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  margin-top: var(--space-6);
+  margin-top: var(--space-7);
+}
+
+.home-hero-actions .home-primary-button,
+.home-hero-actions .home-secondary-button {
+  min-height: 48px;
+  padding-right: 22px;
+  padding-left: 22px;
 }
 
 .home-hero-note {
@@ -60,54 +85,86 @@
 .home-status-dot {
   width: 8px;
   height: 8px;
+  flex: 0 0 8px;
   border-radius: 50%;
   background: var(--color-success-700);
   box-shadow: 0 0 0 4px var(--color-success-100);
 }
 
+/* =========================================================
+   DASHBOARD PREVIEW
+   ========================================================= */
+
 .home-dashboard-preview {
+  position: relative;
   overflow: hidden;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border: 1px solid rgba(47, 111, 149, 0.18);
+  border-radius: 18px;
   background: var(--color-surface);
-  box-shadow: var(--shadow-lg);
+  box-shadow:
+    0 24px 70px rgba(23, 32, 51, 0.11),
+    0 6px 20px rgba(23, 32, 51, 0.06);
 }
+
+.home-dashboard-preview::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: var(--color-brand-700);
+  content: "";
+}
+
+/* =========================================================
+   PREVIEW HEADER
+   ========================================================= */
 
 .home-preview-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-6);
+  padding: 24px 26px 22px;
   border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .home-preview-label {
   display: block;
-  margin-bottom: var(--space-2);
+  margin-bottom: 7px;
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.11em;
 }
 
 .home-preview-header h2 {
   margin: 0;
   color: var(--color-text-primary);
-  font-size: var(--font-size-xl);
+  font-size: 20px;
   font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
 }
 
 .home-preview-status {
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
   border: 1px solid var(--color-info-100);
   border-radius: 999px;
   background: var(--color-info-100);
   color: var(--color-info-700);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
+
+/* =========================================================
+   PREVIEW METRICS
+   ========================================================= */
 
 .home-preview-stats {
   display: grid;
@@ -117,11 +174,11 @@
 
 .home-preview-stat {
   display: flex;
-  min-height: 104px;
+  min-height: 108px;
   flex-direction: column;
   justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-4);
+  gap: 7px;
+  padding: 18px;
   border-right: 1px solid var(--color-border);
 }
 
@@ -131,47 +188,56 @@
 
 .home-preview-stat span {
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-medium);
+  line-height: 1.35;
 }
 
 .home-preview-stat strong {
   color: var(--color-text-primary);
-  font-size: var(--font-size-xl);
+  font-size: 24px;
   font-weight: var(--font-weight-bold);
+  letter-spacing: -0.03em;
 }
 
 .home-preview-stat .on-track {
   color: var(--color-success-700);
-  font-size: var(--font-size-md);
+  font-size: 15px;
+  letter-spacing: 0;
 }
 
+/* =========================================================
+   WORKFLOW PREVIEW
+   ========================================================= */
+
 .home-preview-workflow {
-  padding: var(--space-6);
+  padding: 24px 26px 26px;
 }
 
 .home-preview-section-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-bottom: var(--space-5);
+  margin-bottom: 22px;
 }
 
 .home-preview-section-header span:first-child {
   color: var(--color-text-primary);
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   font-weight: var(--font-weight-semibold);
 }
 
 .home-preview-section-header span:last-child {
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
 }
 
 .home-workflow-track {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-2);
+  gap: 8px;
 }
 
 .home-workflow-step {
@@ -179,7 +245,7 @@
   min-width: 74px;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
+  gap: 8px;
   text-align: center;
 }
 
@@ -187,19 +253,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border: 1px solid var(--color-border-strong);
   border-radius: 50%;
   background: var(--color-surface);
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
 }
 
 .home-workflow-step strong {
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-medium);
 }
 
@@ -208,6 +274,7 @@
   border-color: var(--color-brand-600);
   background: var(--color-brand-700);
   color: var(--color-text-inverse);
+  box-shadow: 0 0 0 4px rgba(47, 111, 149, 0.08);
 }
 
 .home-workflow-step.completed strong,
@@ -219,7 +286,7 @@
 .home-workflow-line {
   flex: 1;
   height: 2px;
-  margin-top: 14px;
+  margin-top: 16px;
   background: var(--color-border);
 }
 
@@ -227,23 +294,27 @@
   background: var(--color-brand-500);
 }
 
+/* =========================================================
+   PREVIEW FOOTER
+   ========================================================= */
+
 .home-preview-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4) var(--space-6);
+  padding: 14px 26px;
   border-top: 1px solid var(--color-border);
   background: var(--color-surface-subtle);
 }
 
 .home-preview-footer span {
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
 }
 
 .home-preview-footer strong {
   color: var(--color-text-secondary);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
 }

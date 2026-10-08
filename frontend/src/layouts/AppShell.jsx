@@ -1,8 +1,64 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
+import { Outlet, useNavigate } from "react-router-dom";
+
+import { getCurrentUser, logoutUser } from "../services/authService";
+
+const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 
 const AppShell = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+
+  const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+
+  useEffect(() => {
+    let inactivityTimer;
+
+    const handleLogout = () => {
+      logoutUser();
+      navigate("/login", { replace: true });
+    };
+
+    const resetInactivityTimer = () => {
+      window.clearTimeout(inactivityTimer);
+
+      inactivityTimer = window.setTimeout(() => {
+        handleLogout();
+      }, INACTIVITY_TIMEOUT);
+    };
+
+    const activityEvents = [
+      "mousemove",
+      "mousedown",
+      "keydown",
+      "scroll",
+      "touchstart",
+      "click",
+    ];
+
+    activityEvents.forEach((eventName) => {
+      window.addEventListener(eventName, resetInactivityTimer);
+    });
+
+    resetInactivityTimer();
+
+    return () => {
+      window.clearTimeout(inactivityTimer);
+
+      activityEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, resetInactivityTimer);
+      });
+    };
+  }, [navigate]);
+
+  const handleSignOut = () => {
+    logoutUser();
+    navigate("/login", { replace: true });
+  };
+
+  const displayName = currentUser?.name || currentUser?.username || "User";
+  const displayRole = currentUser?.role || "Laboratory Staff";
 
   return (
     <div
@@ -13,7 +69,6 @@ const AppShell = () => {
       <aside className="app-shell-sidebar">
         <div className="app-shell-brand">
           <div className="app-shell-brand-mark">P</div>
-
           <div className="app-shell-brand-text">
             <strong>Pathology</strong>
             <span>Intelligence Platform</span>
@@ -106,13 +161,11 @@ const AppShell = () => {
 
             <div className="app-shell-search">
               <span>⌕</span>
-
               <input
                 type="search"
                 placeholder="Search cases, patients, slides..."
                 aria-label="Search"
               />
-
               <kbd>⌘ K</kbd>
             </div>
           </div>
@@ -123,13 +176,23 @@ const AppShell = () => {
             </button>
 
             <div className="app-shell-user">
-              <div className="app-shell-user-avatar">U</div>
+              <div className="app-shell-user-avatar">
+                {displayName.charAt(0).toUpperCase()}
+              </div>
 
               <div>
-                <strong>User</strong>
-                <span>Laboratory Staff</span>
+                <strong>{displayName}</strong>
+                <span>{displayRole}</span>
               </div>
             </div>
+
+            <button
+              type="button"
+              className="app-shell-signout-button"
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </button>
           </div>
         </header>
 

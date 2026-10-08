@@ -145,3 +145,25 @@
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
 }
+
+.app-shell-signout-button {
+    min-height: 36px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.app-shell-signout-button:hover {
+    background: var(--color-danger-50, #fef2f2);
+    border-color: var(--color-danger-200, #fecaca);
+    color: var(--color-danger-700, #b91c1c);
+}

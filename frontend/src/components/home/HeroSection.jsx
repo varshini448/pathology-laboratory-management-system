@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HeroSection = () => {
   return (
     <section className="home-hero">
@@ -19,9 +21,9 @@ const HeroSection = () => {
           </p>
 
           <div className="home-hero-actions">
-            <a href="#platform" className="home-primary-button">
+            <Link to="/login" className="home-primary-button">
               Open Laboratory Portal
-            </a>
+            </Link>
 
             <a href="#workflow" className="home-secondary-button">
               Explore Workflow
@@ -34,68 +36,89 @@ const HeroSection = () => {
           </div>
         </div>
 
-        <div className="home-dashboard-preview" aria-label="Laboratory dashboard preview">
+        <div
+          className="home-dashboard-preview"
+          aria-label="Laboratory workflow preview"
+        >
           <div className="home-preview-header">
             <div>
-              <span className="home-preview-label">LABORATORY OVERVIEW</span>
-              <h2>Today's operations</h2>
+              <span className="home-preview-label">
+                LABORATORY WORKFLOW
+              </span>
+              <h2>Workflow Overview</h2>
             </div>
 
-            <span className="home-preview-status">Demo Preview</span>
+            <span className="home-preview-status">
+              Product Preview
+            </span>
           </div>
 
           <div className="home-preview-stats">
             <div className="home-preview-stat">
-              <span>Active Cases</span>
-              <strong>128</strong>
+              <span>Specimen Management</span>
+              <strong>Traceable</strong>
             </div>
 
             <div className="home-preview-stat">
-              <span>Pending Reports</span>
-              <strong>24</strong>
+              <span>Reporting</span>
+              <strong>Controlled</strong>
             </div>
 
             <div className="home-preview-stat">
-              <span>QA Reviews</span>
-              <strong>12</strong>
+              <span>Quality Control</span>
+              <strong>Auditable</strong>
             </div>
 
             <div className="home-preview-stat">
-              <span>TAT Status</span>
-              <strong className="on-track">On Track</strong>
+              <span>TAT Monitoring</span>
+              <strong className="on-track">Tracked</strong>
             </div>
           </div>
 
           <div className="home-preview-workflow">
             <div className="home-preview-section-header">
-              <span>Current Workflow</span>
-              <span>Live View</span>
+              <span>End-to-End Workflow</span>
+              <span>Overview</span>
             </div>
 
             <div className="home-workflow-track">
               <div className="home-workflow-step completed">
                 <span>01</span>
-                <strong>Received</strong>
+                <strong>Collection</strong>
               </div>
 
               <div className="home-workflow-line active" />
 
               <div className="home-workflow-step active">
                 <span>02</span>
-                <strong>Processing</strong>
+                <strong>Accessioning</strong>
               </div>
 
               <div className="home-workflow-line" />
 
               <div className="home-workflow-step">
                 <span>03</span>
-                <strong>Review</strong>
+                <strong>Processing</strong>
               </div>
 
               <div className="home-workflow-line" />
 
               <div className="home-workflow-step">
                 <span>04</span>
+                <strong>Review</strong>
+              </div>
+
+              <div className="home-workflow-line" />
+
+              <div className="home-workflow-step">
+                <span>05</span>
+                <strong>QA</strong>
+              </div>
+
+              <div className="home-workflow-line" />
+
+              <div className="home-workflow-step">
+                <span>06</span>
                 <strong>Report</strong>
               </div>
             </div>
@@ -103,7 +126,7 @@ const HeroSection = () => {
 
           <div className="home-preview-footer">
             <span>Workflow visibility</span>
-            <strong>End-to-end case tracking</strong>
+            <strong>Specimen-to-report traceability</strong>
           </div>
         </div>
       </div>
