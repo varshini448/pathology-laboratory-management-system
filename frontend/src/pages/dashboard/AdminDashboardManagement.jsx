@@ -1,27 +1,57 @@
 import { Link } from "react-router-dom";
 import {
-  UserRound,
-  ClipboardList,
-  FlaskConical,
-  Layers3,
-  ScanLine,
-  FileText,
-  AlertCircle,
+  Users,
+  UserPlus,
+  ClipboardCheck,
+  ShieldCheck,
+  History,
+  ArrowUpRight,
 } from "lucide-react";
 import AdminPendingApprovals from "./AdminPendingApprovals";
+import AdminRecentActivity from "./AdminRecentActivity";
+
+const adminActions = [
+  {
+    title: "Manage users",
+    description: "Review staff accounts and user records.",
+    to: "/users",
+    icon: Users,
+  },
+  {
+    title: "Add staff user",
+    description: "Create an internal staff account.",
+    to: "/users/add",
+    icon: UserPlus,
+  },
+  {
+    title: "Review approvals",
+    description: "Review pending staff registrations.",
+    to: "#pending-approvals",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Audit logs",
+    description: "Review recorded administrative events.",
+    to: "/audit-logs",
+    icon: History,
+  },
+];
 
 const AdminDashboardManagement = () => {
   return (
     <>
-      <section className="admin-dashboard-panel admin-approval-panel">
+      <section
+        id="pending-approvals"
+        className="admin-dashboard-panel admin-approval-panel"
+      >
         <div className="admin-panel-header">
           <div>
-            <span>ADMINISTRATION</span>
+            <span>ACCESS MANAGEMENT</span>
             <h2>Pending User Approvals</h2>
           </div>
 
           <Link to="/users">
-            Manage users
+            Manage users <ArrowUpRight size={15} />
           </Link>
         </div>
 
@@ -31,56 +61,49 @@ const AdminDashboardManagement = () => {
       <section className="admin-dashboard-panel">
         <div className="admin-panel-header">
           <div>
-            <span>QUICK ACCESS</span>
-            <h2>Common Laboratory Tasks</h2>
+            <span>ADMINISTRATION</span>
+            <h2>Administrative Shortcuts</h2>
           </div>
         </div>
 
         <div className="admin-quick-actions">
-          <Link to="/patients/add">
-            <UserRound size={18} />
-            Register Patient
-          </Link>
+          {adminActions.map(({ title, description, to, icon: Icon }) => (
+            <Link
+              key={title}
+              to={to}
+              className="admin-quick-action"
+            >
+              <span className="admin-quick-action-icon">
+                <Icon size={19} />
+              </span>
 
-          <Link to="/cases/add">
-            <ClipboardList size={18} />
-            Create Case
-          </Link>
+              <span className="admin-quick-action-copy">
+                <strong>{title}</strong>
+                <small>{description}</small>
+              </span>
 
-          <Link to="/specimens/add">
-            <FlaskConical size={18} />
-            Add Specimen
-          </Link>
-
-          <Link to="/blocks/add">
-            <Layers3 size={18} />
-            Add Block
-          </Link>
-
-          <Link to="/slides/add">
-            <ScanLine size={18} />
-            Add Slide
-          </Link>
-
-          <Link to="/reports">
-            <FileText size={18} />
-            Reports
-          </Link>
+              <ArrowUpRight
+                className="admin-quick-action-arrow"
+                size={16}
+              />
+            </Link>
+          ))}
         </div>
       </section>
 
-      <div className="admin-system-notice">
-        <AlertCircle size={17} />
+      <AdminRecentActivity />
+
+      <section className="admin-system-notice">
+        <ShieldCheck size={18} />
 
         <div>
-          <strong>Laboratory system status</strong>
-
+          <strong>Administrative access</strong>
           <span>
-            Core laboratory modules are available from the
-            navigation menu.
+            Use the existing role-protected pages to manage accounts
+            and review recorded activity.
           </span>
         </div>
-      </div>
+      </section>
     </>
   );
 };

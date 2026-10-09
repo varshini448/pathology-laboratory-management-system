@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import {
+  CheckCircle2,
+  Clock3,
+  Mail,
+  RefreshCw,
+  ShieldCheck,
+  UserRound,
+  XCircle,
+} from "lucide-react";
+import {
   getPendingApprovals,
   approveUser,
   rejectUser,
@@ -18,9 +27,9 @@ const AdminPendingApprovals = () => {
       setError("");
 
       const response = await getPendingApprovals();
-      setUsers(response.users || []);
+      setUsers(Array.isArray(response.users) ? response.users : []);
     } catch (err) {
-      setError(err.message || "Failed to load pending approvals");
+      setError(err.message || "Unable to load pending approval requests.");
     } finally {
       setLoading(false);
     }
@@ -30,120 +39,175 @@ const AdminPendingApprovals = () => {
     loadPendingApprovals();
   }, []);
 
-  const handleApprove = async (userId) => {
+  const handleDecision = async (userId, action) => {
     try {
       setActionLoading(userId);
       setError("");
       setMessage("");
 
-      const response = await approveUser(userId);
+      const response =
+        action === "approve"
+          ? await approveUser(userId)
+          : await rejectUser(userId);
 
-      setMessage(response.message || "User approved successfully");
-
-      setUsers((currentUsers) =>
-        currentUsers.filter((user) => user._id !== userId)
+      setUsers((current) => current.filter((user) => user._id !== userId));
+      setMessage(
+        response.message ||
+          (action === "approve"
+            ? "User approved successfully."
+            : "User rejected successfully.")
       );
     } catch (err) {
-      setError(err.message || "Failed to approve user");
+      setError(
+        err.message ||
+          `Unable to ${action} this registration. Please try again.`
+      );
     } finally {
       setActionLoading(null);
     }
   };
-
-  const handleReject = async (userId) => {
-    try {
-      setActionLoading(userId);
-      setError("");
-      setMessage("");
-
-      const response = await rejectUser(userId);
-
-      setMessage(response.message || "User rejected successfully");
-
-      setUsers((currentUsers) =>
-        currentUsers.filter((user) => user._id !== userId)
-      );
-    } catch (err) {
-      setError(err.message || "Failed to reject user");
-    } finally {
-      setActionLoading(null);
-    }
-  };
-
-  if (loading) {
-    return (
-      <section>
-        <h2>Pending User Approvals</h2>
-        <p>Loading pending approvals...</p>
-      </section>
-    );
-  }
 
   return (
-    <section>
-      <h2>Pending User Approvals</h2>
+    <div className="admin-approvals-content">
+      {message && (
+        <div className="admin-approval-feedback is-success" role="status">
+          <CheckCircle2 size={17} />
+          <span>{message}</span>
+        </div>
+      )}
 
-      {message && <p>{message}</p>}
+      {error && (
+        <div className="admin-approval-feedback is-error" role="alert">
+          <XCircle size={17} />
+          <span>{error}</span>
+          <button
+            type="button"
+            onClick={loadPendingApprovals}
+            disabled={loading || actionLoading !== null}
+          >
+            <RefreshCw size={14} />
+            Retry
+          </button>
+        </div>
+      )}
 
-      {error && <p>{error}</p>}
-
-      {users.length === 0 ? (
-        <p>No internal users are currently waiting for approval.</p>
+      {loading ? (
+        <div className="admin-approval-state" aria-live="polite">
+          <span className="admin-approval-state-icon">
+            <RefreshCw size={20} />
+          </span>
+          <strong>Loading approval requests</strong>
+          <p>Retrieving the latest staff registrations.</p>
+        </div>
+      ) : error ? null : users.length === 0 ? (
+        <div className="admin-approval-state">
+          <span className="admin-approval-state-icon is-complete">
+            <CheckCircle2 size={22} />
+          </span>
+          <strong>You're all caught up</strong>
+          <p>There are no staff registrations awaiting approval.</p>
+          <button
+            type="button"
+            className="admin-approval-secondary-button"
+            onClick={loadPendingApprovals}
+            disabled={loading}
+          >
+            <RefreshCw size={14} />
+            Refresh requests
+          </button>
+        </div>
       ) : (
-        <div>
+        <div className="admin-approval-list">
+          <div className="admin-approval-list-heading">
+            <span>
+              <Clock3 size={15} />
+              {users.length} request{users.length === 1 ? "" : "s"} awaiting review
+            </span>
+          </div>
+
           {users.map((user) => (
-            <div key={user._id}>
-              <h3>{user.name}</h3>
+            <article className="admin-approval-user" key={user._id}>
+              <div className="admin-approval-user-avatar">
+                <UserRound size={21} />
+              </div>
 
-              <p>
-                <strong>Role:</strong> {user.role}
-              </p>
+              <div className="admin-approval-user-details">
+                <div className="admin-approval-user-title">
+                  <h3>{user.name || "Name not provided"}</h3>
+                  <span className="admin-approval-pending">
+                    <Clock3 size={12} />
+                    Pending
+                  </span>
+                </div>
 
-              <p>
-                <strong>Department:</strong>{" "}
-                {user.department || "Not provided"}
-              </p>
+                <p className="admin-approval-user-email">
+                  <Mail size={14} />
+                  {user.email || "Email not provided"}
+                </p>
 
-              <p>
-                <strong>Email:</strong> {user.email}
-              </p>
+                <div className="admin-approval-user-meta">
+                  <span>
+                    <strong>Role</strong>
+                    {user.role || "Not specified"}
+                  </span>
+                  <span>
+                    <strong>Department</strong>
+                    {user.department || "Not provided"}
+                  </span>
+                  <span>
+                    <strong>Employee ID</strong>
+                    {user.profile?.employeeId || "Not provided"}
+                  </span>
+                  {user.profile?.medicalRegistrationId && (
+                    <span>
+                      <strong>Medical Registration ID</strong>
+                      {user.profile.medicalRegistrationId}
+                    </span>
+                  )}
+                </div>
+              </div>
 
-              <p>
-                <strong>Employee ID:</strong>{" "}
-                {user.profile?.employeeId || "Not provided"}
-              </p>
-
-              <p>
-                <strong>Medical Registration ID:</strong>{" "}
-                {user.profile?.medicalRegistrationId || "Not provided"}
-              </p>
-
-              <button
-                type="button"
-                onClick={() => handleApprove(user._id)}
-                disabled={actionLoading === user._id}
-              >
-                {actionLoading === user._id ? "Processing..." : "Approve"}
-              </button>
-
-              {" "}
-
-              <button
-                type="button"
-                onClick={() => handleReject(user._id)}
-                disabled={actionLoading === user._id}
-              >
-                {actionLoading === user._id ? "Processing..." : "Reject"}
-              </button>
-            </div>
+              <div className="admin-approval-user-actions">
+                <button
+                  type="button"
+                  className="admin-approval-approve"
+                  onClick={() => handleDecision(user._id, "approve")}
+                  disabled={actionLoading !== null}
+                >
+                  <CheckCircle2 size={15} />
+                  {actionLoading === user._id ? "Processing..." : "Approve"}
+                </button>
+                <button
+                  type="button"
+                  className="admin-approval-reject"
+                  onClick={() => handleDecision(user._id, "reject")}
+                  disabled={actionLoading !== null}
+                >
+                  <XCircle size={15} />
+                  Reject
+                </button>
+              </div>
+            </article>
           ))}
         </div>
       )}
 
-      <button type="button" onClick={loadPendingApprovals}>
-        Refresh
-      </button>
-    </section>
+      <div className="admin-approval-footer">
+        <span>
+          <ShieldCheck size={14} />
+          Staff access changes take effect through the existing approval workflow.
+        </span>
+        <button
+          type="button"
+          className="admin-approval-refresh"
+          onClick={loadPendingApprovals}
+          disabled={loading || actionLoading !== null}
+        >
+          <RefreshCw size={14} />
+          Refresh
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, ShieldCheck } from "lucide-react";
 import AdminDashboardOverview from "./AdminDashboardOverview";
 import AdminDashboardManagement from "./AdminDashboardManagement";
 import "../../styles/admin-dashboard/admin-dashboard.css";
@@ -9,45 +9,49 @@ import "../../styles/admin-dashboard/admin-dashboard-workflow.css";
 import "../../styles/admin-dashboard/admin-dashboard-actions.css";
 
 const AdminDashboard = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
-  const userName = user?.name || "Administrator";
+let user = null;
 
-  return (
-    <div className="admin-dashboard-page">
-      <section className="admin-page-heading">
-        <div>
-          <span className="admin-page-eyebrow">
-            LABORATORY OPERATIONS
-          </span>
+try {
+user = JSON.parse(localStorage.getItem("user") || "null");
+} catch {
+user = null;
+}
 
-          <h1>Operations Overview</h1>
+const userName = user?.name || "Administrator";
 
-          <p>
-            Monitor laboratory activity, workflow progress,
-            reports and operational tasks.
-          </p>
-        </div>
+return ( <div className="admin-dashboard-page"> <section className="admin-page-heading"> <div> <span className="admin-page-eyebrow"> <ShieldCheck size={13} />
+ADMINISTRATION & ACCESS CONTROL </span>
 
-        <div className="admin-page-actions">
-          <span className="admin-welcome">
-            Welcome, {userName}
-          </span>
+      <h1>Administrator Dashboard</h1>
 
-          <Link
-            to="/patients/add"
-            className="admin-primary-action"
-          >
-            <Plus size={17} />
-            Register Patient
-          </Link>
-        </div>
-      </section>
-
-      <AdminDashboardOverview />
-
-      <AdminDashboardManagement />
+      <p>
+        Manage staff access, review registration requests,
+        and monitor administrative activity.
+      </p>
     </div>
-  );
+
+    <div className="admin-page-actions">
+      <span className="admin-welcome">
+        Welcome, {userName}
+      </span>
+
+      <Link
+        to="/users/add"
+        className="admin-primary-action"
+      >
+        <Plus size={17} />
+        Add Staff User
+      </Link>
+    </div>
+  </section>
+
+  <AdminDashboardOverview />
+
+  <AdminDashboardManagement />
+</div>
+
+
+);
 };
 
 export default AdminDashboard;
