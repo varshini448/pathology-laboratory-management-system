@@ -85,3 +85,9 @@
         transition: none;
     }
 }
+
+/* Consistent vertical spacing between home page sections */
+.home-roles,
+.home-security {
+    padding: var(--space-16) 0;
+}
