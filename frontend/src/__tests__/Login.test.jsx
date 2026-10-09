@@ -25,6 +25,18 @@ vi.mock("../services/authService", () => ({
     loginDoctor: vi.fn(),
 }));
 
+const enterCaptcha = () => {
+    const challenge = screen
+        .getByLabelText("CAPTCHA challenge")
+        .querySelector(".login-captcha-characters");
+
+    const captchaCode = challenge.textContent;
+
+    fireEvent.change(screen.getByLabelText("Enter CAPTCHA"), {
+        target: { value: captchaCode },
+    });
+};
+
 describe("Login", () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -130,6 +142,8 @@ describe("Login", () => {
             },
         });
 
+        enterCaptcha();
+
         fireEvent.click(
             screen.getByRole("button", { name: "Sign In" })
         );
@@ -209,6 +223,8 @@ describe("Login", () => {
             },
         });
 
+        enterCaptcha();
+
         fireEvent.click(
             screen.getByRole("button", { name: "Sign In" })
         );
@@ -219,7 +235,7 @@ describe("Login", () => {
                 password: "Patient@123",
             });
 
-            expect(mockNavigate).toHaveBeenCalledWith("/patient");
+            expect(mockNavigate).toHaveBeenCalledWith("/patient-dashboard");
         });
     });
 
@@ -253,6 +269,8 @@ describe("Login", () => {
                 value: "wrong-password",
             },
         });
+
+        enterCaptcha();
 
         fireEvent.click(
             screen.getByRole("button", { name: "Sign In" })
