@@ -1,116 +1,180 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardHeader from "../dashboard/components/DashboardHeader";
-import DashboardSection from "../dashboard/components/DashboardSection";
+import {
+  BriefcaseBusiness,
+  Stethoscope,
+  ClipboardCheck,
+} from "lucide-react";
+import { registerUser } from "../../services/authService";
+import "../../styles/users/add-user.css";
+
+import AddUserHeader from "./add-user/AddUserHeader";
+import AddUserForm from "./add-user/AddUserForm";
+import AddUserSidebar from "./add-user/AddUserSidebar";
+import AddUserSuccess from "./add-user/AddUserSuccess";
+
+const initialForm = {
+  name: "",
+  email: "",
+  phone: "+91",
+  department: "",
+  role: "TECHNICIAN",
+  password: "",
+  confirmPassword: "",
+  employeeId: "",
+  qualification: "",
+  medicalRegistrationId: "",
+  specialization: "",
+};
+
+const roleOptions = [
+  {
+    value: "TECHNICIAN",
+    label: "Laboratory Technician",
+    description: "Laboratory processing and specimen handling",
+    icon: BriefcaseBusiness,
+  },
+  {
+    value: "PATHOLOGIST",
+    label: "Pathologist",
+    description: "Diagnostic review and pathology reporting",
+    icon: Stethoscope,
+  },
+  {
+    value: "QUALITY_MANAGER",
+    label: "Quality Manager",
+    description: "Quality assurance and compliance",
+    icon: ClipboardCheck,
+  },
+];
 
 const AddUser = () => {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    role: "TECHNICIAN",
-    phone: "",
-  });
+  const [formData, setFormData] = useState(initialForm);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    setError("");
+    setFormData((previous) => ({ ...previous, [name]: value }));
+  };
 
+  const handleRoleChange = (role) => {
+    setError("");
     setFormData((previous) => ({
       ...previous,
-      [name]: value,
+      role,
+      employeeId: "",
+      qualification: "",
+      medicalRegistrationId: "",
+      specialization: "",
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
 
-    console.log("User form submitted:", formData);
-    navigate("/users");
+    if (formData.password.length < 8) {
+      setError("Password must contain at least 8 characters.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match. Please check both fields.");
+      return;
+    }
+
+    if (!/^\+91[6-9]\d{9}$/.test(formData.phone.trim())) {
+      setError("Enter a valid Indian mobile number, for example +919876543210.");
+      return;
+    }
+
+    const profile = {
+      employeeId: formData.employeeId.trim(),
+      qualification: formData.qualification.trim(),
+      medicalRegistrationId: formData.medicalRegistrationId.trim(),
+      specialization: formData.specialization.trim(),
+    };
+
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim().toLowerCase(),
+      phone: formData.phone.trim(),
+      department: formData.department.trim(),
+      role: formData.role,
+      password: formData.password,
+      profile,
+    };
+
+    setSubmitting(true);
+
+    try {
+      const response = await registerUser(payload);
+      setSuccess({
+        message:
+          response.message ||
+          "Registration submitted. The account is pending administrator approval.",
+        user: response.user,
+      });
+    } catch (requestError) {
+      setError(
+        requestError.message ||
+          "We couldn't submit this registration. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  return (
-    <main className="dashboard-page">
-      <DashboardHeader
-        title="Add User"
-        subtitle="Create a new internal laboratory system user."
+  const selectedRole = roleOptions.find(
+    (option) => option.value === formData.role
+  );
+
+  const handleAddAnother = () => {
+    setFormData(initialForm);
+    setError("");
+    setShowPassword(false);
+    setShowConfirmPassword(false);
+    setSuccess(null);
+  };
+
+  if (success) {
+    return (
+      <AddUserSuccess
+        success={success}
+        onAddAnother={handleAddAnother}
       />
+    );
+  }
 
-      <DashboardSection
-        title="User Information"
-        subtitle="Enter the basic details and assign an appropriate role."
-      >
-        <form className="form-card" onSubmit={handleSubmit}>
-          <div className="form-grid">
-            <div className="form-field">
-              <label htmlFor="name">Full Name</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter full name"
-                required
-              />
-            </div>
+  return (
+    <main className="dashboard-page add-user-page">
+      <AddUserHeader />
 
-            <div className="form-field">
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter email address"
-                required
-              />
-            </div>
+      <div className="add-user-layout">
+        <AddUserForm
+          formData={formData}
+          roleOptions={roleOptions}
+          selectedRole={selectedRole}
+          error={error}
+          submitting={submitting}
+          showPassword={showPassword}
+          showConfirmPassword={showConfirmPassword}
+          handleChange={handleChange}
+          handleRoleChange={handleRoleChange}
+          handleSubmit={handleSubmit}
+          setShowPassword={setShowPassword}
+          setShowConfirmPassword={setShowConfirmPassword}
+          onCancel={() => navigate("/users")}
+        />
 
-            <div className="form-field">
-              <label htmlFor="phone">Phone</label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Enter phone number"
-              />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="role">Role</label>
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-              >
-                <option value="ADMIN">Admin</option>
-                <option value="TECHNICIAN">Technician</option>
-                <option value="PATHOLOGIST">Pathologist</option>
-                <option value="QUALITY_MANAGER">Quality Manager</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="form-actions">
-            <button
-              type="button"
-              className="secondary-button"
-              onClick={() => navigate("/users")}
-            >
-              Cancel
-            </button>
-
-            <button type="submit" className="primary-button">
-              Create User
-            </button>
-          </div>
-        </form>
-      </DashboardSection>
+        <AddUserSidebar />
+      </div>
     </main>
   );
 };

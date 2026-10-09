@@ -1,0 +1,181 @@
+.add-user-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 19px 18px;
+}
+
+.add-user-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.add-user-field-full {
+  grid-column: 1 / -1;
+}
+
+.add-user-field label {
+  color: #33465f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.add-user-field label span,
+.add-user-form-footer > p span {
+  color: #d34c4c;
+}
+
+.add-user-field input,
+.add-user-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 12px;
+  color: var(--au-ink);
+  background: #fff;
+  border: 1px solid #d7e0e9;
+  border-radius: 9px;
+  outline: none;
+  font: inherit;
+  font-size: 13px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.add-user-field input::placeholder {
+  color: #a0acba;
+}
+
+.add-user-field input:focus,
+.add-user-field select:focus {
+  border-color: #4194ad;
+  box-shadow: 0 0 0 3px rgb(45 139 165 / 12%);
+}
+
+.add-user-field small {
+  color: #8390a0;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.add-user-role-options {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-user-role-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  padding: 13px;
+  color: var(--au-ink);
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--au-border);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.add-user-role-option:hover {
+  border-color: #9cc8d5;
+  background: #f9fcfd;
+}
+
+.add-user-role-option.is-selected {
+  border-color: #4598af;
+  background: #f1f9fb;
+  box-shadow: inset 0 0 0 1px rgb(69 152 175 / 12%);
+}
+
+.add-user-role-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  color: var(--au-primary);
+  background: #e6f2f6;
+  border-radius: 10px;
+}
+
+.add-user-role-copy {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.add-user-role-copy strong {
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.add-user-role-copy small {
+  color: var(--au-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.add-user-role-radio {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #c4ced9;
+  border-radius: 50%;
+}
+
+.add-user-role-option.is-selected .add-user-role-radio {
+  border: 5px solid var(--au-primary);
+}
+
+.add-user-role-context {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 20px;
+  padding: 12px;
+  color: #476276;
+  background: #f5f9fb;
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.add-user-role-context svg {
+  color: var(--au-primary);
+  flex: 0 0 auto;
+}
+
+.add-user-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.add-user-password-wrap input {
+  padding-right: 43px;
+}
+
+.add-user-password-toggle {
+  position: absolute;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: #738298;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-user-password-toggle:hover {
+  color: var(--au-primary);
+  background: #eef6f8;
+}
+

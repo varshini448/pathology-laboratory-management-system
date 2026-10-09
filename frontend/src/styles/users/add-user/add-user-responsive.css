@@ -1,0 +1,77 @@
+@media (max-width: 1050px) {
+  .add-user-layout {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 16px;
+  }
+
+  .add-user-sidebar-card {
+    padding: 17px;
+  }
+}
+
+@media (max-width: 820px) {
+  .add-user-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .add-user-sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .add-user-sidebar-note {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .add-user-page {
+    padding: 20px 14px 32px;
+  }
+
+  .add-user-heading {
+    gap: 12px;
+  }
+
+  .add-user-heading-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+  }
+
+  .add-user-heading h1 {
+    font-size: 25px;
+  }
+
+  .add-user-fields,
+  .add-user-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .add-user-field-full,
+  .add-user-sidebar-note {
+    grid-column: auto;
+  }
+
+  .add-user-card {
+    padding: 17px;
+  }
+
+  .add-user-form-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .add-user-form-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  .add-user-button {
+    padding-inline: 10px;
+  }
+
+  .add-user-success-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
