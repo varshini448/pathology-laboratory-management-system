@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Microscope,
-  ShieldCheck,
-  LockKeyhole,
   Eye,
   EyeOff,
   ArrowLeft,
@@ -17,6 +14,8 @@ import {
   loginDoctor,
 } from "../../services/authService";
 
+import LoginBrandPanel from "./login/LoginBrandPanel";
+import LoginAccountSelector from "./login/LoginAccountSelector";
 import LoginFields from "./login/LoginFields";
 import LoginOptions from "./login/LoginOptions";
 import LoginMessages from "./login/LoginMessages";
@@ -160,47 +159,7 @@ const Login = () => {
     <div className="auth-page login-page">
       <div className="login-shell">
 
-        {/* LEFT BRAND PANEL */}
-        <section className="login-brand-panel">
-          <div className="auth-brand-icon">
-            <Microscope size={30} />
-          </div>
-
-          <div className="login-brand-label">
-            PATHOLOGY LIS
-          </div>
-
-          <h1>
-            Laboratory
-            <br />
-            Management
-            <br />
-            System
-          </h1>
-
-          <p>
-            Securely manage patients, specimens, laboratory workflows,
-            quality control, and pathology reports in one centralized
-            system.
-          </p>
-
-          <div className="login-security-list">
-            <div>
-              <ShieldCheck size={20} />
-              <span>Role-based access control</span>
-            </div>
-
-            <div>
-              <LockKeyhole size={20} />
-              <span>Secure authentication</span>
-            </div>
-
-            <div>
-              <ShieldCheck size={20} />
-              <span>Protected laboratory data</span>
-            </div>
-          </div>
-        </section>
+        <LoginBrandPanel />
 
         {/* RIGHT LOGIN PANEL */}
         <section className="login-form-panel">
@@ -216,66 +175,15 @@ const Login = () => {
             </p>
           </div>
 
-          {/* ACCOUNT TYPE */}
-          <div className="login-type-selector">
-            <button
-              type="button"
-              className={
-                accountType === "internal"
-                  ? "login-type-button active"
-                  : "login-type-button"
-              }
-              onClick={() => handleAccountTypeChange("internal")}
-            >
-              Internal Staff
-            </button>
-
-            <button
-              type="button"
-              className={
-                accountType === "external"
-                  ? "login-type-button active"
-                  : "login-type-button"
-              }
-              onClick={() => handleAccountTypeChange("external")}
-            >
-              Patient / Doctor
-            </button>
-          </div>
-
-          {accountType === "external" && (
-            <div className="external-type-selector">
-              <button
-                type="button"
-                className={
-                  externalUserType === "patient"
-                    ? "external-type-button active"
-                    : "external-type-button"
-                }
-                onClick={() => {
-                  setExternalUserType("patient");
-                  setError("");
-                }}
-              >
-                Patient
-              </button>
-
-              <button
-                type="button"
-                className={
-                  externalUserType === "doctor"
-                    ? "external-type-button active"
-                    : "external-type-button"
-                }
-                onClick={() => {
-                  setExternalUserType("doctor");
-                  setError("");
-                }}
-              >
-                Doctor
-              </button>
-            </div>
-          )}
+          <LoginAccountSelector
+            accountType={accountType}
+            externalUserType={externalUserType}
+            onAccountTypeChange={handleAccountTypeChange}
+            onExternalUserTypeChange={(type) => {
+              setExternalUserType(type);
+              setError("");
+            }}
+          />
 
           <form
             onSubmit={handleSubmit}
