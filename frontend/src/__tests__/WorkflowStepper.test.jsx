@@ -109,4 +109,34 @@ describe("WorkflowStepper", () => {
         expect(stage).toHaveClass("workflow-step--pending");
         expect(stage).toHaveTextContent("Pending");
     });
+    test("keeps a previously started stage from appearing pending", () => {
+    const workflowEvents = [
+        {
+            stage: "SPECIMEN_COLLECTION",
+            status: "STARTED",
+            createdAt: "2026-10-04T09:00:00.000Z",
+        },
+        {
+            stage: "ACCESSIONING",
+            status: "STARTED",
+            createdAt: "2026-10-04T10:00:00.000Z",
+        },
+    ];
+
+    render(<WorkflowStepper workflowEvents={workflowEvents} />);
+
+    const specimenStage = screen
+        .getByText("Specimen Collection")
+        .closest(".workflow-step");
+
+    const accessioningStage = screen
+        .getByText("Accessioning")
+        .closest(".workflow-step");
+
+    expect(specimenStage).toHaveTextContent("Started");
+    expect(specimenStage).not.toHaveClass("workflow-step--pending");
+
+    expect(accessioningStage).toHaveClass("workflow-step--current");
+    expect(accessioningStage).toHaveTextContent("In progress");
+});
 });

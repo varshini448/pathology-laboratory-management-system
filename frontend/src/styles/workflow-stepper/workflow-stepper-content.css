@@ -82,3 +82,21 @@
 .workflow-step--pending .workflow-step-content strong {
   color: #78909c;
 }
+/* Previously started, but not the current active stage */
+.workflow-step--started .workflow-step-node {
+  border-color: #78909c;
+  background: #eceff1;
+  color: #546e7a;
+}
+
+.workflow-step--started .workflow-step-number {
+  color: #607d8b;
+}
+
+.workflow-step--started .workflow-step-content strong {
+  color: #455a64;
+}
+
+.workflow-step--started .workflow-step-status {
+  color: #607d8b;
+}

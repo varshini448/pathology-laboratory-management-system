@@ -11,6 +11,22 @@ const workflowStages = [
   "PATHOLOGIST_REVIEW",
 ];
 
+const getLatestEvent = (events = []) =>
+  events.reduce((latest, event) => {
+    if (!latest) return event;
+
+    const eventTime = new Date(event.createdAt).getTime();
+    const latestTime = new Date(latest.createdAt).getTime();
+
+    return eventTime >= latestTime ? event : latest;
+  }, null);
+
+const formatStage = (stage) =>
+  stage
+    .replaceAll("_", " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
 const WorkflowStepper = ({ workflowEvents = [] }) => {
   const latestEventsByStage = {};
 
@@ -19,22 +35,16 @@ const WorkflowStepper = ({ workflowEvents = [] }) => {
 
     if (
       !existingEvent ||
-      new Date(event.createdAt) > new Date(existingEvent.createdAt)
+      new Date(event.createdAt).getTime() >=
+        new Date(existingEvent.createdAt).getTime()
     ) {
       latestEventsByStage[event.stage] = event;
     }
   });
 
+  const latestEvent = getLatestEvent(workflowEvents);
   const currentStage =
-    workflowEvents.length > 0
-      ? workflowEvents[workflowEvents.length - 1].stage
-      : null;
-
-  const formatStage = (stage) =>
-    stage
-      .replaceAll("_", " ")
-      .toLowerCase()
-      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+    latestEvent?.status === "STARTED" ? latestEvent.stage : null;
 
   return (
     <section className="workflow-stepper">
@@ -58,28 +68,26 @@ const WorkflowStepper = ({ workflowEvents = [] }) => {
 
       <div className="workflow-stepper-track">
         {workflowStages.map((stage, index) => {
-          const latestEvent = latestEventsByStage[stage];
+          const stageEvent = latestEventsByStage[stage];
 
-          const isCompleted =
-            latestEvent && latestEvent.status === "COMPLETED";
-
+          const isCompleted = stageEvent?.status === "COMPLETED";
           const isCurrent =
-            latestEvent &&
-            latestEvent.status === "STARTED" &&
-            currentStage === stage;
+            stageEvent?.status === "STARTED" && currentStage === stage;
+          const hasStarted = Boolean(stageEvent);
+          const isPending = !hasStarted;
 
-          const isPending = !latestEvent;
+          const stepClass = isCompleted
+            ? "workflow-step--completed"
+            : isCurrent
+              ? "workflow-step--current"
+              : hasStarted
+                ? "workflow-step--started"
+                : "workflow-step--pending";
 
           return (
             <div
               key={stage}
-              className={`workflow-step ${
-                isCompleted
-                  ? "workflow-step--completed"
-                  : isCurrent
-                  ? "workflow-step--current"
-                  : "workflow-step--pending"
-              }`}
+              className={`workflow-step ${stepClass}`}
             >
               <div className="workflow-step-node-wrapper">
                 <div className="workflow-step-node">
@@ -108,10 +116,12 @@ const WorkflowStepper = ({ workflowEvents = [] }) => {
                   {isCompleted
                     ? "Completed"
                     : isCurrent
-                    ? "In progress"
-                    : isPending
-                    ? "Pending"
-                    : "Pending"}
+                      ? "In progress"
+                      : hasStarted
+                        ? "Started"
+                        : isPending
+                          ? "Pending"
+                          : "Pending"}
                 </span>
               </div>
             </div>
