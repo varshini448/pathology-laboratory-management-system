@@ -22,7 +22,8 @@ const BlockForm = ({ onSubmit, loading = false }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await onSubmit(formData);
+    const submitted = await onSubmit(formData);
+    if (submitted === false) return;
 
     setFormData({
       blockId: "",
@@ -35,11 +36,12 @@ const BlockForm = ({ onSubmit, loading = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="workflow-entry-form" onSubmit={handleSubmit}>
       <div>
-        <label>Block ID</label>
+        <label htmlFor="blockId">Block ID</label>
         <input
           type="text"
+          id="blockId"
           name="blockId"
           value={formData.blockId}
           onChange={handleChange}
@@ -49,9 +51,10 @@ const BlockForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Specimen ID</label>
+        <label htmlFor="specimen">Specimen ID</label>
         <input
           type="text"
+          id="specimen"
           name="specimen"
           value={formData.specimen}
           onChange={handleChange}
@@ -61,9 +64,10 @@ const BlockForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Case ID</label>
+        <label htmlFor="case">Case ID</label>
         <input
           type="text"
+          id="case"
           name="case"
           value={formData.case}
           onChange={handleChange}
@@ -73,9 +77,10 @@ const BlockForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Block Type</label>
+        <label htmlFor="blockType">Block Type</label>
         <input
           type="text"
+          id="blockType"
           name="blockType"
           value={formData.blockType}
           onChange={handleChange}
@@ -85,9 +90,10 @@ const BlockForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Tissue Description</label>
+        <label htmlFor="tissueDescription">Tissue Description</label>
         <textarea
           name="tissueDescription"
+          id="tissueDescription"
           value={formData.tissueDescription}
           onChange={handleChange}
           placeholder="Describe the tissue"
@@ -95,9 +101,10 @@ const BlockForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Notes</label>
+        <label htmlFor="blockNotes">Notes</label>
         <textarea
           name="notes"
+          id="blockNotes"
           value={formData.notes}
           onChange={handleChange}
           placeholder="Block notes"

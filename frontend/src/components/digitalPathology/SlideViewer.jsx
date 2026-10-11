@@ -1,28 +1,38 @@
-import React from "react";
-
 const SlideViewer = ({
   slide,
   zoom = 100,
   onZoomChange,
+  imageUrl,
 }) => {
   if (!slide) {
     return (
-      <div className="slide-viewer-empty">
-        <h3>No slide selected</h3>
-        <p>Select a slide to open the digital pathology viewer.</p>
-      </div>
+      <section className="slide-viewer" aria-label="Digital pathology slide viewer">
+        <p>No slide selected.</p>
+      </section>
     );
   }
 
   return (
     <section className="slide-viewer" aria-label="Digital pathology slide viewer">
       <div className="slide-viewer-canvas">
-        <div className="slide-image-placeholder">
-          <div className="slide-image-grid">
-            <span>Digital Slide</span>
-            <strong>{slide.slideId || "SLIDE"}</strong>
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={`Digital pathology slide ${slide.slideId || ""}`}
+            className="slide-viewer-image"
+            style={{
+              transform: `scale(${zoom / 100})`,
+              transformOrigin: "center center",
+            }}
+          />
+        ) : (
+          <div className="slide-image-placeholder">
+            <div className="slide-image-grid">
+              <span>Digital Slide</span>
+              <strong>{slide.slideId || "SLIDE"}</strong>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="slide-viewer-footer">

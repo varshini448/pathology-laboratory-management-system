@@ -1,6 +1,6 @@
 const ReportBlockInfo = ({ blocks }) => {
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>Block Information</h2>
 
       {blocks.length === 0 ? (

@@ -2,8 +2,8 @@ const validatePatient = (req, res, next) => {
   const {
     patientId,
     name,
+    age,
     phone,
-    password,
     dateOfBirth,
     gender,
     email,
@@ -28,21 +28,24 @@ const validatePatient = (req, res, next) => {
     errors.push("Patient name must contain at least 2 characters");
   }
 
+  if (age === undefined || age === "") {
+    errors.push("Patient age is required");
+  } else {
+    const numericAge = Number(age);
+    if (!Number.isInteger(numericAge) || numericAge < 0 || numericAge > 130) {
+      errors.push("Age must be a whole number between 0 and 130");
+    }
+  }
+
   if (!phone || !String(phone).trim()) {
     errors.push("Phone number is required");
-  } else if (!/^\+91[6-9]\d{9}$/.test(String(phone).trim())) {
+  } else if (!/^(?:\+91)?[6-9]\d{9}$/.test(String(phone).trim())) {
     errors.push(
-      "Please enter a valid Indian phone number in +91XXXXXXXXXX format"
+      "Please enter a valid 10-digit Indian phone number"
     );
   }
 
-  if (!password || !String(password).trim()) {
-    errors.push("Password is required");
-  } else if (String(password).length < 8) {
-    errors.push("Password must contain at least 8 characters");
-  }
-
-  if (gender && !["MALE", "FEMALE", "OTHER"].includes(gender)) {
+  if (!gender || !["MALE", "FEMALE", "OTHER"].includes(gender)) {
     errors.push("Gender must be MALE, FEMALE, or OTHER");
   }
 
@@ -79,7 +82,11 @@ const validatePatient = (req, res, next) => {
 
   req.body.patientId = String(patientId).trim();
   req.body.name = String(name).trim();
-  req.body.phone = String(phone).trim();
+  req.body.age = Number(age);
+  const normalizedPhone = String(phone).trim();
+  req.body.phone = normalizedPhone.startsWith("+91")
+    ? normalizedPhone
+    : `+91${normalizedPhone}`;
 
   if (email) {
     req.body.email = String(email).trim().toLowerCase();

@@ -6,21 +6,17 @@ const ForgotPassword = () => {
 
   const [identifier, setIdentifier] = useState("");
 
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleAccountTypeChange = (type) => {
     setAccountType(type);
     setIdentifier("");
-    setMessage("");
     setError("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    setMessage("");
     setError("");
 
     if (!identifier.trim()) {
@@ -32,25 +28,9 @@ const ForgotPassword = () => {
       return;
     }
 
-    try {
-      setLoading(true);
-
-      // Backend API will be connected later.
-      console.log("Forgot password request:", {
-        accountType,
-        identifier: identifier.trim(),
-      });
-
-      setMessage(
-        "If an account exists with these details, password reset instructions will be sent."
-      );
-    } catch (err) {
-      setError(
-        err.message || "Unable to process your request."
-      );
-    } finally {
-      setLoading(false);
-    }
+    setError(
+      "Password reset delivery is not configured. Please contact your system administrator."
+    );
   };
 
   return (
@@ -132,20 +112,11 @@ const ForgotPassword = () => {
             </div>
           )}
 
-          {message && (
-            <div className="login-message success">
-              {message}
-            </div>
-          )}
-
           <button
             type="submit"
             className="auth-button"
-            disabled={loading}
           >
-            {loading
-              ? "Processing..."
-              : "Send Reset Instructions"}
+            Send Reset Instructions
           </button>
 
         </form>

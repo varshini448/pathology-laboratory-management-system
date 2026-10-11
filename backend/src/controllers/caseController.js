@@ -1,9 +1,37 @@
 const Case = require("../models/Case");
+const Patient = require("../models/Patient");
+const Doctor = require("../models/Doctor");
+
+const getCaseError = (error, fallback) => {
+  if (error.code === 11000) return { status: 409, message: "A case with this identifier already exists." };
+  if (["ValidationError", "CastError"].includes(error.name)) {
+    return { status: 400, message: "Case information is invalid." };
+  }
+  return { status: 500, message: fallback };
+};
 
 const createCase = async (req, res) => {
   try {
+    const { caseId, patient, doctor, caseType, clinicalHistory, priority } = req.body;
+    const [patientExists, doctorExists] = await Promise.all([
+      Patient.exists({ _id: patient }),
+      Doctor.exists({ _id: doctor }),
+    ]);
+
+    if (!patientExists || !doctorExists) {
+      return res.status(404).json({
+        message: !patientExists ? "Patient not found" : "Doctor not found",
+      });
+    }
+
     const newCase = await Case.create({
-      ...req.body,
+      caseId,
+      patient,
+      doctor,
+      caseType,
+      clinicalHistory,
+      priority,
+      status: "REGISTERED",
       createdBy: req.user.id,
     });
 
@@ -12,10 +40,8 @@ const createCase = async (req, res) => {
       case: newCase,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to create case",
-      error: error.message,
-    });
+    const response = getCaseError(error, "Failed to create case.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -30,10 +56,7 @@ const getCases = async (req, res) => {
       cases,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch cases",
-      error: error.message,
-    });
+    return res.status(500).json({ message: "Failed to fetch cases." });
   }
 };
 
@@ -53,10 +76,8 @@ const getCaseById = async (req, res) => {
       case: caseData,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch case",
-      error: error.message,
-    });
+    const response = getCaseError(error, "Failed to fetch case.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -64,7 +85,11 @@ const updateCase = async (req, res) => {
   try {
     const caseData = await Case.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        caseType: req.body.caseType,
+        clinicalHistory: req.body.clinicalHistory,
+        priority: req.body.priority,
+      },
       {
         new: true,
         runValidators: true,
@@ -82,10 +107,8 @@ const updateCase = async (req, res) => {
       case: caseData,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update case",
-      error: error.message,
-    });
+    const response = getCaseError(error, "Failed to update case.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 

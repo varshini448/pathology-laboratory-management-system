@@ -13,6 +13,7 @@ const originalMethods = {
   caseFindByIdAndUpdate: Case.findByIdAndUpdate,
   specimenFindById: Specimen.findById,
   specimenFindByIdAndUpdate: Specimen.findByIdAndUpdate,
+  blockFindById: Block.findById,
   blockFindByIdAndUpdate: Block.findByIdAndUpdate,
   slideFindById: Slide.findById,
   slideFindByIdAndUpdate: Slide.findByIdAndUpdate,
@@ -22,11 +23,13 @@ const originalMethods = {
 let reads;
 let updates;
 let persistedEvents;
+let relatedCaseId;
 
 beforeEach(() => {
   reads = [];
   updates = [];
   persistedEvents = [];
+  relatedCaseId = "case-1";
 
   Case.findById = async (id) => {
     reads.push({ model: "Case", id });
@@ -38,11 +41,15 @@ beforeEach(() => {
   };
   Specimen.findById = async (id) => {
     reads.push({ model: "Specimen", id });
-    return { _id: id, status: "RECEIVED" };
+    return { _id: id, case: relatedCaseId, status: "RECEIVED" };
   };
   Specimen.findByIdAndUpdate = async (id, update) => {
     updates.push({ model: "Specimen", id, update });
     return { _id: id, ...update };
+  };
+  Block.findById = async (id) => {
+    reads.push({ model: "Block", id });
+    return { _id: id, case: relatedCaseId, processingStatus: "CREATED" };
   };
   Block.findByIdAndUpdate = async (id, update) => {
     updates.push({ model: "Block", id, update });
@@ -50,7 +57,7 @@ beforeEach(() => {
   };
   Slide.findById = async (id) => {
     reads.push({ model: "Slide", id });
-    return { _id: id, status: "STAINED" };
+    return { _id: id, case: relatedCaseId, status: "STAINED" };
   };
   Slide.findByIdAndUpdate = async (id, update) => {
     updates.push({ model: "Slide", id, update });
@@ -68,6 +75,7 @@ afterEach(() => {
   Case.findByIdAndUpdate = originalMethods.caseFindByIdAndUpdate;
   Specimen.findById = originalMethods.specimenFindById;
   Specimen.findByIdAndUpdate = originalMethods.specimenFindByIdAndUpdate;
+  Block.findById = originalMethods.blockFindById;
   Block.findByIdAndUpdate = originalMethods.blockFindByIdAndUpdate;
   Slide.findById = originalMethods.slideFindById;
   Slide.findByIdAndUpdate = originalMethods.slideFindByIdAndUpdate;
@@ -161,6 +169,23 @@ test("rejects an invalid non-empty status before reading or updating records", a
   );
 
   assert.deepEqual(reads, []);
+  assert.deepEqual(updates, []);
+  assert.deepEqual(persistedEvents, []);
+});
+
+test("rejects workflow events for an entity associated with another case before updates", async () => {
+  relatedCaseId = "case-2";
+
+  await assert.rejects(
+    createWorkflowEvent({
+      ...baseData,
+      specimen: "specimen-1",
+      stage: "SPECIMEN_COLLECTION",
+      status: "COMPLETED",
+    }),
+    { message: "Specimen does not belong to this case", statusCode: 400 }
+  );
+
   assert.deepEqual(updates, []);
   assert.deepEqual(persistedEvents, []);
 });

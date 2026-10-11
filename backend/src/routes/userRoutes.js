@@ -1,6 +1,7 @@
 const express = require("express");
 
 const {
+  getAllUsers,
   getPendingApprovals,
   approveUser,
   rejectUser,
@@ -33,6 +34,13 @@ router.get(
   protect,
   authorize("ADMIN"),
   getPendingApprovals
+);
+
+router.get(
+  "/admin/users",
+  protect,
+  authorize("ADMIN"),
+  getAllUsers
 );
 
 // ADMIN - APPROVE USER

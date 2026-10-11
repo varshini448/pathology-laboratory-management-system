@@ -1,6 +1,6 @@
 const ReportSpecimenInfo = ({ specimens }) => {
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>Specimen Information</h2>
 
       {specimens.length === 0 ? (

@@ -1,0 +1,333 @@
+/* =========================================================
+   ACCESS CONTROL PAGE
+   ========================================================= */
+
+.access-control-page {
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+
+.ac-content {
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: 24px 32px;
+  color: #263548;
+}
+
+.ac-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 26px;
+  color: #52657a;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ac-back-link:hover {
+  color: #2563eb;
+}
+
+.ac-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+  margin-bottom: 26px;
+}
+
+.ac-heading-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  border: 1px solid #dbeafe;
+  border-radius: 15px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.ac-eyebrow {
+  margin: 1px 0 7px;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.ac-heading h1 {
+  margin: 0;
+  color: #172b4d;
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: 750;
+  letter-spacing: -0.8px;
+}
+
+.ac-heading > div:last-child > p:last-child {
+  max-width: 690px;
+  margin: 9px 0 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.ac-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 17px 19px;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  background: #f8fbff;
+  color: #2563eb;
+}
+
+.ac-notice > svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.ac-notice strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #1e3a5f;
+  font-size: 13px;
+}
+
+.ac-notice p {
+  margin: 0;
+  color: #52657a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.ac-role-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 22px 0 34px;
+}
+
+.ac-role-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.ac-role-summary span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ac-role-summary strong {
+  color: #172b4d;
+  font-size: 25px;
+  font-weight: 750;
+}
+
+.ac-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 17px;
+}
+
+.ac-section-heading h2 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.ac-section-heading p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.ac-section-heading > svg {
+  color: #64748b;
+}
+
+.ac-role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ac-role-card {
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(15 23 42 / 3%);
+}
+
+.ac-role-icon {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  margin-bottom: 15px;
+  border-radius: 12px;
+}
+
+.ac-admin {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.ac-pathologist {
+  background: #f3e8ff;
+  color: #9333ea;
+}
+
+.ac-technician {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.ac-quality_manager {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.ac-role-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ac-role-title h3 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.ac-role-title > span {
+  padding: 5px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.4px;
+}
+
+.ac-role-description {
+  min-height: 38px;
+  margin: 10px 0 18px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ac-permission-list {
+  border-top: 1px solid #edf1f5;
+}
+
+.ac-permission-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf1f5;
+  color: #475569;
+  font-size: 12px;
+}
+
+.ac-permission-row:last-child {
+  border-bottom: 0;
+}
+
+.ac-permission-allowed,
+.ac-permission-restricted {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.ac-permission-allowed {
+  color: #047857;
+}
+
+.ac-permission-restricted {
+  color: #94a3b8;
+}
+
+.ac-footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 24px;
+  padding: 15px 17px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ac-footer svg {
+  flex: 0 0 auto;
+  color: #64748b;
+}
+
+@media (max-width: 760px) {
+  .ac-content {
+    padding: 20px 16px;
+  }
+
+  .ac-role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ac-role-summary {
+    gap: 9px;
+  }
+
+  .ac-role-summary > div {
+    padding: 14px 12px;
+  }
+
+  .ac-role-summary span {
+    font-size: 10px;
+  }
+
+  .ac-role-summary strong {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ac-heading {
+    gap: 12px;
+  }
+
+  .ac-heading-icon {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .ac-permission-row {
+    align-items: flex-start;
+    font-size: 11px;
+  }
+}

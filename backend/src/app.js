@@ -22,6 +22,7 @@ const tatRoutes = require("./routes/tatRoutes");
 const auditRoutes = require("./routes/auditRoutes");
 
 const notificationRoutes = require("./routes/notificationRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 const notFound = require("./middleware/notFoundMiddleware");
 
 const errorHandler = require("./middleware/errorMiddleware");
@@ -54,6 +55,7 @@ app.use("/reports", reportRoutes);
 app.use("/tat", tatRoutes);
 app.use("/audit", auditRoutes);
 app.use("/notifications", notificationRoutes);
+app.use("/search", searchRoutes);
 app.use(notFound);
 
 app.use(errorHandler);

@@ -33,7 +33,17 @@ const WorkflowStatus = ({ workflowEvents = [] }) => {
     );
   }
 
-  const latestEvent = workflowEvents[workflowEvents.length - 1];
+  const latestEvent = workflowEvents.reduce((latest, event) => {
+    if (!latest) return event;
+
+    const eventTime = new Date(event.createdAt).getTime();
+    const latestTime = new Date(latest.createdAt).getTime();
+
+    if (!Number.isFinite(eventTime)) return latest;
+    if (!Number.isFinite(latestTime)) return event;
+
+    return eventTime >= latestTime ? event : latest;
+  }, null);
 
   const formatStage = (stage) =>
     stage

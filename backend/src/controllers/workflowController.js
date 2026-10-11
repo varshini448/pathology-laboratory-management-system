@@ -11,9 +11,10 @@ const createWorkflowEvent = async (req, res) => {
   } catch (error) {
     console.error("Create workflow event error:", error);
 
-    res.status(500).json({
-      message: "Failed to create workflow event",
-      error: error.message,
+    return res.status(error.statusCode || 500).json({
+      message: error.statusCode
+        ? error.message
+        : "Failed to create workflow event",
     });
   }
 };
@@ -27,9 +28,8 @@ const getWorkflowEventsByCase = async (req, res) => {
   } catch (error) {
     console.error("Get workflow events error:", error);
 
-    res.status(500).json({
+    return res.status(error.statusCode || 500).json({
       message: "Failed to fetch workflow events",
-      error: error.message,
     });
   }
 };

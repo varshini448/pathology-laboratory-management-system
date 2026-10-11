@@ -11,3 +11,7 @@ export const approveUser = async (userId) => {
 export const rejectUser = async (userId) => {
   return await api.put(`/users/admin/users/${userId}/reject`);
 };
+
+export const getAllUsers = async () => {
+  return await api.get("/users/admin/users");
+};

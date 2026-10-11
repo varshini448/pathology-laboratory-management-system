@@ -1,9 +1,39 @@
 const Block = require("../models/Block");
+const Case = require("../models/Case");
+const Specimen = require("../models/Specimen");
+
+const sameId = (left, right) => String(left?._id || left) === String(right?._id || right);
+
+const getBlockError = (error, fallback) => {
+  if (error.code === 11000) return { status: 409, message: "A block with this identifier already exists." };
+  if (["ValidationError", "CastError"].includes(error.name)) {
+    return { status: 400, message: "Block information is invalid." };
+  }
+  return { status: 500, message: fallback };
+};
 
 const createBlock = async (req, res) => {
   try {
+    const { blockId, specimen: specimenId, case: caseId, blockType, tissueDescription, notes } = req.body;
+    const [caseData, specimen] = await Promise.all([
+      Case.findById(caseId).select("_id"),
+      Specimen.findById(specimenId).select("_id case"),
+    ]);
+
+    if (!caseData || !specimen) {
+      return res.status(404).json({ message: !caseData ? "Case not found" : "Specimen not found" });
+    }
+    if (!sameId(specimen.case, caseData._id)) {
+      return res.status(400).json({ message: "Specimen does not belong to this case" });
+    }
+
     const block = await Block.create({
-      ...req.body,
+      blockId,
+      specimen: specimenId,
+      case: caseId,
+      blockType,
+      tissueDescription,
+      notes,
       createdBy: req.user.id,
     });
 
@@ -12,10 +42,8 @@ const createBlock = async (req, res) => {
       block,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to create block",
-      error: error.message,
-    });
+    const response = getBlockError(error, "Failed to create block.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -31,17 +59,12 @@ const getBlocks = async (req, res) => {
       blocks,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch blocks",
-      error: error.message,
-    });
+    return res.status(500).json({ message: "Failed to fetch blocks." });
   }
 };
 
 const getBlocksByCase = async (req, res) => {
   try {
-    const Case = require("../models/Case");
-
     const caseData = await Case.findOne({
       caseId: req.params.caseId,
     });
@@ -63,10 +86,7 @@ const getBlocksByCase = async (req, res) => {
       blocks,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch blocks for case",
-      error: error.message,
-    });
+    return res.status(500).json({ message: "Failed to fetch blocks for case." });
   }
 };
 const getBlockById = async (req, res) => {
@@ -86,10 +106,8 @@ const getBlockById = async (req, res) => {
       block,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch block",
-      error: error.message,
-    });
+    const response = getBlockError(error, "Failed to fetch block.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -97,7 +115,11 @@ const updateBlock = async (req, res) => {
   try {
     const block = await Block.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        blockType: req.body.blockType,
+        tissueDescription: req.body.tissueDescription,
+        notes: req.body.notes,
+      },
       {
         new: true,
         runValidators: true,
@@ -115,10 +137,8 @@ const updateBlock = async (req, res) => {
       block,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update block",
-      error: error.message,
-    });
+    const response = getBlockError(error, "Failed to update block.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 

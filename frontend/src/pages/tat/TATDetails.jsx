@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { RefreshCw } from "lucide-react";
 
 import { getCaseTAT, getStageTAT } from "../../services/tatService";
 import TATCaseSummary from "./components/TATCaseSummary";
@@ -13,6 +14,7 @@ const TATDetails = () => {
   const [stageTAT, setStageTAT] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const loadTATDetails = async () => {
@@ -36,7 +38,7 @@ const TATDetails = () => {
     };
 
     loadTATDetails();
-  }, [caseId]);
+  }, [caseId, reloadKey]);
 
   if (loading) {
     return (
@@ -55,6 +57,9 @@ const TATDetails = () => {
         <div className="tat-error">
           <h2>Unable to load TAT details</h2>
           <p>{error}</p>
+          <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
+            <RefreshCw size={15} aria-hidden="true" /> Try again
+          </button>
         </div>
       </div>
     );

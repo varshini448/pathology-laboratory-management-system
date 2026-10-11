@@ -134,6 +134,59 @@
     background: #fff5f5;
 }
 
+.consent-unavailable {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.consent-unavailable-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 12px;
+    background: var(--color-warning-100);
+    color: var(--color-warning-700);
+}
+
+.consent-unavailable h2 {
+    margin: 0 0 7px;
+    color: var(--color-text-primary);
+    font-size: 17px;
+}
+
+.consent-unavailable p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+}
+
+.consent-unavailable .consent-unavailable-note {
+    margin-top: 10px;
+    color: var(--color-text-muted);
+    font-size: 13px;
+}
+
+.consent-unavailable a {
+    display: inline-flex;
+    margin-top: 16px;
+    color: var(--color-brand-700);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.consent-unavailable a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 @media (max-width: 768px) {
 
     .consent-card-content,

@@ -1,7 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { getAuthUser } from "../utils/authStorage";
 
 const RoleRoute = ({ allowedRoles = [] }) => {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = getAuthUser();
 
   if (!user) {
     return <Navigate to="/login" replace />;

@@ -4,13 +4,20 @@ import { api } from "../../services/api";
 import SlideViewer from "../../components/digitalPathology/SlideViewer";
 import SlideViewerToolbar from "../../components/digitalPathology/SlideViewerToolbar";
 
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 const SlideDetails = () => {
   const { id } = useParams();
   const viewerRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const [slide, setSlide] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [uploadMessage, setUploadMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const [zoom, setZoom] = useState(100);
   const [fullscreen, setFullscreen] = useState(false);
 
@@ -23,6 +30,7 @@ const SlideDetails = () => {
 
       try {
         const response = await api.get(`/slides/${id}`);
+
         if (active) {
           setSlide(response.slide || null);
           setZoom(100);
@@ -46,6 +54,44 @@ const SlideDetails = () => {
   }, [id]);
 
   useEffect(() => {
+    let active = true;
+    let objectUrl;
+
+    setImageUrl("");
+
+    if (!slide?.image?.filename) {
+      return () => {
+        active = false;
+      };
+    }
+
+    const loadImage = async () => {
+      try {
+        const blob = await api.getBlob(`/slides/${id}/image`);
+
+        if (!active) return;
+
+        objectUrl = URL.createObjectURL(blob);
+        setImageUrl(objectUrl);
+      } catch (err) {
+        if (active) {
+          setError(err.message || "Unable to load the slide image.");
+        }
+      }
+    };
+
+    loadImage();
+
+    return () => {
+      active = false;
+
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [id, slide?.image?.filename]);
+
+  useEffect(() => {
     const handleFullscreenChange = () => {
       setFullscreen(Boolean(document.fullscreenElement));
     };
@@ -53,10 +99,7 @@ const SlideDetails = () => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
 
     return () => {
-      document.removeEventListener(
-        "fullscreenchange",
-        handleFullscreenChange
-      );
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, []);
 
@@ -84,6 +127,52 @@ const SlideDetails = () => {
     }
   }, []);
 
+  const handleUpload = async (event) => {
+    event.preventDefault();
+    setError("");
+    setUploadMessage("");
+
+    const file = fileInputRef.current?.files?.[0];
+
+    if (!file) {
+      setError("Choose an image before uploading.");
+      return;
+    }
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      setError("Choose a JPEG, PNG, or WebP image.");
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_SIZE) {
+      setError("The image must be 10 MB or smaller.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    setUploading(true);
+
+    try {
+      const response = await api.upload(`/slides/${id}/image`, formData);
+
+      if (response.slide) {
+        setSlide(response.slide);
+      }
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
+      setUploadMessage("Slide image uploaded successfully.");
+    } catch (err) {
+      setError(err.message || "Failed to upload slide image.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (loading) {
     return <p role="status">Loading slide...</p>;
   }
@@ -104,7 +193,7 @@ const SlideDetails = () => {
   return (
     <main className="slide-details-page">
       <header className="slide-details-header">
-        <p> DIGITAL PATHOLOGY </p>
+        <p>DIGITAL PATHOLOGY</p>
         <h1>Slide Details</h1>
         <p>Slide ID: {slide.slideId || "—"}</p>
       </header>
@@ -112,6 +201,12 @@ const SlideDetails = () => {
       {error && (
         <p role="alert" className="slide-details-message">
           {error}
+        </p>
+      )}
+
+      {uploadMessage && (
+        <p role="status" className="slide-details-message">
+          {uploadMessage}
         </p>
       )}
 
@@ -132,13 +227,35 @@ const SlideDetails = () => {
           slide={slide}
           zoom={zoom}
           onZoomChange={setZoom}
+          imageUrl={imageUrl}
         />
 
-        <p className="slide-image-availability" role="note">
-          No digital slide image is attached to this record. The viewer
-          currently displays a placeholder; zoom controls do not magnify
-          a microscope image until image-file support is implemented.
-        </p>
+        {!imageUrl && (
+          <p className="slide-image-availability" role="note">
+            {slide.image?.filename
+              ? "Loading the attached image or checking image access..."
+              : "No image uploaded yet. Upload a JPEG, PNG, or WebP image (maximum 10 MB)."}
+          </p>
+        )}
+
+        <form
+          className="slide-image-upload-form"
+          onSubmit={handleUpload}
+        >
+          <label htmlFor="slide-image-file">Slide image</label>
+          <input
+            ref={fileInputRef}
+            id="slide-image-file"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            disabled={uploading}
+            required
+          />
+          <button type="submit" disabled={uploading}>
+            {uploading ? "Uploading..." : "Upload image"}
+          </button>
+        </form>
       </section>
 
       <section className="slide-metadata-panel">

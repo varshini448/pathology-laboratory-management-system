@@ -1,4 +1,9 @@
 import { api } from "./api";
+import {
+  clearAuthSession,
+  getAuthUser,
+  storeAuthSession,
+} from "../utils/authStorage";
 
 export const registerUser = async (userData) => {
   const response = await api.post("/auth/register", userData);
@@ -21,11 +26,18 @@ export const registerDoctor = async (doctorData) => {
   return response;
 };
 
+export const resetPassword = async (resetData) => {
+  return api.post("/password-reset/reset", resetData);
+};
+
+export const verifyEmailToken = async (token) => {
+  return api.post("/email-verification/verify", { token });
+};
+
 export const loginUser = async (loginData) => {
   const response = await api.post("/auth/login", loginData);
 
-  localStorage.setItem("token", response.token);
-  localStorage.setItem("user", JSON.stringify(response.user));
+  storeAuthSession(response.token, response.user);
 
   return response;
 };
@@ -36,8 +48,7 @@ export const loginPatient = async (loginData) => {
     loginData
   );
 
-  localStorage.setItem("token", response.token);
-  localStorage.setItem("user", JSON.stringify(response.user));
+  storeAuthSession(response.token, response.user);
 
   return response;
 };
@@ -48,19 +59,15 @@ export const loginDoctor = async (loginData) => {
     loginData
   );
 
-  localStorage.setItem("token", response.token);
-  localStorage.setItem("user", JSON.stringify(response.user));
+  storeAuthSession(response.token, response.user);
 
   return response;
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  clearAuthSession();
 };
 
 export const getCurrentUser = () => {
-  const user = localStorage.getItem("user");
-
-  return user ? JSON.parse(user) : null;
+  return getAuthUser();
 };

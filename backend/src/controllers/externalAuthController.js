@@ -146,7 +146,7 @@ const loginPatient = async (req, res) => {
         { patientId: normalizedIdentifier },
         { abhaId: normalizedIdentifier },
       ],
-    });
+    }).select("+password");
 
     if (!patient) {
       return res.status(401).json({
@@ -154,15 +154,27 @@ const loginPatient = async (req, res) => {
       });
     }
 
-    if (patient.status === "INACTIVE") {
+    if (patient.status !== "ACTIVE") {
+      if (patient.status === "INACTIVE") {
+        return res.status(403).json({
+          message: "Your patient account is inactive",
+        });
+      }
+
+      if (patient.status === "SUSPENDED") {
+        return res.status(403).json({
+          message: "Your patient account has been suspended",
+        });
+      }
+
       return res.status(403).json({
-        message: "Your patient account is inactive",
+        message: "Your patient account is not active",
       });
     }
 
-    if (patient.status === "SUSPENDED") {
-      return res.status(403).json({
-        message: "Your patient account has been suspended",
+    if (!patient.password) {
+      return res.status(401).json({
+        message: "Invalid patient identifier or password",
       });
     }
 
@@ -344,22 +356,16 @@ const loginDoctor = async (req, res) => {
       });
     }
 
-    if (doctor.status === "PENDING_VERIFICATION") {
-      return res.status(403).json({
-        message:
+    if (doctor.status !== "ACTIVE") {
+      const statusMessage = {
+        PENDING_VERIFICATION:
           "Your doctor account is pending professional verification.",
-      });
-    }
+        INACTIVE: "Your doctor account is inactive.",
+        SUSPENDED: "Your doctor account has been suspended.",
+      }[doctor.status] || "Your doctor account is not active.";
 
-    if (doctor.status === "INACTIVE") {
       return res.status(403).json({
-        message: "Your doctor account is inactive.",
-      });
-    }
-
-    if (doctor.status === "SUSPENDED") {
-      return res.status(403).json({
-        message: "Your doctor account has been suspended.",
+        message: statusMessage,
       });
     }
 

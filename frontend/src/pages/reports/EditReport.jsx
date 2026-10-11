@@ -7,6 +7,8 @@ import {
 } from "../../services/reportService";
 
 import PathologistReportForm from "../../components/reports/PathologistReportForm";
+import PageHeader from "../../components/layout/PageHeader";
+import LoadingState from "../../components/ui/LoadingState";
 
 const EditReport = () => {
   const { id } = useParams();
@@ -89,58 +91,44 @@ const EditReport = () => {
   };
 
   if (loading) {
-    return <div>Loading report...</div>;
+    return <main className="report-workspace-page"><LoadingState message="Loading report..." /></main>;
   }
 
   if (!report) {
     return (
-      <div>
-        <h1>Edit Report</h1>
-        <p>{error || "Report not found."}</p>
-      </div>
+      <main className="report-workspace-page">
+        <PageHeader eyebrow="PATHOLOGY REPORTING" title="Edit report" />
+        <p className="workflow-form-error" role="alert">{error || "Report not found."}</p>
+      </main>
     );
   }
 
   if (report.reportStatus === "FINAL") {
     return (
-      <div>
-        <h1>Edit Report</h1>
-
-        <p>
-          This report has been finalized and cannot be edited.
-        </p>
-
+      <main className="report-workspace-page">
+        <PageHeader eyebrow="PATHOLOGY REPORTING" title="Final report" description="This report has been finalized and cannot be edited." />
         <button
           type="button"
           onClick={() => navigate(`/reports/${report._id}`)}
         >
           View Report
         </button>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div>
-      <h1>Edit Pathology Report</h1>
-
-      <p>
-        <strong>Report ID:</strong> {report.reportId}
-      </p>
-
-      <p>
-        <strong>Case:</strong> {report.case?.caseId || "-"}
-      </p>
-
-      <p>
-        <strong>Slide:</strong> {report.slide?.slideId || "-"}
-      </p>
+    <main className="report-workspace-page">
+      <PageHeader eyebrow="PATHOLOGY REPORTING" title="Edit pathology report" description={`Report ${report.reportId || ""}`} />
 
       {error && (
-        <p>
-          <strong>Error:</strong> {error}
-        </p>
+        <p className="workflow-form-error" role="alert">{error}</p>
       )}
+
+      <section className="report-info-panel">
+        <p><strong>Case:</strong> {report.case?.caseId || "—"}</p>
+        <p><strong>Slide:</strong> {report.slide?.slideId || "—"}</p>
+      </section>
 
       <PathologistReportForm
         formData={formData}
@@ -148,7 +136,7 @@ const EditReport = () => {
         onSubmit={handleSubmit}
         saving={saving}
       />
-    </div>
+    </main>
   );
 };
 

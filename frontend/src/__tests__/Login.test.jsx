@@ -239,6 +239,40 @@ describe("Login", () => {
         });
     });
 
+    test("logs in a doctor and navigates to doctor dashboard", async () => {
+        loginDoctor.mockResolvedValue({
+            user: {
+                userType: "DOCTOR",
+            },
+        });
+
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        fireEvent.click(screen.getByRole("button", { name: "Patient / Doctor" }));
+        fireEvent.click(screen.getByRole("button", { name: "Doctor" }));
+
+        fireEvent.change(screen.getByLabelText(/email|mobile|patient|doctor|identifier/i), {
+            target: { name: "identifier", value: "doctor@example.test" },
+        });
+        fireEvent.change(screen.getByLabelText(/password/i), {
+            target: { name: "password", value: "test-password" },
+        });
+        enterCaptcha();
+        fireEvent.click(screen.getByRole("button", { name: "Sign In" }));
+
+        await waitFor(() => {
+            expect(loginDoctor).toHaveBeenCalledWith({
+                identifier: "doctor@example.test",
+                password: "test-password",
+            });
+            expect(mockNavigate).toHaveBeenCalledWith("/doctor-dashboard");
+        });
+    });
+
     test("displays authentication error when login fails", async () => {
         loginUser.mockRejectedValue(
             new Error("Invalid credentials")

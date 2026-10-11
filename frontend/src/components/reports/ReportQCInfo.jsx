@@ -1,6 +1,6 @@
 const ReportQCInfo = ({ qcRecords }) => {
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>QA / QC Information</h2>
 
       {qcRecords.length === 0 ? (

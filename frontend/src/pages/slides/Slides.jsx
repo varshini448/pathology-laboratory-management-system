@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getSlides } from "../../services/slideService";
-import SlideTable from "../../components/tables/SlideTable";
+import RecordListPage from "../../components/layout/RecordListPage";
 
 const Slides = () => {
   const [slides, setSlides] = useState([]);
@@ -34,11 +35,26 @@ const Slides = () => {
   }
 
   return (
-    <div>
-      <h1>Slide Management</h1>
-
-      <SlideTable slides={slides} />
-    </div>
+    <RecordListPage
+      title="Slides"
+      description="Review slide preparation, staining, and scanning status for each case."
+      actionTo="/slides/add"
+      actionLabel="Add slide"
+      columns={[
+        { key: "slideId", label: "Slide", render: (record) => <Link className="record-list-link" to={`/slides/${record._id}`}>{record.slideId}</Link> },
+        { key: "block", label: "Block", render: (record) => record.block?.blockId || record.block || "—" },
+        { key: "case", label: "Case", render: (record) => record.case?.caseId || record.case || "—" },
+        { key: "slideType", label: "Type" },
+        { key: "stainingMethod", label: "Staining" },
+        { key: "status", label: "Status" },
+      ]}
+      records={slides}
+      loading={loading}
+      error={error}
+      onRetry={loadSlides}
+      emptyTitle="No slides recorded"
+      emptyMessage="Slides added to laboratory cases will appear here."
+    />
   );
 };
 

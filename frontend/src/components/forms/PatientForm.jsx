@@ -26,7 +26,9 @@ const PatientForm = ({ onSubmit, loading = false }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await onSubmit(formData);
+    const submitted = await onSubmit(formData);
+
+    if (submitted === false) return;
 
     setFormData({
       patientId: "",
@@ -103,6 +105,8 @@ const PatientForm = ({ onSubmit, loading = false }) => {
               onChange={handleChange}
               placeholder="25"
               min="0"
+              max="130"
+              step="1"
               required
             />
           </div>
@@ -135,11 +139,12 @@ const PatientForm = ({ onSubmit, loading = false }) => {
 
             <input
               id="phone"
-              type="text"
+              type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Enter phone number"
+              placeholder="9876543210"
+              required
             />
           </div>
 

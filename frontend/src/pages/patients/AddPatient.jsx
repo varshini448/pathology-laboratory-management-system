@@ -20,8 +20,10 @@ const AddPatient = () => {
       await createPatient(formData);
 
       setMessage("Patient record created successfully.");
+      return true;
     } catch (error) {
       setError(error.message || "Unable to create patient.");
+      return false;
     } finally {
       setLoading(false);
     }

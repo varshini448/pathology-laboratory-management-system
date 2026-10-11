@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { RefreshCw } from "lucide-react";
 
 import { getAllCaseTAT } from "../../services/tatService";
 import "../../styles/tat/tat.css";
@@ -62,6 +63,7 @@ const TATDashboard = () => {
   const [tatData, setTatData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const loadTATData = async () => {
@@ -81,7 +83,7 @@ const TATDashboard = () => {
     };
 
     loadTATData();
-  }, []);
+  }, [reloadKey]);
 
   if (loading) {
     return (
@@ -100,6 +102,9 @@ const TATDashboard = () => {
         <div className="tat-error">
           <h2>Unable to load TAT data</h2>
           <p>{error}</p>
+          <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
+            <RefreshCw size={15} aria-hidden="true" /> Try again
+          </button>
         </div>
       </div>
     );
@@ -128,7 +133,22 @@ const TATDashboard = () => {
             Monitor case processing duration and turnaround performance.
           </p>
         </div>
+        <button
+          className="tat-refresh-button"
+          type="button"
+          onClick={() => setReloadKey((key) => key + 1)}
+          disabled={loading}
+        >
+          <RefreshCw size={15} aria-hidden="true" /> Refresh
+        </button>
       </div>
+
+      <p className="tat-method-note">
+        Elapsed time is measured from case registration to report sign-out, or
+        to the current time for an open case. Target thresholds are project
+        configuration values; this view is operational monitoring, not a
+        predictive model or a clinical standard.
+      </p>
 
       {/* Summary Cards */}
       <div className="tat-summary-grid">

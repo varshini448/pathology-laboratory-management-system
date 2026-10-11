@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/external-register.css";
 import PatientRegistrationFields from "./external/PatientRegistrationFields";
+import { registerPatient } from "../../services/authService";
 
 const PatientRegister = () => {
   const navigate = useNavigate();
@@ -85,18 +86,14 @@ const PatientRegister = () => {
     try {
       setLoading(true);
 
-      /*
-       * Backend patient authentication will be connected
-       * in the next authentication step.
-       *
-       * For now we validate the complete frontend form.
-       */
+      const patientData = { ...formData };
+      delete patientData.confirmPassword;
+      if (patientData.gender === "PREFER_NOT_TO_SAY") {
+        delete patientData.gender;
+      }
+      const response = await registerPatient(patientData);
 
-      console.log("Patient registration data:", formData);
-
-      setSuccess(
-        "Patient registration form completed successfully."
-      );
+      setSuccess(response.message || "Patient account created successfully. You can now sign in.");
 
       setTimeout(() => {
         navigate("/login");

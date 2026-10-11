@@ -47,7 +47,7 @@ const HomeFooter = () => {
               <h3>Platform</h3>
               <a href="#platform">Capabilities</a>
               <a href="#workflow">Workflow</a>
-              <a href="#ai-assistance">AI Assistance</a>
+              <a href="#operational-insight">Operations</a>
             </div>
 
             <div>

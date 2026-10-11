@@ -19,6 +19,12 @@ const patientSchema = new mongoose.Schema(
       type: Date,
     },
 
+    age: {
+      type: Number,
+      min: 0,
+      max: 130,
+    },
+
     gender: {
       type: String,
       enum: ["MALE", "FEMALE", "OTHER"],
@@ -58,7 +64,7 @@ const patientSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      required: true,
+      select: false,
     },
 
     status: {
@@ -79,6 +85,18 @@ const patientSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_document, record) => {
+        delete record.password;
+        return record;
+      },
+    },
+    toObject: {
+      transform: (_document, record) => {
+        delete record.password;
+        return record;
+      },
+    },
   }
 );
 

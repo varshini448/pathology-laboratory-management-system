@@ -1,52 +1,52 @@
-const aiCapabilities = [
+const operationalCapabilities = [
   {
-    title: "TAT Risk Prediction",
+    title: "Turnaround monitoring",
     description:
-      "Identify cases that may exceed their target turnaround time so teams can act earlier.",
+      "Review elapsed time based on recorded case and workflow events.",
   },
   {
-    title: "Workflow Intelligence",
+    title: "Workflow traceability",
     description:
-      "Highlight potential processing bottlenecks across laboratory workflow stages.",
+      "Follow specimen, block, and slide progression through laboratory stages.",
   },
   {
-    title: "QC Intelligence",
+    title: "Quality review",
     description:
-      "Support quality teams by identifying cases that may require additional review.",
+      "Record slide checks and corrective actions for staff review.",
   },
 ];
 
 const AISection = () => {
   return (
-    <section id="ai-assistance" className="home-section home-ai">
+    <section id="operational-insight" className="home-section home-ai">
       <div className="home-container">
         <div className="home-ai-panel">
           <div className="home-ai-intro">
             <span className="home-ai-badge">
-              AI assistance · Human review required
+              Operational oversight
             </span>
 
-            <span className="home-eyebrow">Laboratory intelligence</span>
+            <span className="home-eyebrow">Workflow visibility</span>
 
             <h2>
-              Smarter workflow decisions,
+              Clear operational signals,
               <span> with professionals in control.</span>
             </h2>
 
             <p>
-              AI-assisted insights can help laboratory teams identify potential
-              delays, workflow bottlenecks, and cases requiring additional
-              quality review.
+              Use recorded workflow events, turnaround-time views, and quality
+              checks to understand current laboratory operations.
             </p>
 
             <p className="home-ai-disclaimer">
-              AI provides decision support. Qualified laboratory professionals
-              remain responsible for review and final clinical decisions.
+              Predictive AI is not connected in this build. Qualified
+              laboratory professionals remain responsible for review and final
+              clinical decisions.
             </p>
           </div>
 
           <div className="home-ai-grid">
-            {aiCapabilities.map((capability, index) => (
+            {operationalCapabilities.map((capability, index) => (
               <article className="home-ai-card" key={capability.title}>
                 <span className="home-ai-card-number">
                   0{index + 1}

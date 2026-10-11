@@ -18,6 +18,18 @@ const adminActions = [
     icon: Users,
   },
   {
+    title: "Patient directory",
+    description: "Find a registered patient record.",
+    to: "/patients",
+    icon: Users,
+  },
+  {
+    title: "Doctor directory",
+    description: "Find a doctor and review professional details.",
+    to: "/doctors",
+    icon: Users,
+  },
+  {
     title: "Add staff user",
     description: "Create an internal staff account.",
     to: "/users/add",
@@ -26,7 +38,7 @@ const adminActions = [
   {
     title: "Review approvals",
     description: "Review pending staff registrations.",
-    to: "#pending-approvals",
+    to: "/admin/pending-approvals",
     icon: ClipboardCheck,
   },
   {

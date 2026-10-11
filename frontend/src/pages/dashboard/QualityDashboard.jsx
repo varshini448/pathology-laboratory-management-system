@@ -1,71 +1,20 @@
-import { Link } from "react-router-dom";
+import OperationalDashboard from "./OperationalDashboard";
+import { getQCRecords } from "../../services/qcService";
+import { getCases } from "../../services/caseService";
+import { ClipboardList, ShieldCheck } from "lucide-react";
+
+const loaders = { qcRecords: getQCRecords, cases: getCases };
+const metrics = [
+  { title: "QC records", source: "qcRecords", icon: <ShieldCheck /> },
+  { title: "Cases", source: "cases", icon: <ClipboardList /> },
+];
+const queues = [
+  { title: "Recent QC records", source: "qcRecords", description: "Records returned by the quality-control service.", href: "/qc/records", getLabel: (item) => item.qcId || item.case?.caseId || "Quality record", getMeta: (item) => item.overallStatus || "Status unavailable", empty: "No quality records available" },
+  { title: "Recent cases", source: "cases", description: "Current cases available for quality oversight.", href: "/cases", getHref: (item) => `/cases/${encodeURIComponent(item.caseId)}`, getLabel: (item) => item.caseId, getMeta: (item) => `${item.status || "Status unavailable"} · ${item.priority || "Normal priority"}`, empty: "No cases available" },
+];
 
 const QualityDashboard = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
-
-  return (
-    <div className="dashboard-page">
-      <h1>Quality Manager Dashboard</h1>
-
-      <p>
-        Welcome{user?.name ? `, ${user.name}` : ""}!
-      </p>
-
-      <p>
-        Monitor laboratory quality control, compliance activities, and
-        turnaround time.
-      </p>
-
-      <hr />
-
-      <section>
-        <h2>Quality Control</h2>
-
-        <div>
-          <h3>QC Dashboard</h3>
-          <Link to="/qc">Open QC Dashboard</Link>
-        </div>
-
-        <div>
-          <h3>QC Records</h3>
-          <Link to="/qc/records">View QC Records</Link>
-        </div>
-
-        <div>
-          <h3>Add QC Record</h3>
-          <Link to="/qc/add">Create QC Record</Link>
-        </div>
-      </section>
-
-      <hr />
-
-      <section>
-        <h2>Turnaround Time Monitoring</h2>
-
-        <div>
-          <Link to="/tat">Open TAT Dashboard</Link>
-        </div>
-      </section>
-
-      <hr />
-
-      <section>
-        <h2>Case Monitoring</h2>
-
-        <div>
-          <Link to="/cases">View Cases</Link>
-        </div>
-
-        <div>
-          <Link to="/specimens">View Specimens</Link>
-        </div>
-
-        <div>
-          <Link to="/slides">View Slides</Link>
-        </div>
-      </section>
-    </div>
-  );
+  return <OperationalDashboard title="Quality Manager Dashboard" subtitle="Review recorded quality activity and case status across the laboratory." loaders={loaders} metrics={metrics} queues={queues} actions={[{ label: "QC dashboard", to: "/qc" }, { label: "Review QC records", to: "/qc/records" }, { label: "Add QC record", to: "/qc/add" }, { label: "Monitor TAT", to: "/tat" }]} />;
 };
 
 export default QualityDashboard;

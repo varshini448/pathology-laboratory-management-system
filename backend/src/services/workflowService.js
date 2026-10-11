@@ -4,6 +4,27 @@ const Specimen = require("../models/Specimen");
 const Block = require("../models/Block");
 const Slide = require("../models/Slide");
 
+const workflowError = (message, statusCode = 400) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+};
+
+const requireRelatedEntity = async (Model, entityId, caseId, entityName) => {
+  const entity = await Model.findById(entityId);
+
+  if (!entity) {
+    throw workflowError(`${entityName} not found`, 404);
+  }
+
+  const relatedCaseId = entity.case?._id || entity.case;
+  if (!relatedCaseId || String(relatedCaseId) !== String(caseId)) {
+    throw workflowError(`${entityName} does not belong to this case`);
+  }
+
+  return entity;
+};
+
 const createWorkflowEvent = async (data) => {
   const {
     case: caseId,
@@ -17,25 +38,25 @@ const createWorkflowEvent = async (data) => {
   } = data;
 
   if (!caseId) {
-    throw new Error("Case is required for workflow event");
+    throw workflowError("Case is required for workflow event");
   }
 
   if (!stage) {
-    throw new Error("Workflow stage is required");
+    throw workflowError("Workflow stage is required");
   }
 
   if (!status) {
-    throw new Error("Workflow status is required");
+    throw workflowError("Workflow status is required");
   }
 
   if (!["STARTED", "COMPLETED"].includes(status)) {
-    throw new Error("Workflow status must be STARTED or COMPLETED");
+    throw workflowError("Workflow status must be STARTED or COMPLETED");
   }
 
   const caseData = await Case.findById(caseId);
 
   if (!caseData) {
-    throw new Error("Case not found");
+    throw workflowError("Case not found", 404);
   }
 
   let updatedEntity;
@@ -45,6 +66,13 @@ const createWorkflowEvent = async (data) => {
       if (!specimenId) {
         throw new Error("Specimen is required for specimen collection");
       }
+
+      updatedEntity = await requireRelatedEntity(
+        Specimen,
+        specimenId,
+        caseId,
+        "Specimen"
+      );
 
       if (status === "COMPLETED") {
         updatedEntity = await Specimen.findByIdAndUpdate(
@@ -57,9 +85,9 @@ const createWorkflowEvent = async (data) => {
             runValidators: true,
           }
         );
-      } else {
-        updatedEntity = await Specimen.findById(specimenId);
       }
+
+      if (!updatedEntity) throw workflowError("Specimen not found", 404);
 
       if (status === "COMPLETED") {
         await Case.findByIdAndUpdate(caseId, {
@@ -74,16 +102,12 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Specimen is required for accessioning");
       }
 
-      updatedEntity = await Specimen.findByIdAndUpdate(
-        specimenId,
-        {
-          status: status === "COMPLETED" ? "ACCESSIONED" : "RECEIVED",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await requireRelatedEntity(Specimen, specimenId, caseId, "Specimen");
+      updatedEntity = await Specimen.findByIdAndUpdate(specimenId, {
+        status: status === "COMPLETED" ? "ACCESSIONED" : "RECEIVED",
+      }, { new: true, runValidators: true });
+
+      if (!updatedEntity) throw workflowError("Specimen not found", 404);
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
@@ -96,17 +120,12 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Block is required for grossing");
       }
 
-      updatedEntity = await Block.findByIdAndUpdate(
-        blockId,
-        {
-          processingStatus:
-            status === "COMPLETED" ? "EMBEDDING" : "GROSSING",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await requireRelatedEntity(Block, blockId, caseId, "Block");
+      updatedEntity = await Block.findByIdAndUpdate(blockId, {
+        processingStatus: status === "COMPLETED" ? "EMBEDDING" : "GROSSING",
+      }, { new: true, runValidators: true });
+
+      if (!updatedEntity) throw workflowError("Block not found", 404);
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
@@ -119,17 +138,12 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Block is required for embedding");
       }
 
-      updatedEntity = await Block.findByIdAndUpdate(
-        blockId,
-        {
-          processingStatus:
-            status === "COMPLETED" ? "SECTIONING" : "EMBEDDING",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await requireRelatedEntity(Block, blockId, caseId, "Block");
+      updatedEntity = await Block.findByIdAndUpdate(blockId, {
+        processingStatus: status === "COMPLETED" ? "SECTIONING" : "EMBEDDING",
+      }, { new: true, runValidators: true });
+
+      if (!updatedEntity) throw workflowError("Block not found", 404);
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
@@ -142,17 +156,12 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Block is required for sectioning");
       }
 
-      updatedEntity = await Block.findByIdAndUpdate(
-        blockId,
-        {
-          processingStatus:
-            status === "COMPLETED" ? "COMPLETED" : "SECTIONING",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await requireRelatedEntity(Block, blockId, caseId, "Block");
+      updatedEntity = await Block.findByIdAndUpdate(blockId, {
+        processingStatus: status === "COMPLETED" ? "COMPLETED" : "SECTIONING",
+      }, { new: true, runValidators: true });
+
+      if (!updatedEntity) throw workflowError("Block not found", 404);
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
@@ -165,16 +174,12 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Slide is required for staining");
       }
 
-      updatedEntity = await Slide.findByIdAndUpdate(
-        slideId,
-        {
-          status: status === "COMPLETED" ? "STAINED" : "STAINING",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await requireRelatedEntity(Slide, slideId, caseId, "Slide");
+      updatedEntity = await Slide.findByIdAndUpdate(slideId, {
+        status: status === "COMPLETED" ? "STAINED" : "STAINING",
+      }, { new: true, runValidators: true });
+
+      if (!updatedEntity) throw workflowError("Slide not found", 404);
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
@@ -187,6 +192,8 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Slide is required for scanning");
       }
 
+      updatedEntity = await requireRelatedEntity(Slide, slideId, caseId, "Slide");
+
       if (status === "COMPLETED") {
         updatedEntity = await Slide.findByIdAndUpdate(
           slideId,
@@ -198,9 +205,9 @@ const createWorkflowEvent = async (data) => {
             runValidators: true,
           }
         );
-      } else {
-        updatedEntity = await Slide.findById(slideId);
       }
+
+      if (!updatedEntity) throw workflowError("Slide not found", 404);
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
@@ -213,17 +220,12 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Slide is required for pathologist review");
       }
 
-      updatedEntity = await Slide.findByIdAndUpdate(
-        slideId,
-        {
-          status:
-            status === "COMPLETED" ? "COMPLETED" : "UNDER_REVIEW",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await requireRelatedEntity(Slide, slideId, caseId, "Slide");
+      updatedEntity = await Slide.findByIdAndUpdate(slideId, {
+        status: status === "COMPLETED" ? "COMPLETED" : "UNDER_REVIEW",
+      }, { new: true, runValidators: true });
+
+      if (!updatedEntity) throw workflowError("Slide not found", 404);
 
       if (status === "COMPLETED") {
         await Case.findByIdAndUpdate(caseId, {
@@ -238,11 +240,11 @@ const createWorkflowEvent = async (data) => {
       break;
 
     default:
-      throw new Error("Invalid workflow stage");
+      throw workflowError("Invalid workflow stage");
   }
 
   if (!updatedEntity) {
-    throw new Error("Related workflow entity not found");
+    throw workflowError("Related workflow entity not found", 404);
   }
 
   const workflowEvent = await WorkflowEvent.create({
@@ -263,7 +265,7 @@ const getWorkflowEventsByCase = async (caseId) => {
   const caseData = await Case.findOne({ caseId });
 
   if (!caseData) {
-    throw new Error("Case not found");
+    throw workflowError("Case not found", 404);
   }
 
   return WorkflowEvent.find({ case: caseData._id })

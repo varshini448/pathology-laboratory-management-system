@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import DoctorRegistrationFields from "./external/DoctorRegistrationFields";
+import { registerDoctor } from "../../services/authService";
 
 const DoctorRegister = () => {
   const navigate = useNavigate();
@@ -103,16 +104,21 @@ const DoctorRegister = () => {
     try {
       setLoading(true);
 
-      /*
-       * Doctor verification backend will be connected
-       * in the external authentication backend step.
-       */
+      const doctorData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        medicalRegistrationId: formData.medicalRegistrationId.trim(),
+        registrationAuthority: formData.registrationAuthority.trim(),
+        qualification: formData.qualification.trim(),
+        specialization: formData.specialization.trim(),
+        hospital: formData.hospitalName.trim(),
+        hospitalAddress: formData.hospitalAddress.trim(),
+        password: formData.password,
+      };
+      const response = await registerDoctor(doctorData);
 
-      console.log("Doctor registration data:", formData);
-
-      setSuccess(
-        "Registration submitted. Your professional details will be verified before access is granted."
-      );
+      setSuccess(response.message || "Registration submitted for professional verification.");
 
       setTimeout(() => {
         navigate("/pending-approval");

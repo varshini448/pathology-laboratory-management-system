@@ -6,7 +6,7 @@ const getPendingApprovals = async (req, res) => {
     const users = await User.find({
       status: "PENDING_APPROVAL",
     })
-      .select("-password")
+      .select("name email role status department profile.employeeId profile.medicalRegistrationId createdAt")
       .sort({ createdAt: -1 });
 
     return res.status(200).json({
@@ -19,7 +19,31 @@ const getPendingApprovals = async (req, res) => {
 
     return res.status(500).json({
       message: "Failed to fetch pending approvals",
-      error: error.message,
+    });
+  }
+};
+
+ // GET ALL USERS FOR ADMIN DIRECTORY
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({})
+      .select("name email phone department role status createdAt")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json({
+      message: "Users fetched successfully",
+      count: users.length,
+      users: users.map((user) => ({
+        ...user,
+        id: user._id.toString(),
+      })),
+    });
+  } catch (error) {
+    console.error("Get all users error:", error);
+
+    return res.status(500).json({
+      message: "Failed to fetch users",
     });
   }
 };
@@ -62,7 +86,6 @@ const approveUser = async (req, res) => {
         role: user.role,
         status: user.status,
         department: user.department,
-        profile: user.profile,
       },
     });
   } catch (error) {
@@ -70,7 +93,6 @@ const approveUser = async (req, res) => {
 
     return res.status(500).json({
       message: "Failed to approve user",
-      error: error.message,
     });
   }
 };
@@ -113,7 +135,6 @@ const rejectUser = async (req, res) => {
         role: user.role,
         status: user.status,
         department: user.department,
-        profile: user.profile,
       },
     });
   } catch (error) {
@@ -121,12 +142,13 @@ const rejectUser = async (req, res) => {
 
     return res.status(500).json({
       message: "Failed to reject user",
-      error: error.message,
     });
   }
 };
 
+
 module.exports = {
+  getAllUsers,
   getPendingApprovals,
   approveUser,
   rejectUser,

@@ -18,10 +18,13 @@ const ReportRoutes = (
             element={<Reports />}
         />
 
-        <Route
-            path="/reports/create"
-            element={<CreateReport />}
-        />
+        <Route element={<RoleRoute allowedRoles={["ADMIN", "PATHOLOGIST"]} />}>
+            <Route path="/reports/create" element={<CreateReport />} />
+            <Route path="/reports/:id/sign-out" element={<SignOutReport />} />
+            <Route path="/pathologist-workspace" element={<PathologistWorkspace />} />
+            <Route path="/reports/drafts" element={<DraftReports />} />
+            <Route path="/reports/sign-out" element={<SignOutReports />} />
+        </Route>
 
         <Route
             path="/reports/:id"
@@ -44,25 +47,6 @@ const ReportRoutes = (
             />
         </Route>
 
-        <Route
-            path="/reports/:id/sign-out"
-            element={<SignOutReport />}
-        />
-
-        <Route
-            path="/pathologist-workspace"
-            element={<PathologistWorkspace />}
-        />
-
-        <Route
-            path="/reports/drafts"
-            element={<DraftReports />}
-        />
-
-        <Route
-            path="/reports/sign-out"
-            element={<SignOutReports />}
-        />
     </>
 );
 

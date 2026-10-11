@@ -1,6 +1,6 @@
 const ReportWorkflowInfo = ({ workflowEvents }) => {
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>Workflow Progress</h2>
 
       {workflowEvents.length === 0 ? (

@@ -41,29 +41,51 @@ const formatDuration = (start, end) => {
     : `${hours} hr`;
 };
 
+const getEventTime = (event) => {
+  const timestamp = new Date(event?.createdAt).getTime();
+  return Number.isFinite(timestamp) ? timestamp : Number.NEGATIVE_INFINITY;
+};
+
 const buildStageGroups = (workflowEvents) =>
   WORKFLOW_STAGES.map((stage) => {
-    const events = workflowEvents.filter(
-      (event) => event.stage === stage
-    );
+    const sortedEvents = workflowEvents
+      .filter((event) => event.stage === stage)
+      .sort((a, b) => {
+        const aTime = getEventTime(a);
+        const bTime = getEventTime(b);
 
-    if (!events.length) return null;
+        if (aTime === bTime) return 0;
+        return aTime < bTime ? -1 : 1;
+      });
 
-    const sortedEvents = [...events].sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() -
-        new Date(b.createdAt).getTime()
-    );
+    const latestEvent = sortedEvents[sortedEvents.length - 1] ?? null;
+    let startedEvent = null;
+    let completedEvent = null;
 
-    const latestEvent = sortedEvents[sortedEvents.length - 1];
+    if (latestEvent?.status === "COMPLETED") {
+      completedEvent = latestEvent;
 
-    const startedEvent = sortedEvents.find(
-      (event) => event.status === "STARTED"
-    );
+      // Match this completion to the latest STARTED event
+      // since the previous completion, not an older run.
+      for (let i = sortedEvents.length - 2; i >= 0; i -= 1) {
+        const event = sortedEvents[i];
 
-    const completedEvent = [...sortedEvents]
-      .reverse()
-      .find((event) => event.status === "COMPLETED");
+        if (event.status === "COMPLETED") break;
+
+        if (event.status === "STARTED") {
+          startedEvent = event;
+          break;
+        }
+      }
+    } else if (latestEvent?.status === "STARTED") {
+      startedEvent = latestEvent;
+    }
+
+    const isCompleted = latestEvent?.status === "COMPLETED";
+    const duration =
+      startedEvent && completedEvent
+        ? formatDuration(startedEvent.createdAt, completedEvent.createdAt)
+        : null;
 
     return {
       stage,
@@ -71,13 +93,10 @@ const buildStageGroups = (workflowEvents) =>
       latestEvent,
       startedEvent,
       completedEvent,
-      isCompleted: latestEvent.status === "COMPLETED",
-      duration: formatDuration(
-        startedEvent?.createdAt,
-        completedEvent?.createdAt
-      ),
+      isCompleted,
+      duration,
     };
-  }).filter(Boolean);
+  }).filter((stageGroup) => stageGroup.latestEvent);
 
 const WorkflowTimeline = ({ workflowEvents = [] }) => {
   const [expandedStages, setExpandedStages] = useState({});

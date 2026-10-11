@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   UserPlus,
@@ -9,6 +9,7 @@ import {
   ChevronRight,
   AlertCircle,
   RefreshCw,
+  Search,
 } from "lucide-react";
 
 import { getPatients } from "../../services/patientService";
@@ -18,6 +19,7 @@ const Patients = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
   const loadPatients = async () => {
     try {
@@ -36,6 +38,15 @@ const Patients = () => {
   useEffect(() => {
     loadPatients();
   }, []);
+
+  const filteredPatients = useMemo(() => {
+    const term = search.trim().toLocaleLowerCase();
+    if (!term) return patients;
+    return patients.filter((patient) =>
+      [patient.name, patient.patientId, patient.phone, patient.email]
+        .some((value) => String(value || "").toLocaleLowerCase().includes(term))
+    );
+  }, [patients, search]);
 
   if (loading) {
     return (
@@ -136,28 +147,31 @@ const Patients = () => {
           </div>
 
           <span className="patients-count">
-            {patients.length}{" "}
-            {patients.length === 1 ? "record" : "records"}
+            {filteredPatients.length}{" "}
+            {filteredPatients.length === 1 ? "record" : "records"}
           </span>
         </div>
 
-        {patients.length === 0 ? (
+        <label className="patient-directory-search">
+          <Search size={17} aria-hidden="true" />
+          <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search name, patient ID, phone, or email" aria-label="Search patient directory" />
+        </label>
+
+        {filteredPatients.length === 0 ? (
           <div className="patients-empty">
             <Users size={34} />
 
             <h3>No patients found</h3>
 
-            <p>
-              No patient records are currently available.
-            </p>
+            <p>{patients.length === 0 ? "No patient records are currently available." : "No patients match your search."}</p>
 
-            <Link
+            {patients.length === 0 && <Link
               to="/patients/add"
               className="patients-add-button"
             >
               <UserPlus size={16} />
               Register Patient
-            </Link>
+            </Link>}
           </div>
         ) : (
           <div className="patients-table-wrapper">
@@ -174,7 +188,7 @@ const Patients = () => {
               </thead>
 
               <tbody>
-                {patients.map((patient) => (
+                {filteredPatients.map((patient) => (
                   <tr key={patient._id}>
                     <td>
                       <Link

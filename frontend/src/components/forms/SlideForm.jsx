@@ -22,7 +22,8 @@ const SlideForm = ({ onSubmit, loading = false }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await onSubmit(formData);
+    const submitted = await onSubmit(formData);
+    if (submitted === false) return;
 
     setFormData({
       slideId: "",
@@ -35,11 +36,12 @@ const SlideForm = ({ onSubmit, loading = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="workflow-entry-form" onSubmit={handleSubmit}>
       <div>
-        <label>Slide ID</label>
+        <label htmlFor="slideId">Slide ID</label>
         <input
           type="text"
+          id="slideId"
           name="slideId"
           value={formData.slideId}
           onChange={handleChange}
@@ -49,9 +51,10 @@ const SlideForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Block ID</label>
+        <label htmlFor="block">Block ID</label>
         <input
           type="text"
+          id="block"
           name="block"
           value={formData.block}
           onChange={handleChange}
@@ -61,9 +64,10 @@ const SlideForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Case ID</label>
+        <label htmlFor="slideCase">Case ID</label>
         <input
           type="text"
+          id="slideCase"
           name="case"
           value={formData.case}
           onChange={handleChange}
@@ -73,9 +77,10 @@ const SlideForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Slide Type</label>
+        <label htmlFor="slideType">Slide Type</label>
         <input
           type="text"
+          id="slideType"
           name="slideType"
           value={formData.slideType}
           onChange={handleChange}
@@ -85,10 +90,11 @@ const SlideForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Staining Method</label>
+        <label htmlFor="stainingMethod">Staining Method</label>
         <input
           type="text"
           name="stainingMethod"
+          id="stainingMethod"
           value={formData.stainingMethod}
           onChange={handleChange}
           placeholder="H&E"
@@ -96,9 +102,10 @@ const SlideForm = ({ onSubmit, loading = false }) => {
       </div>
 
       <div>
-        <label>Notes</label>
+        <label htmlFor="slideNotes">Notes</label>
         <textarea
           name="notes"
+          id="slideNotes"
           value={formData.notes}
           onChange={handleChange}
           placeholder="Slide notes"

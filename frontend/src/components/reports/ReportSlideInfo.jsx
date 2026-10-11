@@ -1,6 +1,6 @@
 const ReportSlideInfo = ({ slides }) => {
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>Slide Information</h2>
 
       {slides.length === 0 ? (

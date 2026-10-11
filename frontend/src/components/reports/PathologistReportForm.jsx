@@ -5,10 +5,10 @@ const PathologistReportForm = ({
   saving,
 }) => {
   return (
-    <section>
+    <section className="report-info-panel report-form-panel">
       <h2>Pathologist Report</h2>
 
-      <form onSubmit={onSubmit}>
+      <form className="report-entry-form" onSubmit={onSubmit}>
         <div>
           <label>Diagnosis</label>
           <br />

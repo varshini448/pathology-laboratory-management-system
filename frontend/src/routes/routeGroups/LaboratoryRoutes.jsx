@@ -15,6 +15,7 @@ import AddBlock from "../../pages/blocks/AddBlock";
 import Slides from "../../pages/slides/Slides";
 import SlideDetails from "../../pages/slides/SlideDetails";
 import AddSlide from "../../pages/slides/AddSlide";
+import RoleRoute from "../RoleRoute";
 
 const LaboratoryRoutes = (
     <>
@@ -24,10 +25,9 @@ const LaboratoryRoutes = (
             element={<Cases />}
         />
 
-        <Route
-            path="/cases/add"
-            element={<AddCase />}
-        />
+        <Route element={<RoleRoute allowedRoles={["ADMIN", "TECHNICIAN"]} />}>
+            <Route path="/cases/add" element={<AddCase />} />
+        </Route>
 
         <Route
             path="/cases/:id"
@@ -40,10 +40,9 @@ const LaboratoryRoutes = (
             element={<Specimens />}
         />
 
-        <Route
-            path="/specimens/add"
-            element={<AddSpecimen />}
-        />
+        <Route element={<RoleRoute allowedRoles={["ADMIN", "TECHNICIAN"]} />}>
+            <Route path="/specimens/add" element={<AddSpecimen />} />
+        </Route>
 
         <Route
             path="/specimens/:id"
@@ -56,10 +55,9 @@ const LaboratoryRoutes = (
             element={<Blocks />}
         />
 
-        <Route
-            path="/blocks/add"
-            element={<AddBlock />}
-        />
+        <Route element={<RoleRoute allowedRoles={["ADMIN", "TECHNICIAN"]} />}>
+            <Route path="/blocks/add" element={<AddBlock />} />
+        </Route>
 
         <Route
             path="/blocks/:id"
@@ -72,10 +70,9 @@ const LaboratoryRoutes = (
             element={<Slides />}
         />
 
-        <Route
-            path="/slides/add"
-            element={<AddSlide />}
-        />
+        <Route element={<RoleRoute allowedRoles={["ADMIN", "TECHNICIAN"]} />}>
+            <Route path="/slides/add" element={<AddSlide />} />
+        </Route>
 
         <Route
             path="/slides/:id"

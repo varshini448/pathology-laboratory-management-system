@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import RecordListPage from "../../components/layout/RecordListPage";
 import { getBlocks } from "../../services/blockService";
 
 const Blocks = () => {
@@ -8,73 +8,42 @@ const Blocks = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadBlocks = async () => {
-      try {
-        const data = await getBlocks();
-        setBlocks(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadBlocks();
+  const loadBlocks = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      setBlocks(await getBlocks());
+    } catch (requestError) {
+      setError(requestError.message || "Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  if (loading) {
-    return <p>Loading blocks...</p>;
-  }
+  useEffect(() => { loadBlocks(); }, [loadBlocks]);
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const columns = [
+    { key: "blockId", label: "Block", render: (record) => <Link className="record-list-link" to={`/blocks/${record._id}`}>{record.blockId}</Link> },
+    { key: "blockType", label: "Type" },
+    { key: "specimen", label: "Specimen", render: (record) => record.specimen?.specimenId || record.specimen || "—" },
+    { key: "case", label: "Case", render: (record) => record.case?.caseId || record.case || "—" },
+    { key: "processingStatus", label: "Processing status" },
+  ];
 
   return (
-    <div>
-      <h1>Blocks</h1>
-
-      <Link to="/blocks/add">Add Block</Link>
-
-      {blocks.length === 0 ? (
-        <p>No blocks found.</p>
-      ) : (
-        <div>
-          {blocks.map((block) => (
-            <div key={block._id}>
-              <h3>
-                <Link to={`/blocks/${block._id}`}>
-                  {block.blockId}
-                </Link>
-              </h3>
-
-              <p>
-                <strong>Block Type:</strong>{" "}
-                {block.blockType}
-              </p>
-
-              <p>
-                <strong>Processing Status:</strong>{" "}
-                {block.processingStatus}
-              </p>
-
-              <p>
-                <strong>Specimen:</strong>{" "}
-                {block.specimen?.specimenId || block.specimen}
-              </p>
-
-              <p>
-                <strong>Case:</strong>{" "}
-                {block.case?.caseId || block.case}
-              </p>
-
-              <hr />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+    <RecordListPage
+      title="Blocks"
+      description="Review tissue blocks and their specimen and case traceability."
+      actionTo="/blocks/add"
+      actionLabel="Add block"
+      columns={columns}
+      records={blocks}
+      loading={loading}
+      error={error}
+      onRetry={loadBlocks}
+      emptyTitle="No blocks recorded"
+      emptyMessage="Blocks created from registered specimens will appear here."
+    />
   );
 };
 

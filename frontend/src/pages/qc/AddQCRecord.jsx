@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { createQCRecord } from "../../services/qcService";
 import { getCases } from "../../services/caseService";
 import { getSlides } from "../../services/slideService";
+import PageHeader from "../../components/layout/PageHeader";
+import LoadingState from "../../components/ui/LoadingState";
 
 const AddQCRecord = () => {
   const [cases, setCases] = useState([]);
@@ -22,6 +24,7 @@ const AddQCRecord = () => {
   });
 
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -61,6 +64,7 @@ const AddQCRecord = () => {
     setError("");
 
     try {
+      setSaving(true);
       await createQCRecord(formData);
 
       setMessage("QC record created successfully.");
@@ -79,25 +83,28 @@ const AddQCRecord = () => {
       });
     } catch (err) {
       setError(err.message || "Failed to create QC record");
+    } finally {
+      setSaving(false);
     }
   };
 
   if (loading) {
-    return <div>Loading cases and slides...</div>;
+    return <LoadingState message="Loading cases and slides..." />;
   }
 
   return (
-    <div>
-      <h1>Add QC Record</h1>
+    <main className="workflow-form-page">
+      <PageHeader eyebrow="QUALITY ASSURANCE" title="Add QC record" description="Record slide quality checks and any corrective action required." />
 
-      {message && <p>{message}</p>}
-      {error && <p>Error: {error}</p>}
+      {message && <p className="workflow-form-success" role="status">{message}</p>}
+      {error && <p className="workflow-form-error" role="alert">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form className="workflow-entry-form" onSubmit={handleSubmit}>
         <div>
-          <label>QC ID</label>
+          <label htmlFor="qcId">QC ID</label>
           <input
             type="text"
+            id="qcId"
             name="qcId"
             value={formData.qcId}
             onChange={handleChange}
@@ -107,9 +114,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Case</label>
+          <label htmlFor="qcCase">Case</label>
           <select
             name="case"
+            id="qcCase"
             value={formData.case}
             onChange={handleChange}
             required
@@ -125,9 +133,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Slide</label>
+          <label htmlFor="qcSlide">Slide</label>
           <select
             name="slide"
+            id="qcSlide"
             value={formData.slide}
             onChange={handleChange}
             required
@@ -143,9 +152,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Section Quality</label>
+          <label htmlFor="sectionQuality">Section Quality</label>
           <select
             name="sectionQuality"
+            id="sectionQuality"
             value={formData.sectionQuality}
             onChange={handleChange}
           >
@@ -156,9 +166,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Staining Quality</label>
+          <label htmlFor="stainingQuality">Staining Quality</label>
           <select
             name="stainingQuality"
+            id="stainingQuality"
             value={formData.stainingQuality}
             onChange={handleChange}
           >
@@ -169,9 +180,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Labeling Check</label>
+          <label htmlFor="labelingCheck">Labeling Check</label>
           <select
             name="labelingCheck"
+            id="labelingCheck"
             value={formData.labelingCheck}
             onChange={handleChange}
           >
@@ -181,9 +193,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Documentation Check</label>
+          <label htmlFor="documentationCheck">Documentation Check</label>
           <select
             name="documentationCheck"
+            id="documentationCheck"
             value={formData.documentationCheck}
             onChange={handleChange}
           >
@@ -193,9 +206,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Overall Status</label>
+          <label htmlFor="overallStatus">Overall Status</label>
           <select
             name="overallStatus"
+            id="overallStatus"
             value={formData.overallStatus}
             onChange={handleChange}
           >
@@ -206,9 +220,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Findings</label>
+          <label htmlFor="findings">Findings</label>
           <textarea
             name="findings"
+            id="findings"
             value={formData.findings}
             onChange={handleChange}
             placeholder="Enter QC findings"
@@ -217,9 +232,10 @@ const AddQCRecord = () => {
         </div>
 
         <div>
-          <label>Corrective Action</label>
+          <label htmlFor="correctiveAction">Corrective Action</label>
           <textarea
             name="correctiveAction"
+            id="correctiveAction"
             value={formData.correctiveAction}
             onChange={handleChange}
             placeholder="Enter corrective action if required"
@@ -227,9 +243,9 @@ const AddQCRecord = () => {
           />
         </div>
 
-        <button type="submit">Create QC Record</button>
+        <button type="submit" disabled={saving}>{saving ? "Saving..." : "Create QC record"}</button>
       </form>
-    </div>
+    </main>
   );
 };
 

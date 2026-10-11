@@ -1,4 +1,6 @@
 const Report = require("../../models/Report");
+const Case = require("../../models/Case");
+const Slide = require("../../models/Slide");
 
 // Create a new report draft
 const createReport = async (req, res) => {
@@ -13,6 +15,17 @@ const createReport = async (req, res) => {
       interpretation,
       recommendations,
     } = req.body;
+
+    const [caseData, slideData] = await Promise.all([
+      Case.findById(caseId).select("_id"),
+      Slide.findById(slide).select("_id case"),
+    ]);
+    if (!caseData || !slideData) {
+      return res.status(404).json({ message: !caseData ? "Case not found" : "Slide not found" });
+    }
+    if (String(slideData.case?._id || slideData.case) !== String(caseData._id)) {
+      return res.status(400).json({ message: "Slide does not belong to this case" });
+    }
 
     const report = await Report.create({
       reportId,
@@ -43,11 +56,8 @@ const createReport = async (req, res) => {
       report: populatedReport,
     });
   } catch (error) {
-    console.error("Create report error:", error);
-
     res.status(500).json({
       message: "Failed to create report",
-      error: error.message,
     });
   }
 };
@@ -71,11 +81,8 @@ const getReports = async (req, res) => {
       reports,
     });
   } catch (error) {
-    console.error("Get reports error:", error);
-
     res.status(500).json({
       message: "Failed to fetch reports",
-      error: error.message,
     });
   }
 };
@@ -101,11 +108,8 @@ const getReportsByCase = async (req, res) => {
       reports,
     });
   } catch (error) {
-    console.error("Get reports by case error:", error);
-
     res.status(500).json({
       message: "Failed to fetch reports for case",
-      error: error.message,
     });
   }
 };
@@ -134,11 +138,8 @@ const getReportById = async (req, res) => {
       report,
     });
   } catch (error) {
-    console.error("Get report by ID error:", error);
-
     res.status(500).json({
       message: "Failed to fetch report",
-      error: error.message,
     });
   }
 };
@@ -203,11 +204,8 @@ const updateReport = async (req, res) => {
       report: updatedReport,
     });
   } catch (error) {
-    console.error("Update report error:", error);
-
     res.status(500).json({
       message: "Failed to update report draft",
-      error: error.message,
     });
   }
 };

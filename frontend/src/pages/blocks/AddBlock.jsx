@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BlockForm from "../../components/forms/BlockForm";
+import PageHeader from "../../components/layout/PageHeader";
 import { createBlock } from "../../services/blockService";
 
 const AddBlock = () => {
@@ -14,24 +15,25 @@ const AddBlock = () => {
       await createBlock(formData);
 
       setMessage("Block created successfully");
+      return true;
     } catch (error) {
       setMessage(error.message);
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h1>Add Block</h1>
-
+    <main className="workflow-form-page">
+      <PageHeader eyebrow="LABORATORY WORKFLOW" title="Add block" description="Connect a prepared tissue block to its specimen and case record." />
       <BlockForm
         onSubmit={handleSubmit}
         loading={loading}
       />
 
-      {message && <p>{message}</p>}
-    </div>
+      {message && <p className={message.includes("successfully") ? "workflow-form-success" : "workflow-form-error"} role={message.includes("successfully") ? "status" : "alert"}>{message}</p>}
+    </main>
   );
 };
 

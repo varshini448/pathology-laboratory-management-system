@@ -2,7 +2,7 @@ import { api } from "./api";
 
 export const getDoctors = async () => {
   const response = await api.get("/doctors");
-  return response.doctors;
+  return Array.isArray(response.doctors) ? response.doctors : [];
 };
 
 export const getDoctorById = async (doctorId) => {

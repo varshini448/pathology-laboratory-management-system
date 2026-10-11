@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { resetPassword } from "../../services/authService";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -47,15 +48,12 @@ const ResetPassword = () => {
     try {
       setLoading(true);
 
-      // Backend API will be connected later.
-      console.log("Reset password request:", {
+      const response = await resetPassword({
         token,
         password: formData.password,
       });
 
-      setSuccess(
-        "Password reset request submitted successfully."
-      );
+      setSuccess(response.message || "Password reset successfully.");
 
       setTimeout(() => {
         navigate("/login");

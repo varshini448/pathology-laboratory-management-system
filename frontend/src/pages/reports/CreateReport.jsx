@@ -16,6 +16,8 @@ import ReportSlideInfo from "../../components/reports/ReportSlideInfo";
 import ReportWorkflowInfo from "../../components/reports/ReportWorkflowInfo";
 import ReportQCInfo from "../../components/reports/ReportQCInfo";
 import PathologistReportForm from "../../components/reports/PathologistReportForm";
+import PageHeader from "../../components/layout/PageHeader";
+import LoadingState from "../../components/ui/LoadingState";
 
 const CreateReport = () => {
   const navigate = useNavigate();
@@ -135,13 +137,11 @@ const CreateReport = () => {
   const patient = reportData?.case?.patient;
 
   return (
-    <div>
-      <h1>Create Pathology Report</h1>
+    <main className="report-composer-page">
+      <PageHeader eyebrow="PATHOLOGY REPORTING" title="Create pathology report" description="Review linked case information, then prepare the diagnostic report draft." />
 
       {error && (
-        <p>
-          <strong>Error:</strong> {error}
-        </p>
+        <p className="workflow-form-error" role="alert">{error}</p>
       )}
 
       <ReportCaseSelector
@@ -151,7 +151,7 @@ const CreateReport = () => {
         loading={loadingCases}
       />
 
-      {loadingReportData && <p>Loading complete case information...</p>}
+      {loadingReportData && <LoadingState message="Loading complete case information..." />}
 
       {reportData && (
         <>
@@ -181,7 +181,7 @@ const CreateReport = () => {
           />
         </>
       )}
-    </div>
+    </main>
   );
 };
 

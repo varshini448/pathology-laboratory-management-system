@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { getCurrentUser, logoutUser } from "../services/authService";
+import GlobalSearch from "../components/layout/GlobalSearch";
+import NotificationMenu from "../components/layout/NotificationMenu";
+import "../styles/design/global-search-notifications.css";
 
 const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 
@@ -11,6 +14,24 @@ const AppShell = () => {
 
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
+  const role = currentUser?.role || currentUser?.userType;
+  const dashboardPath = {
+    ADMIN: "/admin-dashboard",
+    TECHNICIAN: "/technician-dashboard",
+    PATHOLOGIST: "/pathologist-dashboard",
+    QUALITY_MANAGER: "/quality-dashboard",
+    DOCTOR: "/doctor-dashboard",
+    PATIENT: "/patient-dashboard",
+  }[role] || "/dashboard";
+  const isInternalRole = [
+    "ADMIN",
+    "TECHNICIAN",
+    "PATHOLOGIST",
+    "QUALITY_MANAGER",
+  ].includes(role);
+  const canViewAudit = ["ADMIN", "QUALITY_MANAGER"].includes(role);
+  const navClassName = ({ isActive }) =>
+    `app-shell-nav-item${isActive ? " is-active" : ""}`;
 
   useEffect(() => {
     let inactivityTimer;
@@ -58,7 +79,7 @@ const AppShell = () => {
   };
 
   const displayName = currentUser?.name || currentUser?.username || "User";
-  const displayRole = currentUser?.role || "Laboratory Staff";
+  const displayRole = role || "Laboratory Staff";
 
   return (
     <div
@@ -82,54 +103,61 @@ const AppShell = () => {
           <div className="app-shell-nav-section">
             <span className="app-shell-nav-label">Workspace</span>
 
-            <a href="/dashboard" className="app-shell-nav-item">
+            <NavLink to={dashboardPath} end className={navClassName}>
               <span className="app-shell-nav-icon">⌂</span>
               <span className="app-shell-nav-text">Overview</span>
-            </a>
+            </NavLink>
 
-            <a href="/cases" className="app-shell-nav-item">
+            {isInternalRole && <NavLink to="/cases" className={navClassName}>
               <span className="app-shell-nav-icon">▣</span>
               <span className="app-shell-nav-text">Cases</span>
-            </a>
+            </NavLink>}
 
-            <a href="/specimens" className="app-shell-nav-item">
+            {isInternalRole && <NavLink to="/specimens" className={navClassName}>
               <span className="app-shell-nav-icon">◈</span>
               <span className="app-shell-nav-text">Workflow</span>
-            </a>
+            </NavLink>}
 
-            <a href="/reports" className="app-shell-nav-item">
+            {isInternalRole && <NavLink to="/reports" className={navClassName}>
               <span className="app-shell-nav-icon">▤</span>
               <span className="app-shell-nav-text">Review & Reports</span>
-            </a>
+            </NavLink>}
+
+            {role === "ADMIN" && <NavLink to="/users" className={navClassName}>
+              <span className="app-shell-nav-icon">♙</span>
+              <span className="app-shell-nav-text">User Management</span>
+            </NavLink>}
+            {role === "ADMIN" && <NavLink to="/patients" className={navClassName}>
+              <span className="app-shell-nav-icon">♧</span>
+              <span className="app-shell-nav-text">Patient Directory</span>
+            </NavLink>}
+            {role === "ADMIN" && <NavLink to="/doctors" className={navClassName}>
+              <span className="app-shell-nav-icon">⚕</span>
+              <span className="app-shell-nav-text">Doctor Directory</span>
+            </NavLink>}
           </div>
 
-          <div className="app-shell-nav-section">
+          {isInternalRole && <div className="app-shell-nav-section">
             <span className="app-shell-nav-label">Quality</span>
 
-            <a href="/qc" className="app-shell-nav-item">
+            {isInternalRole && <NavLink to="/qc" className={navClassName}>
               <span className="app-shell-nav-icon">✓</span>
               <span className="app-shell-nav-text">Quality Control</span>
-            </a>
+            </NavLink>}
 
-            <a href="/tat" className="app-shell-nav-item">
+            {isInternalRole && <NavLink to="/tat" className={navClassName}>
               <span className="app-shell-nav-icon">◷</span>
               <span className="app-shell-nav-text">TAT & Performance</span>
-            </a>
-          </div>
+            </NavLink>}
+          </div>}
 
-          <div className="app-shell-nav-section">
-            <span className="app-shell-nav-label">Intelligence</span>
-
-            <a href="/dashboard" className="app-shell-nav-item">
-              <span className="app-shell-nav-icon">✦</span>
-              <span className="app-shell-nav-text">AI Insights</span>
-            </a>
-
-            <a href="/audit-logs" className="app-shell-nav-item">
+          {canViewAudit && <div className="app-shell-nav-section">
+            <span className="app-shell-nav-label">Oversight</span>
+            <NavLink to="/audit-logs" className={navClassName}>
               <span className="app-shell-nav-icon">◫</span>
               <span className="app-shell-nav-text">Activity & Audit</span>
-            </a>
-          </div>
+            </NavLink>
+          </div>}
         </nav>
 
         <div className="app-shell-sidebar-footer">
@@ -159,21 +187,11 @@ const AppShell = () => {
               <span className="app-shell-menu-icon">☰</span>
             </button>
 
-            <div className="app-shell-search">
-              <span>⌕</span>
-              <input
-                type="search"
-                placeholder="Search cases, patients, slides..."
-                aria-label="Search"
-              />
-              <kbd>⌘ K</kbd>
-            </div>
+            {isInternalRole && <GlobalSearch />}
           </div>
 
           <div className="app-shell-topbar-actions">
-            <button type="button" className="app-shell-icon-button">
-              Notifications
-            </button>
+            <NotificationMenu />
 
             <div className="app-shell-user">
               <div className="app-shell-user-avatar">

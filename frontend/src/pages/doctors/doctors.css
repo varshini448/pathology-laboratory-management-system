@@ -1,0 +1,23 @@
+.doctor-directory-page{max-width:1440px;margin:0 auto;padding:30px 34px 48px;color:var(--color-text-primary,#263238)}
+.doctor-directory-header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px}
+.doctor-directory-header span{color:var(--color-brand-700,#315b7c);font-size:.72rem;font-weight:700;letter-spacing:.11em}
+.doctor-directory-header h1{margin:8px 0;font-size:clamp(1.7rem,3vw,2.25rem)}
+.doctor-directory-header p{margin:0;color:var(--color-text-secondary,#5c6972)}
+.doctor-directory-card{overflow:hidden;border:1px solid var(--color-border,#dbe2e7);border-radius:16px;background:#fff;box-shadow:0 10px 28px #17334a0b}
+.doctor-directory-card h2{padding:22px 24px 0;margin:0;font-size:1.1rem}
+.doctor-directory-search{display:flex;align-items:center;gap:10px;margin:20px 24px;padding:0 13px;min-height:44px;border:1px solid var(--color-border,#dbe2e7);border-radius:10px;color:#577286}
+.doctor-directory-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:inherit;font:inherit}
+.doctor-directory-table-scroll{overflow-x:auto}
+.doctor-directory-table-scroll table{width:100%;border-collapse:collapse;text-align:left}
+.doctor-directory-table-scroll th,.doctor-directory-table-scroll td{padding:14px 18px;border-top:1px solid #e9eef1;white-space:nowrap}
+.doctor-directory-table-scroll th{background:#f7f9fa;color:#60717d;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}
+.doctor-directory-name{display:inline-flex;align-items:center;gap:9px;font-weight:650}
+.doctor-directory-table-scroll td a,.doctor-directory-back{display:inline-flex;align-items:center;gap:6px;color:#315b7c;font-weight:650;text-decoration:none}
+.doctor-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#edf2f5;color:#4e606c;font-size:.75rem;font-weight:650}
+.doctor-status-active{background:#e7f5ee;color:#236a47}.doctor-status-pending_verification{background:#fff4dc;color:#885e10}
+.doctor-directory-state{padding:30px 24px;color:#65747e}.doctor-directory-state button{display:inline-flex;gap:8px;align-items:center;padding:9px 13px;border:1px solid #cad7df;border-radius:8px;background:white;color:#315b7c;cursor:pointer}
+.doctor-directory-card footer{padding:14px 24px;border-top:1px solid #e9eef1;color:#687982;font-size:.82rem}
+.doctor-details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin:0;padding:10px 24px 22px}
+.doctor-details-grid div{padding:14px 10px;border-bottom:1px solid #edf0f2}.doctor-details-grid dt{color:#697a84;font-size:.8rem}.doctor-details-grid dd{margin:5px 0 0;font-weight:600;overflow-wrap:anywhere}
+.doctor-directory-back{margin-bottom:18px}
+@media(max-width:720px){.doctor-directory-page{padding:20px 14px 34px}.doctor-directory-header{align-items:flex-start}.doctor-directory-search{margin:16px 14px}.doctor-details-grid{grid-template-columns:1fr;padding:8px 14px 16px}.doctor-directory-table-scroll{margin:0}}

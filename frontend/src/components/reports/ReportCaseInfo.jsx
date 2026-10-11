@@ -1,7 +1,7 @@
 const ReportCaseInfo = ({ caseData }) => {
   if (!caseData) {
     return (
-      <section>
+      <section className="report-info-panel">
         <h2>Case Information</h2>
         <p>Case information is not available.</p>
       </section>
@@ -9,7 +9,7 @@ const ReportCaseInfo = ({ caseData }) => {
   }
 
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>Case Information</h2>
 
       <p>

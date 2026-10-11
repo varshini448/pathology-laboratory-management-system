@@ -3,6 +3,8 @@ import DashboardHeader from "../dashboard/components/DashboardHeader";
 import DashboardStatCard from "../dashboard/components/DashboardStatCard";
 import DashboardSection from "../dashboard/components/DashboardSection";
 import { getDoctorDashboard } from "../../services/externalDashboardService";
+import "../dashboard/dashboard.css";
+import { ClipboardList, FileCheck2, FlaskConical, RefreshCw, Users } from "lucide-react";
 
 const formatDate = (value) => {
   if (!value) return "—";
@@ -16,9 +18,13 @@ const DoctorDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let active = true;
+
+    setLoading(true);
+    setError("");
 
     getDoctorDashboard()
       .then((result) => {
@@ -39,7 +45,7 @@ const DoctorDashboard = () => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [reloadKey]);
 
   const stats = data?.stats || {};
   const cases = data?.cases || [];
@@ -52,6 +58,17 @@ const DoctorDashboard = () => {
         subtitle="Monitor your assigned pathology cases and reports."
         userName={data?.account?.name}
         role={data?.account?.specialization || "DOCTOR"}
+        actions={
+          <button
+            className="dashboard-refresh-action"
+            type="button"
+            onClick={() => setReloadKey((key) => key + 1)}
+            disabled={loading}
+          >
+            <RefreshCw size={15} aria-hidden="true" />
+            Refresh assigned data
+          </button>
+        }
       />
 
       {loading && (
@@ -64,7 +81,7 @@ const DoctorDashboard = () => {
         <div className="dashboard-empty-state" role="alert">
           <h3>Dashboard unavailable</h3>
           <p>{error}</p>
-          <button type="button" onClick={() => window.location.reload()}>
+          <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
             Try again
           </button>
         </div>
@@ -77,25 +94,25 @@ const DoctorDashboard = () => {
               title="Assigned Cases"
               value={stats.assignedCases ?? 0}
               subtitle="Cases assigned to you"
-              icon="📋"
+              icon={<ClipboardList />}
             />
             <DashboardStatCard
               title="Patients"
               value={stats.distinctPatients ?? 0}
               subtitle="Distinct patients in your assigned cases"
-              icon="👤"
+              icon={<Users />}
             />
             <DashboardStatCard
               title="Active Cases"
               value={stats.activeCases ?? 0}
               subtitle="Currently in progress"
-              icon="🔬"
+              icon={<FlaskConical />}
             />
             <DashboardStatCard
               title="Final Reports"
               value={stats.finalReports ?? 0}
               subtitle="Finalized reports for your cases"
-              icon="📄"
+              icon={<FileCheck2 />}
             />
           </section>
 

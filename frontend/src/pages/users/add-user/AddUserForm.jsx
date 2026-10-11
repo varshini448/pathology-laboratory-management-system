@@ -24,7 +24,6 @@ const AddUserForm = ({
   setShowConfirmPassword,
   onCancel,
 }) => {
-  const RoleIcon = roleIcons[formData.role] || ShieldCheck;
 
   return (
     <form className="add-user-form" onSubmit={handleSubmit}>

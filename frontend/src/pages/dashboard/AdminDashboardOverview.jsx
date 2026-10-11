@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import {
   Users,
-  UserPlus,
   ClipboardCheck,
   History,
   ShieldCheck,
   Settings2,
+  KeyRound,
   ArrowRight,
 } from "lucide-react";
 
@@ -17,34 +17,46 @@ const adminSections = [
     icon: Users,
   },
   {
-    title: "Add Staff User",
-    description: "Access the existing staff account creation page.",
-    link: "/users/add",
-    icon: UserPlus,
-  },
-  {
     title: "Pending Approvals",
     description: "Review registrations awaiting administrator approval.",
-    link: "#pending-approvals",
+    link: "/admin/pending-approvals",
     icon: ClipboardCheck,
   },
   {
-    title: "Audit Logs",
-    description: "Review recorded account and system activity.",
-    link: "/audit-logs",
-    icon: History,
+    title: "Patient Directory",
+    description: "Search registered patients and open authorized records.",
+    link: "/patients",
+    icon: Users,
   },
   {
-    title: "Quality Records",
-    description: "Open the existing laboratory quality module.",
+    title: "Doctor Directory",
+    description: "Search verified doctor accounts and professional details.",
+    link: "/doctors",
+    icon: Users,
+  },
+  {
+    title: "Access Control",
+    description: "Review the documented role boundaries and permissions.",
+    link: "/users/access-control",
+    icon: KeyRound,
+  },
+  {
+    title: "Quality Management",
+    description: "Review quality-control records and quality indicators.",
     link: "/qc",
     icon: ShieldCheck,
   },
   {
     title: "Workflow Configuration",
-    description: "Check the available workflow management area.",
-    link: "/cases",
+    description: "Review workflow stages; runtime configuration is not available.",
+    link: "/admin/workflow-configuration",
     icon: Settings2,
+  },
+  {
+    title: "Audit History",
+    description: "Review recorded account and system activity.",
+    link: "/audit-logs",
+    icon: History,
   },
 ];
 

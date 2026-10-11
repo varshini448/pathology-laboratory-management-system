@@ -1,7 +1,7 @@
 const ReportPatientInfo = ({ patient }) => {
   if (!patient) {
     return (
-      <section>
+      <section className="report-info-panel">
         <h2>Patient Information</h2>
         <p>Patient information is not available.</p>
       </section>
@@ -9,7 +9,7 @@ const ReportPatientInfo = ({ patient }) => {
   }
 
   return (
-    <section>
+    <section className="report-info-panel">
       <h2>Patient Information</h2>
 
       <p>

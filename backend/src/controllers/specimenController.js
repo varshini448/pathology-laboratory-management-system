@@ -1,9 +1,30 @@
 const Specimen = require("../models/Specimen");
+const Case = require("../models/Case");
+
+const getSpecimenError = (error, fallback) => {
+  if (error.code === 11000) return { status: 409, message: "A specimen with this identifier already exists." };
+  if (["ValidationError", "CastError"].includes(error.name)) {
+    return { status: 400, message: "Specimen information is invalid." };
+  }
+  return { status: 500, message: fallback };
+};
 
 const createSpecimen = async (req, res) => {
   try {
+    const { specimenId, case: caseId, specimenType, collectionSite, collectionDate, receivedDate, condition, notes } = req.body;
+    if (!await Case.exists({ _id: caseId })) {
+      return res.status(404).json({ message: "Case not found" });
+    }
+
     const specimen = await Specimen.create({
-      ...req.body,
+      specimenId,
+      case: caseId,
+      specimenType,
+      collectionSite,
+      collectionDate,
+      receivedDate,
+      condition,
+      notes,
       collectedBy: req.user.id,
       createdBy: req.user.id,
     });
@@ -13,10 +34,8 @@ const createSpecimen = async (req, res) => {
       specimen,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to create specimen",
-      error: error.message,
-    });
+    const response = getSpecimenError(error, "Failed to create specimen.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -31,17 +50,12 @@ const getSpecimens = async (req, res) => {
       specimens,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch specimens",
-      error: error.message,
-    });
+    return res.status(500).json({ message: "Failed to fetch specimens." });
   }
 };
 
 const getSpecimensByCase = async (req, res) => {
   try {
-    const Case = require("../models/Case");
-
     const caseData = await Case.findOne({
       caseId: req.params.caseId,
     });
@@ -63,10 +77,7 @@ const getSpecimensByCase = async (req, res) => {
       specimens,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch specimens for case",
-      error: error.message,
-    });
+    return res.status(500).json({ message: "Failed to fetch specimens for case." });
   }
 };
 
@@ -86,10 +97,8 @@ const getSpecimenById = async (req, res) => {
       specimen,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch specimen",
-      error: error.message,
-    });
+    const response = getSpecimenError(error, "Failed to fetch specimen.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -97,7 +106,14 @@ const updateSpecimen = async (req, res) => {
   try {
     const specimen = await Specimen.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        specimenType: req.body.specimenType,
+        collectionSite: req.body.collectionSite,
+        collectionDate: req.body.collectionDate,
+        receivedDate: req.body.receivedDate,
+        condition: req.body.condition,
+        notes: req.body.notes,
+      },
       {
         new: true,
         runValidators: true,
@@ -115,10 +131,8 @@ const updateSpecimen = async (req, res) => {
       specimen,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update specimen",
-      error: error.message,
-    });
+    const response = getSpecimenError(error, "Failed to update specimen.");
+    return res.status(response.status).json({ message: response.message });
   }
 };
 

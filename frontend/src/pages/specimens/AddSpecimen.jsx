@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { createSpecimen } from "../../services/specimenService";
+import PageHeader from "../../components/layout/PageHeader";
 
 const AddSpecimen = () => {
   const navigate = useNavigate();
@@ -47,15 +48,16 @@ const AddSpecimen = () => {
   };
 
   return (
-    <div>
-      <h1>Add Specimen</h1>
+    <main className="workflow-form-page">
+      <PageHeader eyebrow="LABORATORY WORKFLOW" title="Add specimen" description="Register a specimen and link it to the receiving case." />
 
-      <form onSubmit={handleSubmit}>
+      <form className="workflow-entry-form" onSubmit={handleSubmit}>
         <div>
-          <label>Specimen ID</label>
+          <label htmlFor="specimenId">Specimen ID</label>
 
           <input
             type="text"
+            id="specimenId"
             name="specimenId"
             value={formData.specimenId}
             onChange={handleChange}
@@ -64,10 +66,11 @@ const AddSpecimen = () => {
         </div>
 
         <div>
-          <label>Case ID</label>
+          <label htmlFor="specimenCase">Case ID</label>
 
           <input
             type="text"
+            id="specimenCase"
             name="case"
             value={formData.case}
             onChange={handleChange}
@@ -77,10 +80,11 @@ const AddSpecimen = () => {
         </div>
 
         <div>
-          <label>Specimen Type</label>
+          <label htmlFor="specimenType">Specimen Type</label>
 
           <input
             type="text"
+            id="specimenType"
             name="specimenType"
             value={formData.specimenType}
             onChange={handleChange}
@@ -90,21 +94,23 @@ const AddSpecimen = () => {
         </div>
 
         <div>
-          <label>Collection Site</label>
+          <label htmlFor="collectionSite">Collection Site</label>
 
           <input
             type="text"
             name="collectionSite"
+            id="collectionSite"
             value={formData.collectionSite}
             onChange={handleChange}
           />
         </div>
 
         <div>
-          <label>Collection Date</label>
+          <label htmlFor="collectionDate">Collection Date</label>
 
           <input
             type="date"
+            id="collectionDate"
             name="collectionDate"
             value={formData.collectionDate}
             onChange={handleChange}
@@ -112,10 +118,11 @@ const AddSpecimen = () => {
         </div>
 
         <div>
-          <label>Received Date</label>
+          <label htmlFor="receivedDate">Received Date</label>
 
           <input
             type="date"
+            id="receivedDate"
             name="receivedDate"
             value={formData.receivedDate}
             onChange={handleChange}
@@ -123,10 +130,11 @@ const AddSpecimen = () => {
         </div>
 
         <div>
-          <label>Condition</label>
+          <label htmlFor="condition">Condition</label>
 
           <select
             name="condition"
+            id="condition"
             value={formData.condition}
             onChange={handleChange}
           >
@@ -137,22 +145,23 @@ const AddSpecimen = () => {
         </div>
 
         <div>
-          <label>Notes</label>
+          <label htmlFor="specimenNotes">Notes</label>
 
           <textarea
             name="notes"
+            id="specimenNotes"
             value={formData.notes}
             onChange={handleChange}
           />
         </div>
 
-        {error && <p>{error}</p>}
+        {error && <p className="workflow-form-error" role="alert">{error}</p>}
 
         <button type="submit" disabled={loading}>
           {loading ? "Saving..." : "Create Specimen"}
         </button>
       </form>
-    </div>
+    </main>
   );
 };
 

@@ -5,6 +5,8 @@ import {
   getReportById,
   signOutReport,
 } from "../../services/reportService";
+import PageHeader from "../../components/layout/PageHeader";
+import LoadingState from "../../components/ui/LoadingState";
 
 const SignOutReport = () => {
   const { id } = useParams();
@@ -57,30 +59,28 @@ const SignOutReport = () => {
   };
 
   if (loading) {
-    return <div>Loading report...</div>;
+    return <main className="report-workspace-page"><LoadingState message="Loading report..." /></main>;
   }
 
   if (!report) {
     return (
-      <div>
-        <h1>Final Sign-out</h1>
-        <p>{error || "Report not found."}</p>
-        <Link to="/reports/sign-out">
-          Back to Pending Sign-out
-        </Link>
-      </div>
+      <main className="report-workspace-page">
+        <PageHeader eyebrow="PATHOLOGY REPORTING" title="Final sign-out" />
+        <p className="workflow-form-error" role="alert">{error || "Report not found."}</p>
+        <Link className="record-list-action" to="/reports/sign-out">Back to pending sign-out</Link>
+      </main>
     );
   }
 
   return (
-    <div>
-      <h1>Final Sign-out</h1>
+    <main className="report-workspace-page">
+      <PageHeader eyebrow="PATHOLOGY REPORTING" title="Final sign-out" description={`Review report ${report.reportId || ""} before finalization.`} />
 
-      {error && <p>Error: {error}</p>}
+      {error && <p className="workflow-form-error" role="alert">{error}</p>}
 
-      {success && <p>{success}</p>}
+      {success && <p className="workflow-form-success" role="status">{success}</p>}
 
-      <section>
+      <section className="report-info-panel">
         <h2>Report Information</h2>
 
         <p>
@@ -117,7 +117,7 @@ const SignOutReport = () => {
         </p>
       </section>
 
-      <section>
+      <section className="report-info-panel">
         <h2>Pathology Findings</h2>
 
         <p>
@@ -147,7 +147,7 @@ const SignOutReport = () => {
       </section>
 
       {report.reportStatus === "DRAFT" && (
-        <section>
+        <section className="report-info-panel report-signout-action-panel">
           <h2>Final Sign-out Action</h2>
 
           <p>
@@ -156,6 +156,7 @@ const SignOutReport = () => {
           </p>
 
           <button
+            className="report-signout-button"
             type="button"
             onClick={handleSignOut}
             disabled={signingOut}
@@ -166,7 +167,7 @@ const SignOutReport = () => {
       )}
 
       {report.reportStatus === "FINAL" && (
-        <section>
+        <section className="report-info-panel">
           <h2>Report Signed Out</h2>
 
           <p>This report has already been finalized.</p>
@@ -185,7 +186,7 @@ const SignOutReport = () => {
         </section>
       )}
 
-      <p>
+      <p className="report-signout-links">
         <Link to="/reports/sign-out">
           Back to Pending Sign-out
         </Link>
@@ -198,7 +199,7 @@ const SignOutReport = () => {
           Pathologist Workspace
         </Link>
       </p>
-    </div>
+    </main>
   );
 };
 

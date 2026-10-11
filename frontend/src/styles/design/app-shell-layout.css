@@ -109,6 +109,11 @@
     color: #ffffff;
 }
 
+.app-shell-nav-item.is-active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
 .app-shell-nav-icon {
     width: 24px;
     flex-shrink: 0;

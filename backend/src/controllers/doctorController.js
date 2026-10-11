@@ -1,5 +1,14 @@
 const Doctor = require("../models/Doctor");
 
+const getDoctorResponse = (doctor) => {
+  if (!doctor) return doctor;
+  const data = doctor.toObject ? doctor.toObject() : { ...doctor };
+  delete data.password;
+  delete data.lastLogin;
+  delete data.createdBy;
+  return data;
+};
+
 const createDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.create({
@@ -9,34 +18,32 @@ const createDoctor = async (req, res) => {
 
     res.status(201).json({
       message: "Doctor created successfully",
-      doctor,
+      doctor: getDoctorResponse(doctor),
     });
   } catch (error) {
     res.status(500).json({
       message: "Failed to create doctor",
-      error: error.message,
     });
   }
 };
 
 const getDoctors = async (req, res) => {
   try {
-    const doctors = await Doctor.find().sort({ createdAt: -1 });
+    const doctors = await Doctor.find().select("-password -lastLogin -createdBy").sort({ createdAt: -1 });
 
     res.json({
-      doctors,
+      doctors: doctors.map(getDoctorResponse),
     });
   } catch (error) {
     res.status(500).json({
       message: "Failed to fetch doctors",
-      error: error.message,
     });
   }
 };
 
 const getDoctorById = async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.params.id);
+    const doctor = await Doctor.findById(req.params.id).select("-password -lastLogin -createdBy");
 
     if (!doctor) {
       return res.status(404).json({
@@ -45,12 +52,11 @@ const getDoctorById = async (req, res) => {
     }
 
     res.json({
-      doctor,
+      doctor: getDoctorResponse(doctor),
     });
   } catch (error) {
     res.status(500).json({
       message: "Failed to fetch doctor",
-      error: error.message,
     });
   }
 };
@@ -74,12 +80,11 @@ const updateDoctor = async (req, res) => {
 
     res.json({
       message: "Doctor updated successfully",
-      doctor,
+      doctor: getDoctorResponse(doctor),
     });
   } catch (error) {
     res.status(500).json({
       message: "Failed to update doctor",
-      error: error.message,
     });
   }
 };
@@ -89,4 +94,5 @@ module.exports = {
   getDoctors,
   getDoctorById,
   updateDoctor,
+  getDoctorResponse,
 };

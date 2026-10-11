@@ -9,6 +9,10 @@ import "./styles/digital-pathology/digital-pathology.css";
 import "./styles/reports/reports.css";
 import "./styles/common/common.css";
 import "./styles/ui/reusable-ui.css";
+import "./styles/design/clinical-ui.css";
+import "./styles/workflow-entry-form.css";
+import "./styles/report-workspace.css";
+import "./styles/error-pages.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />

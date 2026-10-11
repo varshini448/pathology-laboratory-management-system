@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import RecordListPage from "../../components/layout/RecordListPage";
 import { getSpecimens } from "../../services/specimenService";
 
 const Specimens = () => {
@@ -7,78 +8,43 @@ const Specimens = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadSpecimens = async () => {
-      try {
-        const data = await getSpecimens();
-        setSpecimens(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSpecimens();
+  const loadSpecimens = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      setSpecimens(await getSpecimens());
+    } catch (requestError) {
+      setError(requestError.message || "Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  if (loading) {
-    return <p>Loading specimens...</p>;
-  }
+  useEffect(() => { loadSpecimens(); }, [loadSpecimens]);
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const columns = [
+    { key: "specimenId", label: "Specimen", render: (record) => <Link className="record-list-link" to={`/specimens/${record._id}`}>{record.specimenId}</Link> },
+    { key: "specimenType", label: "Type" },
+    { key: "case", label: "Case", render: (record) => record.case?.caseId || record.case || "—" },
+    { key: "collectionSite", label: "Collection site" },
+    { key: "condition", label: "Condition" },
+    { key: "status", label: "Status" },
+  ];
 
   return (
-    <div>
-      <h1>Specimens</h1>
-
-      <Link to="/specimens/add">Add Specimen</Link>
-
-      {specimens.length === 0 ? (
-        <p>No specimens found.</p>
-      ) : (
-        <div>
-          {specimens.map((specimen) => (
-            <div key={specimen._id}>
-              <h3>
-                <Link to={`/specimens/${specimen._id}`}>
-                  {specimen.specimenId}
-                </Link>
-              </h3>
-
-              <p>
-                <strong>Specimen Type:</strong>{" "}
-                {specimen.specimenType}
-              </p>
-
-              <p>
-                <strong>Condition:</strong>{" "}
-                {specimen.condition}
-              </p>
-
-              <p>
-                <strong>Status:</strong>{" "}
-                {specimen.status}
-              </p>
-
-              <p>
-                <strong>Case:</strong>{" "}
-                {specimen.case?.caseId || specimen.case || "-"}
-              </p>
-
-              <p>
-                <strong>Collection Site:</strong>{" "}
-                {specimen.collectionSite || "-"}
-              </p>
-
-              <hr />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+    <RecordListPage
+      title="Specimens"
+      description="Review specimen identity, condition, and case association across the laboratory."
+      actionTo="/specimens/add"
+      actionLabel="Add specimen"
+      columns={columns}
+      records={specimens}
+      loading={loading}
+      error={error}
+      onRetry={loadSpecimens}
+      emptyTitle="No specimens recorded"
+      emptyMessage="New specimen records will appear here after they are registered."
+    />
   );
 };
 

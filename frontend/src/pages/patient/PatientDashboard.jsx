@@ -3,6 +3,8 @@ import DashboardHeader from "../dashboard/components/DashboardHeader";
 import DashboardStatCard from "../dashboard/components/DashboardStatCard";
 import DashboardSection from "../dashboard/components/DashboardSection";
 import { getPatientDashboard } from "../../services/externalDashboardService";
+import "../dashboard/dashboard.css";
+import { ClipboardList, FileCheck2, FlaskConical, RefreshCw } from "lucide-react";
 
 const formatDate = (value) => {
   if (!value) return "—";
@@ -16,9 +18,13 @@ const PatientDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let active = true;
+
+    setLoading(true);
+    setError("");
 
     getPatientDashboard()
       .then((result) => {
@@ -39,7 +45,7 @@ const PatientDashboard = () => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [reloadKey]);
 
   const stats = data?.stats || {};
   const cases = data?.cases || [];
@@ -52,6 +58,17 @@ const PatientDashboard = () => {
         subtitle="View your pathology cases, progress, and finalized reports."
         userName={data?.account?.name}
         role="PATIENT"
+        actions={
+          <button
+            className="dashboard-refresh-action"
+            type="button"
+            onClick={() => setReloadKey((key) => key + 1)}
+            disabled={loading}
+          >
+            <RefreshCw size={15} aria-hidden="true" />
+            Refresh my records
+          </button>
+        }
       />
 
       {loading && (
@@ -64,7 +81,7 @@ const PatientDashboard = () => {
         <div className="dashboard-empty-state" role="alert">
           <h3>Dashboard unavailable</h3>
           <p>{error}</p>
-          <button type="button" onClick={() => window.location.reload()}>
+          <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
             Try again
           </button>
         </div>
@@ -77,19 +94,19 @@ const PatientDashboard = () => {
               title="My Cases"
               value={stats.totalCases ?? 0}
               subtitle="Cases registered to your account"
-              icon="📋"
+              icon={<ClipboardList />}
             />
             <DashboardStatCard
               title="Active Cases"
               value={stats.activeCases ?? 0}
               subtitle="Currently in progress"
-              icon="🔬"
+              icon={<FlaskConical />}
             />
             <DashboardStatCard
               title="Final Reports"
               value={stats.finalReports ?? 0}
               subtitle="Reports signed out and available"
-              icon="📄"
+              icon={<FileCheck2 />}
             />
           </section>
 

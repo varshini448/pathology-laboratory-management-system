@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getReportById } from "../../services/reportService";
+import PageHeader from "../../components/layout/PageHeader";
+import LoadingState from "../../components/ui/LoadingState";
 
 const ReportDetails = () => {
   const { id } = useParams();
@@ -25,32 +27,45 @@ const ReportDetails = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading report...</div>;
+    return <main className="report-workspace-page"><LoadingState message="Loading report..." /></main>;
   }
 
   if (error) {
     return (
-      <div>
-        <h1>Report Details</h1>
-        <p>Error: {error}</p>
-        <Link to="/reports">Back to Reports</Link>
-      </div>
+      <main className="report-workspace-page">
+        <PageHeader eyebrow="PATHOLOGY REPORTING" title="Report details" />
+        <p className="workflow-form-error" role="alert">{error}</p>
+        <Link className="record-list-action" to="/reports">Back to reports</Link>
+      </main>
     );
   }
 
   if (!report) {
     return (
-      <div>
-        <h1>Report Details</h1>
-        <p>Report not found.</p>
-        <Link to="/reports">Back to Reports</Link>
-      </div>
+      <main className="report-workspace-page">
+        <PageHeader eyebrow="PATHOLOGY REPORTING" title="Report details" />
+        <p role="status">Report not found.</p>
+        <Link className="record-list-action" to="/reports">Back to reports</Link>
+      </main>
     );
   }
 
   return (
-    <div>
-      <h1>Report Details</h1>
+    <main className="report-workspace-page">
+      <PageHeader
+        eyebrow="PATHOLOGY REPORTING"
+        title="Report details"
+        description={`Report ${report.reportId || ""} · ${report.reportStatus || ""}`}
+        actions={
+          <div className="report-page-actions">
+            <Link className="record-list-action" to="/reports">All reports</Link>
+            {report.reportStatus === "DRAFT" && <Link className="record-list-action" to={`/reports/${report._id}/edit`}>Edit draft</Link>}
+            {report.reportStatus === "DRAFT" && <Link className="record-list-action" to={`/reports/${report._id}/sign-out`}>Final sign-out</Link>}
+          </div>
+        }
+      />
+
+      <section className="report-info-panel report-details-panel">
 
       <p>
         <strong>Report ID:</strong> {report.reportId}
@@ -113,24 +128,8 @@ const ReportDetails = () => {
         </p>
       )}
 
-      <div>
-  <Link to="/reports">Back to Reports</Link>
-
-  {report.reportStatus === "DRAFT" && (
-    <>
-      {" | "}
-      <Link to={`/reports/${report._id}/edit`}>
-        Edit Draft
-      </Link>
-
-      {" | "}
-      <Link to={`/reports/${report._id}/sign-out`}>
-        Final Sign-out
-      </Link>
-    </>
-  )}
-</div>
-    </div>
+      </section>
+    </main>
   );
 };
 

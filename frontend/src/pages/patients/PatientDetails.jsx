@@ -23,6 +23,10 @@ const PatientDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const age = patient?.age ?? (patient?.dateOfBirth
+    ? Math.max(0, Math.floor((Date.now() - new Date(patient.dateOfBirth).getTime()) / 31557600000))
+    : null);
+
   useEffect(() => {
     const loadPatient = async () => {
       try {
@@ -139,7 +143,7 @@ const PatientDetails = () => {
 
         <div className="patient-profile-status">
           <span className="patient-status-dot" />
-          Active Record
+          {patient.status || "Unknown"} Record
         </div>
       </section>
 
@@ -188,7 +192,7 @@ const PatientDetails = () => {
 
             <div>
               <span>Age</span>
-              <strong>{patient.age} years</strong>
+                  <strong>{age === null ? "Not provided" : `${age} years`}</strong>
             </div>
           </div>
 

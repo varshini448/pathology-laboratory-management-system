@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { verifyEmailToken } from "../../services/authService";
 
 const VerifyEmail = () => {
   const { token } = useParams();
@@ -17,13 +18,9 @@ const VerifyEmail = () => {
       }
 
       try {
-        // Backend API will be connected later.
-        console.log("Email verification token:", token);
-
+        const response = await verifyEmailToken(token);
         setStatus("success");
-        setMessage(
-          "Your email verification request has been received."
-        );
+        setMessage(response.message || "Email verification completed.");
       } catch (error) {
         setStatus("error");
         setMessage(

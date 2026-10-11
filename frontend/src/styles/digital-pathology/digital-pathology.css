@@ -371,3 +371,88 @@
         padding: 12px;
     }
 }
+
+/* =========================================================
+   DIGITAL SLIDE IMAGE UPLOAD
+   ========================================================= */
+
+.slide-viewer-canvas {
+    overflow: hidden;
+}
+
+.slide-viewer-image {
+    display: block;
+    flex: 0 0 auto;
+    width: min(100%, 1200px);
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    border-radius: 4px;
+    transition: transform 0.15s ease;
+}
+
+.slide-image-upload-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #e1e7ea;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.slide-image-upload-form label {
+    color: #263238;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.slide-image-upload-form input[type="file"] {
+    flex: 1 1 220px;
+    min-width: 0;
+    max-width: 100%;
+    color: #455a64;
+    font-size: 13px;
+}
+
+.slide-image-upload-form button {
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: #2f6f95;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.slide-image-upload-form button:hover:not(:disabled) {
+    background: #245776;
+}
+
+.slide-image-upload-form button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.slide-image-upload-form input:focus-visible,
+.slide-image-upload-form button:focus-visible {
+    outline: 2px solid #2f6f95;
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    .slide-image-upload-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .slide-image-upload-form button {
+        width: 100%;
+    }
+
+    .slide-viewer-image {
+        width: 100%;
+    }
+}

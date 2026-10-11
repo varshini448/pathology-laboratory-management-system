@@ -31,6 +31,23 @@ const slideSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+        image: {
+      filename: {
+        type: String,
+        trim: true,
+      },
+      contentType: {
+        type: String,
+        enum: ["image/jpeg", "image/png", "image/webp"],
+      },
+      uploadedAt: {
+        type: Date,
+      },
+      size: {
+        type: Number,
+        min: 0,
+      },
+    },
 
     status: {
       type: String,

@@ -1,0 +1,534 @@
+.account-overview-page {
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: #20324b;
+}
+
+.account-overview-content {
+  width: min(1180px, calc(100% - 56px));
+  margin: 0 auto;
+  padding: 30px 0 56px;
+}
+
+.ao-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 27px;
+  color: #526781;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.ao-back-link:hover {
+  color: #2164bd;
+}
+
+.ao-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.ao-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #71839b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.25px;
+}
+
+.ao-heading h1 {
+  margin: 0;
+  color: #1c2e47;
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: 780;
+  letter-spacing: -0.8px;
+}
+
+.ao-heading > div:first-child > p {
+  margin: 9px 0 0;
+  color: #71819a;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ao-heading-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  border: 1px solid #d9e7fa;
+  border-radius: 16px;
+  background: #eaf2ff;
+  color: #2869bc;
+}
+
+.ao-identity-card,
+.ao-card,
+.ao-stat-card {
+  border: 1px solid #e0e8f2;
+  border-radius: 17px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(35 58 89 / 3%);
+}
+
+.ao-identity-card {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.ao-avatar {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  place-items: center;
+  border: 1px solid #d5e5fc;
+  border-radius: 19px;
+  background: linear-gradient(145deg, #edf5ff, #dceaff);
+  color: #245ea8;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.ao-identity-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.ao-identity-main .ao-eyebrow {
+  margin-bottom: 5px;
+}
+
+.ao-identity-main h2 {
+  margin: 0;
+  color: #223651;
+  font-size: 21px;
+  font-weight: 760;
+  letter-spacing: -0.35px;
+}
+
+.ao-identity-main > p {
+  margin: 7px 0 11px;
+  overflow-wrap: anywhere;
+  color: #71829a;
+  font-size: 13px;
+}
+
+.ao-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ao-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  padding: 4px 9px;
+  border: 1px solid #e0e8f3;
+  border-radius: 7px;
+  background: #f7f9fc;
+  color: #526680;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.3px;
+}
+
+.ao-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 7px 11px;
+  border: 1px solid #ccebdc;
+  border-radius: 999px;
+  background: #effaf4;
+  color: #18784d;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.ao-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #26a269;
+}
+
+.ao-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ao-stat-card {
+  min-width: 0;
+  padding: 19px;
+}
+
+.ao-stat-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  margin-bottom: 17px;
+  border-radius: 11px;
+}
+
+.ao-stat-icon.blue {
+  background: #eaf2ff;
+  color: #2a68b7;
+}
+
+.ao-stat-icon.violet {
+  background: #f1edff;
+  color: #7352b9;
+}
+
+.ao-stat-icon.green {
+  background: #eaf8f0;
+  color: #238558;
+}
+
+.ao-stat-card > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #71829a;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ao-stat-card > strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #263b57;
+  font-size: 15px;
+  font-weight: 760;
+  line-height: 1.5;
+}
+
+.ao-stat-card > small {
+  display: block;
+  margin-top: 6px;
+  color: #91a0b3;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.ao-card {
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.ao-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.ao-section-icon {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  place-items: center;
+  border: 1px solid #dce8fa;
+  border-radius: 12px;
+  background: #f0f6ff;
+  color: #316fbd;
+}
+
+.ao-section-heading h2 {
+  margin: 0;
+  color: #263b57;
+  font-size: 16px;
+  font-weight: 760;
+}
+
+.ao-section-heading p {
+  margin: 5px 0 0;
+  color: #8090a6;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ao-role-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  margin-top: 20px;
+  border: 1px solid #e4dcff;
+  border-radius: 13px;
+  background: #faf8ff;
+}
+
+.ao-role-symbol {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  place-items: center;
+  border: 1px solid #e7e0fb;
+  border-radius: 11px;
+  background: #fff;
+  color: #7658b9;
+}
+
+.ao-role-banner span {
+  color: #8791a5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.ao-role-banner h3 {
+  margin: 5px 0;
+  color: #3e3268;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.ao-role-banner p {
+  margin: 0;
+  color: #7e8299;
+  font-size: 12px;
+}
+
+.ao-subheading {
+  margin: 24px 0 13px;
+  color: #344963;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.ao-permission-list {
+  display: grid;
+  gap: 10px;
+}
+
+.ao-permission {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 13px;
+  border: 1px solid #e8edf4;
+  border-radius: 10px;
+  background: #fbfcfe;
+  color: #4c607a;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ao-permission > svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #47836a;
+}
+
+.ao-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  margin: 17px 0 0;
+  border: 1px solid #dce8f8;
+  border-radius: 10px;
+  background: #f5f9ff;
+  color: #647b99;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.ao-disclaimer svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #4779b7;
+}
+
+.ao-empty-activity {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 4px 3px;
+  color: #7890ad;
+}
+
+.ao-empty-activity > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ao-empty-activity strong {
+  display: block;
+  color: #354b67;
+  font-size: 13px;
+}
+
+.ao-empty-activity p {
+  margin: 7px 0 0;
+  color: #7b8ca2;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.ao-footer-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 17px 19px;
+  border: 1px solid #dce8f8;
+  border-radius: 13px;
+  background: #f0f6ff;
+  color: #3769a7;
+}
+
+.ao-footer-note > svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ao-footer-note p {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+}
+
+.ao-footer-note strong {
+  color: #315782;
+  font-size: 12px;
+}
+
+.ao-footer-note span {
+  color: #6982a1;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.ao-not-found {
+  padding: 38px;
+  text-align: center;
+}
+
+.ao-not-found > svg {
+  color: #6285b4;
+}
+
+.ao-not-found h2 {
+  margin: 14px 0 8px;
+  color: #293e58;
+}
+
+.ao-not-found p {
+  color: #73849b;
+  font-size: 13px;
+}
+
+.ao-primary-link {
+  display: inline-flex;
+  padding: 10px 15px;
+  margin-top: 12px;
+  border-radius: 9px;
+  background: #2868b8;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 760px) {
+  .account-overview-content {
+    width: calc(100% - 32px);
+    padding-top: 22px;
+  }
+
+  .ao-identity-card {
+    flex-wrap: wrap;
+    padding: 19px;
+  }
+
+  .ao-status {
+    margin-left: 86px;
+  }
+
+  .ao-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ao-stat-card {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    column-gap: 13px;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .ao-stat-icon {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    margin: 0;
+  }
+
+  .ao-stat-card > span,
+  .ao-stat-card > strong,
+  .ao-stat-card > small {
+    grid-column: 2;
+  }
+
+  .ao-stat-card > span {
+    margin-bottom: 3px;
+  }
+
+  .ao-stat-card > small {
+    margin-top: 3px;
+  }
+
+  .ao-card {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ao-heading-icon {
+    display: none;
+  }
+
+  .ao-identity-main h2 {
+    font-size: 18px;
+  }
+
+  .ao-status {
+    margin-left: 0;
+  }
+
+  .ao-role-banner {
+    align-items: flex-start;
+    padding: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .account-overview-page *,
+  .account-overview-page *::before,
+  .account-overview-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

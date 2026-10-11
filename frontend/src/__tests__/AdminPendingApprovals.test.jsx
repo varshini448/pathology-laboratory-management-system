@@ -50,7 +50,7 @@ describe("AdminPendingApprovals", () => {
 
     expect(
       await screen.findByText(
-        "No internal users are currently waiting for approval."
+        "There are no staff registrations awaiting approval."
       )
     ).toBeInTheDocument();
   });

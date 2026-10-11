@@ -16,7 +16,7 @@ const HomeNavbar = () => {
         <nav className="home-navigation" aria-label="Main navigation">
           <a href="#platform">Platform</a>
           <a href="#workflow">Workflow</a>
-          <a href="#ai-assistance">AI Assistance</a>
+          <a href="#operational-insight">Operations</a>
           <a href="#about">About</a>
         </nav>
 

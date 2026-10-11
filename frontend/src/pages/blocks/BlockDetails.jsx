@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { getBlockById } from "../../services/blockService";
+import RecordDetailsPage, { RecordField } from "../../components/layout/RecordDetailsPage";
 
 const BlockDetails = () => {
   const { id } = useParams();
@@ -25,61 +26,17 @@ const BlockDetails = () => {
     loadBlock();
   }, [id]);
 
-  if (loading) {
-    return <p>Loading block...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
-  if (!block) {
-    return <p>Block not found.</p>;
-  }
-
   return (
-    <div>
-      <h1>Block Details</h1>
-
-      <p>
-        <strong>Block ID:</strong> {block.blockId}
-      </p>
-
-      <p>
-        <strong>Block Type:</strong> {block.blockType}
-      </p>
-
-      <p>
-        <strong>Processing Status:</strong>{" "}
-        {block.processingStatus}
-      </p>
-
-      <p>
-        <strong>Specimen:</strong>{" "}
-        {block.specimen?.specimenId || block.specimen}
-      </p>
-
-      <p>
-        <strong>Case:</strong>{" "}
-        {block.case?.caseId || block.case}
-      </p>
-
-      <p>
-        <strong>Tissue Description:</strong>{" "}
-        {block.tissueDescription || "-"}
-      </p>
-
-      <p>
-        <strong>Notes:</strong> {block.notes || "-"}
-      </p>
-
-      {block.createdBy && (
-        <p>
-          <strong>Created By:</strong>{" "}
-          {block.createdBy.name} ({block.createdBy.role})
-        </p>
-      )}
-    </div>
+    <RecordDetailsPage title="Block details" description="Traceability and processing information for this block." backTo="/blocks" loading={loading} error={error} notFound={!block}>
+      <RecordField label="Block ID">{block?.blockId}</RecordField>
+      <RecordField label="Block type">{block?.blockType}</RecordField>
+      <RecordField label="Processing status">{block?.processingStatus}</RecordField>
+      <RecordField label="Specimen">{block?.specimen?.specimenId || block?.specimen}</RecordField>
+      <RecordField label="Case">{block?.case?.caseId || block?.case}</RecordField>
+      <RecordField label="Tissue description">{block?.tissueDescription}</RecordField>
+      <RecordField label="Notes">{block?.notes}</RecordField>
+      <RecordField label="Created by">{block?.createdBy && `${block.createdBy.name} (${block.createdBy.role})`}</RecordField>
+    </RecordDetailsPage>
   );
 };
 

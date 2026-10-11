@@ -1,0 +1,30 @@
+/* Shared interaction and content foundations across all route groups. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-brand-500) !important;
+  outline-offset: 3px;
+}
+
+:where(button, input, select, textarea):disabled {
+  cursor: not-allowed;
+}
+
+:where(button, input, select, textarea) {
+  accent-color: var(--color-brand-700);
+}
+
+.app-shell-content {
+  min-width: 0;
+}
+
+.app-shell-content > :is(main, .dashboard-page, .admin-dashboard-page, .tat-page, .cases-page, .patient-registration-page, .patient-details-page, .case-details-page, .slide-details-page, .users-page, .user-details-page, .account-overview-page, .access-control-page) {
+  width: 100%;
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .app-shell-content {
+    padding: 20px 16px;
+  }
+}

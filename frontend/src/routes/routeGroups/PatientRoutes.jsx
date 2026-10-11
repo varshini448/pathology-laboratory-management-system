@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import Patients from "../../pages/patients/Patients";
 import PatientDetails from "../../pages/patients/PatientDetails";
 import AddPatient from "../../pages/patients/AddPatient";
+import RoleRoute from "../RoleRoute";
 
 const PatientRoutes = (
     <>
@@ -11,10 +12,9 @@ const PatientRoutes = (
             element={<Patients />}
         />
 
-        <Route
-            path="/patients/add"
-            element={<AddPatient />}
-        />
+        <Route element={<RoleRoute allowedRoles={["ADMIN", "TECHNICIAN"]} />}>
+            <Route path="/patients/add" element={<AddPatient />} />
+        </Route>
 
         <Route
             path="/patients/:id"

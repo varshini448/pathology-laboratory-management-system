@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import RecordListPage from "../../components/layout/RecordListPage";
 
 import { getReports } from "../../services/reportService";
 
@@ -8,95 +9,42 @@ const DraftReports = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadDraftReports = async () => {
-      try {
-        const data = await getReports();
-
-        const draftReports = (data || []).filter(
-          (report) => report.reportStatus === "DRAFT"
-        );
-
-        setReports(draftReports);
-      } catch (err) {
-        setError(err.message || "Failed to load draft reports.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadDraftReports();
+  const loadDraftReports = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await getReports();
+      setReports((data || []).filter((report) => report.reportStatus === "DRAFT"));
+    } catch (err) {
+      setError(err.message || "Failed to load draft reports.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  if (loading) {
-    return <div>Loading draft reports...</div>;
-  }
+  useEffect(() => { loadDraftReports(); }, [loadDraftReports]);
 
   return (
-    <div>
-      <h1>Draft Reports</h1>
-
-      <p>
-        Review pathology reports that are currently being prepared by
-        pathologists.
-      </p>
-
-      {error && <p>Error: {error}</p>}
-
-      {!error && reports.length === 0 && (
-        <p>No draft reports found.</p>
-      )}
-
-      {!error && reports.length > 0 && (
-        <table border="1" cellPadding="8" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>Report ID</th>
-              <th>Case</th>
-              <th>Patient</th>
-              <th>Slide</th>
-              <th>Prepared By</th>
-              <th>Created At</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {reports.map((report) => (
-              <tr key={report._id}>
-                <td>{report.reportId}</td>
-
-                <td>{report.case?.caseId || "-"}</td>
-
-                <td>{report.case?.patient?.name || "-"}</td>
-
-                <td>{report.slide?.slideId || "-"}</td>
-
-                <td>{report.preparedBy?.name || "-"}</td>
-
-                <td>
-                  {report.createdAt
-                    ? new Date(report.createdAt).toLocaleString()
-                    : "-"}
-                </td>
-
-                <td>
-                  <Link to={`/reports/${report._id}`}>
-                    Open Draft
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      <p>
-        <Link to="/pathologist-workspace">
-          Back to Pathologist Workspace
-        </Link>
-      </p>
-    </div>
+    <RecordListPage
+      title="Draft reports"
+      description="Review pathology reports that are currently being prepared."
+      actionTo="/pathologist-workspace"
+      actionLabel="Pathologist workspace"
+      columns={[
+        { key: "reportId", label: "Report", render: (report) => <Link className="record-list-link" to={`/reports/${report._id}`}>{report.reportId}</Link> },
+        { key: "case", label: "Case", render: (report) => report.case?.caseId || "—" },
+        { key: "patient", label: "Patient", render: (report) => report.case?.patient?.name || "—" },
+        { key: "slide", label: "Slide", render: (report) => report.slide?.slideId || "—" },
+        { key: "preparedBy", label: "Prepared by", render: (report) => report.preparedBy?.name || "—" },
+        { key: "createdAt", label: "Created", render: (report) => report.createdAt ? new Date(report.createdAt).toLocaleDateString() : "—" },
+      ]}
+      records={reports}
+      loading={loading}
+      error={error}
+      onRetry={loadDraftReports}
+      emptyTitle="No draft reports"
+      emptyMessage="Reports still in preparation will appear here."
+    />
   );
 };
 

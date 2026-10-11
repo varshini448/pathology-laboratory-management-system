@@ -2,6 +2,23 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+const logInternalLoginDiagnostic = ({
+  accountMatched,
+  accountRole = null,
+  accountStatus = null,
+  passwordHashExists,
+  passwordComparisonSucceeded = null,
+}) => {
+  console.info("[auth.login.diagnostic]", {
+    accountMatched,
+    accountType: "INTERNAL",
+    accountRole,
+    accountStatus,
+    passwordHashExists,
+    passwordComparisonSucceeded,
+  });
+};
+
 // ==========================================
 // REGISTER INTERNAL USER
 // ==========================================
@@ -275,16 +292,28 @@ const login = async (req, res) => {
     });
 
     if (!user) {
+      logInternalLoginDiagnostic({
+        accountMatched: false,
+        passwordHashExists: false,
+      });
       return res.status(401).json({
         message: "Invalid identifier or password",
       });
     }
+
+    const passwordHashExists = Boolean(user.password);
 
     // --------------------------------------
     // Check account status
     // --------------------------------------
 
     if (user.status === "PENDING_APPROVAL") {
+      logInternalLoginDiagnostic({
+        accountMatched: true,
+        accountRole: user.role,
+        accountStatus: user.status,
+        passwordHashExists,
+      });
       return res.status(403).json({
         message:
           "Your account is pending administrator approval.",
@@ -292,6 +321,12 @@ const login = async (req, res) => {
     }
 
     if (user.status === "INACTIVE") {
+      logInternalLoginDiagnostic({
+        accountMatched: true,
+        accountRole: user.role,
+        accountStatus: user.status,
+        passwordHashExists,
+      });
       return res.status(403).json({
         message:
           "Your account is inactive. Please contact an administrator.",
@@ -299,6 +334,12 @@ const login = async (req, res) => {
     }
 
     if (user.status === "SUSPENDED") {
+      logInternalLoginDiagnostic({
+        accountMatched: true,
+        accountRole: user.role,
+        accountStatus: user.status,
+        passwordHashExists,
+      });
       return res.status(403).json({
         message:
           "Your account has been suspended. Please contact an administrator.",
@@ -309,10 +350,30 @@ const login = async (req, res) => {
     // Verify password
     // --------------------------------------
 
+    if (!passwordHashExists) {
+      logInternalLoginDiagnostic({
+        accountMatched: true,
+        accountRole: user.role,
+        accountStatus: user.status,
+        passwordHashExists: false,
+      });
+      return res.status(401).json({
+        message: "Invalid identifier or password",
+      });
+    }
+
     const isPasswordValid = await bcrypt.compare(
       password,
       user.password
     );
+
+    logInternalLoginDiagnostic({
+      accountMatched: true,
+      accountRole: user.role,
+      accountStatus: user.status,
+      passwordHashExists,
+      passwordComparisonSucceeded: isPasswordValid,
+    });
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -362,12 +423,15 @@ const login = async (req, res) => {
         userType: "INTERNAL",
       },
     });
-  } catch (error) {
-    console.error("Login error:", error);
+  } catch {
+    logInternalLoginDiagnostic({
+      accountMatched: null,
+      accountStatus: "ERROR",
+      passwordHashExists: null,
+    });
 
     return res.status(500).json({
       message: "Login failed",
-      error: error.message,
     });
   }
 };
