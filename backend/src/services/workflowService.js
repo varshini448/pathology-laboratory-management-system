@@ -28,6 +28,10 @@ const createWorkflowEvent = async (data) => {
     throw new Error("Workflow status is required");
   }
 
+  if (!["STARTED", "COMPLETED"].includes(status)) {
+    throw new Error("Workflow status must be STARTED or COMPLETED");
+  }
+
   const caseData = await Case.findById(caseId);
 
   if (!caseData) {
@@ -42,16 +46,20 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Specimen is required for specimen collection");
       }
 
-      updatedEntity = await Specimen.findByIdAndUpdate(
-        specimenId,
-        {
-          status: "COLLECTED",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      if (status === "COMPLETED") {
+        updatedEntity = await Specimen.findByIdAndUpdate(
+          specimenId,
+          {
+            status: "COLLECTED",
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      } else {
+        updatedEntity = await Specimen.findById(specimenId);
+      }
 
       if (status === "COMPLETED") {
         await Case.findByIdAndUpdate(caseId, {
@@ -179,16 +187,20 @@ const createWorkflowEvent = async (data) => {
         throw new Error("Slide is required for scanning");
       }
 
-      updatedEntity = await Slide.findByIdAndUpdate(
-        slideId,
-        {
-          status: "SCANNED",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      if (status === "COMPLETED") {
+        updatedEntity = await Slide.findByIdAndUpdate(
+          slideId,
+          {
+            status: "SCANNED",
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      } else {
+        updatedEntity = await Slide.findById(slideId);
+      }
 
       await Case.findByIdAndUpdate(caseId, {
         status: "IN_PROCESS",
