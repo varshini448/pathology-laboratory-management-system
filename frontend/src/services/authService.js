@@ -26,6 +26,10 @@ export const registerDoctor = async (doctorData) => {
   return response;
 };
 
+export const requestPasswordReset = async (resetRequest) => {
+  return api.post("/password-reset/request", resetRequest);
+};
+
 export const resetPassword = async (resetData) => {
   return api.post("/password-reset/reset", resetData);
 };

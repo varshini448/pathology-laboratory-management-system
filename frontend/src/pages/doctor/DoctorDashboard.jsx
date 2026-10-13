@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardHeader from "../dashboard/components/DashboardHeader";
 import DashboardStatCard from "../dashboard/components/DashboardStatCard";
 import DashboardSection from "../dashboard/components/DashboardSection";
@@ -116,6 +117,7 @@ const DoctorDashboard = () => {
             />
           </section>
 
+          <div id="assigned-cases">
           <DashboardSection
             title="Assigned Cases"
             subtitle="Only cases assigned to your doctor account are shown."
@@ -141,7 +143,7 @@ const DoctorDashboard = () => {
                   <tbody>
                     {cases.map((item) => (
                       <tr key={item._id}>
-                        <td>{item.caseId}</td>
+                        <td><Link to={`/doctor/cases/${encodeURIComponent(item.caseId)}`}>{item.caseId}</Link></td>
                         <td>{item.patient?.name || "—"}</td>
                         <td>{item.caseType || "—"}</td>
                         <td>{item.status || "—"}</td>
@@ -154,10 +156,12 @@ const DoctorDashboard = () => {
               </div>
             )}
           </DashboardSection>
+          </div>
 
+          <div id="assigned-reports">
           <DashboardSection
             title="Reports for Assigned Cases"
-            subtitle="Drafts and finalized reports are labeled by their current status."
+            subtitle="Finalized reports for your assigned cases are available here."
           >
             {reports.length === 0 ? (
               <div className="dashboard-empty-state">
@@ -191,6 +195,7 @@ const DoctorDashboard = () => {
               </div>
             )}
           </DashboardSection>
+          </div>
         </>
       )}
     </main>

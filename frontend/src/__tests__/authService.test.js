@@ -6,6 +6,7 @@ import {
   loginPatient,
   loginUser,
   logoutUser,
+  requestPasswordReset,
   resetPassword,
   verifyEmailToken,
 } from "../services/authService";
@@ -59,6 +60,19 @@ describe("authService session storage", () => {
       token: "synthetic-reset-token",
       password: "synthetic-test-password",
     });
+  });
+
+  test("posts reset requests to the backend without assuming delivery succeeded", async () => {
+    const request = {
+      accountType: "external",
+      identifier: "doctor@example.test",
+    };
+    api.post.mockResolvedValue({ message: "Password reset delivery is not configured." });
+
+    await expect(requestPasswordReset(request)).resolves.toEqual({
+      message: "Password reset delivery is not configured.",
+    });
+    expect(api.post).toHaveBeenCalledWith("/password-reset/request", request);
   });
 
   test("posts email verification token to the backend endpoint", async () => {

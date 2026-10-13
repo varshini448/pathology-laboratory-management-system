@@ -1,4 +1,5 @@
 const Report = require("../../models/Report");
+const { createAuditEntry, notifyWithoutBlocking } = require("../../services/lifecycleEventService");
 
 // Get reports waiting for final sign-out
 const getPendingSignOutReports = async (req, res) => {
@@ -58,16 +59,46 @@ const signOutReport = async (req, res) => {
 
     await report.save();
 
+    await createAuditEntry({
+      req,
+      action: "SIGN_OUT",
+      module: "Reports",
+      resourceType: "Report",
+      resourceId: report._id,
+      description: "Pathology report finalized and signed out",
+      previousData: { reportStatus: "DRAFT" },
+      newData: { reportStatus: "FINAL", case: String(report.case), signedOutBy: String(req.user.id) },
+    });
+
     const signedOutReport = await Report.findById(report._id)
       .populate({
         path: "case",
-        populate: {
-          path: "patient",
-        },
+        select: "_id caseId doctor patient",
+        populate: [
+          { path: "patient", select: "_id" },
+          { path: "doctor", select: "_id" },
+        ],
       })
       .populate("slide")
       .populate("preparedBy", "name email role")
       .populate("reviewedBy", "name email role");
+
+    const recipientCase = signedOutReport.case;
+    const recipients = [
+      ...(recipientCase?.doctor?._id ? [{ id: recipientCase.doctor._id, model: "Doctor" }] : []),
+      ...(recipientCase?.patient?._id ? [{ id: recipientCase.patient._id, model: "Patient" }] : []),
+    ];
+    await notifyWithoutBlocking({
+      recipients,
+      eventKey: `report-final:${report._id}`,
+      title: "A pathology report is ready",
+      message: "A finalized report is available in your secure dashboard.",
+      type: "REPORT_ALERT",
+      module: "Reports",
+      resourceType: "Report",
+      resourceId: report._id,
+      actionUrl: "/dashboard",
+    });
 
     res.status(200).json({
       message: "Report signed out successfully",

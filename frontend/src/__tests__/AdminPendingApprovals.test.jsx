@@ -6,16 +6,23 @@ import {
   approveUser,
   rejectUser,
 } from "../services/userService";
+import { getPendingDoctors, approveDoctor, rejectDoctor } from "../services/doctorService";
 
 vi.mock("../services/userService", () => ({
   getPendingApprovals: vi.fn(),
   approveUser: vi.fn(),
   rejectUser: vi.fn(),
 }));
+vi.mock("../services/doctorService", () => ({
+  getPendingDoctors: vi.fn(),
+  approveDoctor: vi.fn(),
+  rejectDoctor: vi.fn(),
+}));
 
 describe("AdminPendingApprovals", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    getPendingDoctors.mockResolvedValue([]);
   });
 
   test("shows pending users returned by the service", async () => {
@@ -50,9 +57,24 @@ describe("AdminPendingApprovals", () => {
 
     expect(
       await screen.findByText(
-        "There are no staff registrations awaiting approval."
+        "There are no staff registrations or doctor verifications awaiting review."
       )
     ).toBeInTheDocument();
+  });
+
+  test("shows pending doctor verification separately from staff approval", async () => {
+    getPendingApprovals.mockResolvedValue({ users: [] });
+    getPendingDoctors.mockResolvedValue([
+      { _id: "doctor-1", name: "Dr. Example", email: "doctor@example.com", specialization: "Pathology" },
+    ]);
+
+    render(<AdminPendingApprovals />);
+
+    expect(await screen.findByText("Dr. Example")).toBeInTheDocument();
+    expect(screen.getByText("Pending verification")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Approve" }));
+    await waitFor(() => expect(approveDoctor).toHaveBeenCalledWith("doctor-1"));
+    expect(rejectDoctor).not.toHaveBeenCalled();
   });
 
   test("approves a user and removes them from the list", async () => {
@@ -119,7 +141,7 @@ describe("AdminPendingApprovals", () => {
     render(<AdminPendingApprovals />);
 
     expect(
-      await screen.findByText("Unable to load approvals")
+      await screen.findByText(/Could not load staff approvals/)
     ).toBeInTheDocument();
   });
 });

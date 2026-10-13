@@ -1,0 +1,42 @@
+.external-case-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+  margin: 0;
+}
+
+.external-case-details-grid dt {
+  color: var(--text-muted, #64748b);
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
+.external-case-details-grid dd {
+  color: var(--text-primary, #172033);
+  font-weight: 600;
+  margin: 0;
+}
+
+.external-case-report {
+  border: 1px solid var(--border-color, #dbe2ea);
+  border-radius: 12px;
+  margin-top: 12px;
+  padding: 16px;
+}
+
+.external-case-report h3 {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.external-case-report p {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
+  .external-case-details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

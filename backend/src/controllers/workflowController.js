@@ -1,4 +1,5 @@
 const workflowService = require("../services/workflowService");
+const { createAuditEntry, notifyRolesWithoutBlocking } = require("../services/lifecycleEventService");
 
 const createWorkflowEvent = async (req, res) => {
   try {
@@ -6,6 +7,36 @@ const createWorkflowEvent = async (req, res) => {
       ...req.body,
       performedBy: req.user.id,
     });
+
+    await createAuditEntry({
+      req,
+      action: "UPDATE",
+      module: "Workflow",
+      resourceType: "Case",
+      resourceId: workflowEvent.case,
+      description: `Workflow stage ${workflowEvent.stage} ${workflowEvent.status.toLowerCase()}`,
+      newData: {
+        eventId: String(workflowEvent._id),
+        stage: workflowEvent.stage,
+        status: workflowEvent.status,
+        specimen: workflowEvent.specimen ? String(workflowEvent.specimen) : undefined,
+        block: workflowEvent.block ? String(workflowEvent.block) : undefined,
+        slide: workflowEvent.slide ? String(workflowEvent.slide) : undefined,
+      },
+    });
+    if (workflowEvent.stage === "SCANNING" && workflowEvent.status === "COMPLETED") {
+      await notifyRolesWithoutBlocking({
+        roles: ["PATHOLOGIST"],
+        eventKey: `workflow-scan-complete:${workflowEvent.case}:${workflowEvent.slide}`,
+        title: "A slide is ready for review",
+        message: "A slide has completed scanning and is ready for pathologist review.",
+        type: "WORKFLOW_ALERT",
+        module: "Workflow",
+        resourceType: "Case",
+        resourceId: workflowEvent.case,
+        actionUrl: "/pathologist-workspace",
+      });
+    }
 
     res.status(201).json(workflowEvent);
   } catch (error) {

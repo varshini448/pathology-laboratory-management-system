@@ -1,4 +1,22 @@
 const Notification = require("../models/Notification");
+const NotificationRecipientModels = {
+  User: require("../models/User"),
+  Doctor: require("../models/Doctor"),
+  Patient: require("../models/Patient"),
+};
+
+const getRecipientModel = (user) => {
+  if (user?.userType === "DOCTOR") return "Doctor";
+  if (user?.userType === "PATIENT") return "Patient";
+  return "User";
+};
+
+const recipientFilter = (user) => {
+  const model = getRecipientModel(user);
+  return model === "User"
+    ? { recipient: user.id, $or: [{ recipientModel: "User" }, { recipientModel: { $exists: false } }] }
+    : { recipient: user.id, recipientModel: model };
+};
 
 const getNotifications = async (req, res) => {
   try {
@@ -10,9 +28,7 @@ const getNotifications = async (req, res) => {
       page = 1,
     } = req.query;
 
-    const query = {
-      recipient: req.user.id,
-    };
+    const query = recipientFilter(req.user);
 
     if (isRead !== undefined) {
       query.isRead = isRead === "true";
@@ -38,10 +54,7 @@ const getNotifications = async (req, res) => {
 
       Notification.countDocuments(query),
 
-      Notification.countDocuments({
-        recipient: req.user.id,
-        isRead: false,
-      }),
+      Notification.countDocuments({ ...recipientFilter(req.user), isRead: false }),
     ]);
 
     res.json({
@@ -64,9 +77,18 @@ const getNotifications = async (req, res) => {
 
 const createNotification = async (req, res) => {
   try {
+    const recipientModel = req.body.recipientModel || "User";
+    if (!["User", "Doctor", "Patient"].includes(recipientModel)) {
+      return res.status(400).json({ message: "Notification recipient type is invalid" });
+    }
+    const recipient = req.body.recipient || req.user.id;
+    if (!await NotificationRecipientModels[recipientModel].exists({ _id: recipient })) {
+      return res.status(404).json({ message: "Notification recipient not found" });
+    }
     const notification = await Notification.create({
       ...req.body,
-      recipient: req.body.recipient || req.user.id,
+      recipient,
+      recipientModel,
     });
 
     res.status(201).json({
@@ -84,10 +106,7 @@ const createNotification = async (req, res) => {
 const markNotificationAsRead = async (req, res) => {
   try {
     const notification = await Notification.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        recipient: req.user.id,
-      },
+      { _id: req.params.id, ...recipientFilter(req.user) },
       {
         isRead: true,
         readAt: new Date(),
@@ -118,10 +137,7 @@ const markNotificationAsRead = async (req, res) => {
 const markAllNotificationsAsRead = async (req, res) => {
   try {
     const result = await Notification.updateMany(
-      {
-        recipient: req.user.id,
-        isRead: false,
-      },
+      { ...recipientFilter(req.user), isRead: false },
       {
         $set: {
           isRead: true,

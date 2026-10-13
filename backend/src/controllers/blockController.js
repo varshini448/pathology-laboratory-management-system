@@ -1,6 +1,7 @@
 const Block = require("../models/Block");
 const Case = require("../models/Case");
 const Specimen = require("../models/Specimen");
+const { createAuditEntry } = require("../services/lifecycleEventService");
 
 const sameId = (left, right) => String(left?._id || left) === String(right?._id || right);
 
@@ -35,6 +36,10 @@ const createBlock = async (req, res) => {
       tissueDescription,
       notes,
       createdBy: req.user.id,
+    });
+    await createAuditEntry({
+      req, action: "CREATE", module: "Blocks", resourceType: "Block", resourceId: block._id,
+      description: "Block created", newData: { blockId: block.blockId, case: String(block.case), specimen: String(block.specimen), processingStatus: block.processingStatus },
     });
 
     res.status(201).json({
@@ -113,24 +118,23 @@ const getBlockById = async (req, res) => {
 
 const updateBlock = async (req, res) => {
   try {
-    const block = await Block.findByIdAndUpdate(
-      req.params.id,
-      {
-        blockType: req.body.blockType,
-        tissueDescription: req.body.tissueDescription,
-        notes: req.body.notes,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const block = await Block.findById(req.params.id);
 
     if (!block) {
       return res.status(404).json({
         message: "Block not found",
       });
     }
+
+    const previousData = { processingStatus: block.processingStatus };
+    for (const field of ["blockType", "tissueDescription", "notes"]) {
+      if (req.body[field] !== undefined) block[field] = req.body[field];
+    }
+    await block.save();
+    await createAuditEntry({
+      req, action: "UPDATE", module: "Blocks", resourceType: "Block", resourceId: block._id,
+      description: "Block updated", previousData, newData: { processingStatus: block.processingStatus },
+    });
 
     res.json({
       message: "Block updated successfully",

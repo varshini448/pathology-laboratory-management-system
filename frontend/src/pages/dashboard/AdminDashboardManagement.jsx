@@ -6,6 +6,8 @@ import {
   ShieldCheck,
   History,
   ArrowUpRight,
+  Settings2,
+  ClipboardList,
 } from "lucide-react";
 import AdminPendingApprovals from "./AdminPendingApprovals";
 import AdminRecentActivity from "./AdminRecentActivity";
@@ -15,18 +17,6 @@ const adminActions = [
     title: "Manage users",
     description: "Review staff accounts and user records.",
     to: "/users",
-    icon: Users,
-  },
-  {
-    title: "Patient directory",
-    description: "Find a registered patient record.",
-    to: "/patients",
-    icon: Users,
-  },
-  {
-    title: "Doctor directory",
-    description: "Find a doctor and review professional details.",
-    to: "/doctors",
     icon: Users,
   },
   {
@@ -46,6 +36,18 @@ const adminActions = [
     description: "Review recorded administrative events.",
     to: "/audit-logs",
     icon: History,
+  },
+  {
+    title: "Quality records",
+    description: "Review laboratory quality control records.",
+    to: "/qc/records",
+    icon: ClipboardList,
+  },
+  {
+    title: "Workflow configuration",
+    description: "Review the workflow stages supported by the system.",
+    to: "/admin/workflow-configuration",
+    icon: Settings2,
   },
 ];
 

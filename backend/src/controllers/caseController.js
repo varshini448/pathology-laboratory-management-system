@@ -1,6 +1,7 @@
 const Case = require("../models/Case");
 const Patient = require("../models/Patient");
 const Doctor = require("../models/Doctor");
+const { createAuditEntry, notifyWithoutBlocking } = require("../services/lifecycleEventService");
 
 const getCaseError = (error, fallback) => {
   if (error.code === 11000) return { status: 409, message: "A case with this identifier already exists." };
@@ -14,8 +15,8 @@ const createCase = async (req, res) => {
   try {
     const { caseId, patient, doctor, caseType, clinicalHistory, priority } = req.body;
     const [patientExists, doctorExists] = await Promise.all([
-      Patient.exists({ _id: patient }),
-      Doctor.exists({ _id: doctor }),
+      Patient.exists({ _id: patient, status: "ACTIVE" }),
+      Doctor.exists({ _id: doctor, status: "ACTIVE" }),
     ]);
 
     if (!patientExists || !doctorExists) {
@@ -33,6 +34,27 @@ const createCase = async (req, res) => {
       priority,
       status: "REGISTERED",
       createdBy: req.user.id,
+    });
+
+    await createAuditEntry({
+      req,
+      action: "CREATE",
+      module: "Cases",
+      resourceType: "Case",
+      resourceId: newCase._id,
+      description: "Case created and assigned",
+      newData: { caseId: newCase.caseId, doctor: String(newCase.doctor), patient: String(newCase.patient), status: newCase.status },
+    });
+    await notifyWithoutBlocking({
+      recipients: [{ id: newCase.doctor, model: "Doctor" }],
+      eventKey: `case-assigned:${newCase._id}`,
+      title: "A case was assigned to you",
+      message: "A new case is available in your doctor dashboard.",
+      type: "CASE_ALERT",
+      module: "Cases",
+      resourceType: "Case",
+      resourceId: newCase._id,
+      actionUrl: "/doctor-dashboard",
     });
 
     res.status(201).json({
@@ -83,22 +105,51 @@ const getCaseById = async (req, res) => {
 
 const updateCase = async (req, res) => {
   try {
-    const caseData = await Case.findByIdAndUpdate(
-      req.params.id,
-      {
-        caseType: req.body.caseType,
-        clinicalHistory: req.body.clinicalHistory,
-        priority: req.body.priority,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const caseData = await Case.findById(req.params.id);
 
     if (!caseData) {
       return res.status(404).json({
         message: "Case not found",
+      });
+    }
+
+    const previousData = {
+      caseType: caseData.caseType,
+      priority: caseData.priority,
+      doctor: String(caseData.doctor),
+      patient: String(caseData.patient),
+      status: caseData.status,
+    };
+    if (req.body.caseType !== undefined) caseData.caseType = req.body.caseType;
+    if (req.body.clinicalHistory !== undefined) caseData.clinicalHistory = req.body.clinicalHistory;
+    if (req.body.priority !== undefined) caseData.priority = req.body.priority;
+    const doctorChanged = req.body.doctor !== undefined && req.body.doctor !== String(caseData.doctor);
+    if (doctorChanged) {
+      if (!await Doctor.exists({ _id: req.body.doctor, status: "ACTIVE" })) return res.status(404).json({ message: "Active doctor not found" });
+      caseData.doctor = req.body.doctor;
+    }
+    await caseData.save();
+    await createAuditEntry({
+      req,
+      action: "UPDATE",
+      module: "Cases",
+      resourceType: "Case",
+      resourceId: caseData._id,
+      description: doctorChanged ? "Case assignment updated" : "Case details updated",
+      previousData,
+      newData: { caseType: caseData.caseType, priority: caseData.priority, doctor: String(caseData.doctor), patient: String(caseData.patient), status: caseData.status },
+    });
+    if (doctorChanged) {
+      await notifyWithoutBlocking({
+        recipients: [{ id: caseData.doctor, model: "Doctor" }],
+        eventKey: `case-assigned:${caseData._id}:${String(caseData.doctor)}`,
+        title: "A case was assigned to you",
+        message: "A case is available in your doctor dashboard.",
+        type: "CASE_ALERT",
+        module: "Cases",
+        resourceType: "Case",
+        resourceId: caseData._id,
+        actionUrl: "/doctor-dashboard",
       });
     }
 

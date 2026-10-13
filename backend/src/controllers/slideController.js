@@ -1,6 +1,7 @@
 const Slide = require("../models/Slide");
 const Block = require("../models/Block");
 const Case = require("../models/Case");
+const { createAuditEntry } = require("../services/lifecycleEventService");
 const fs = require("fs/promises");
 const path = require("path");
 const {
@@ -73,6 +74,10 @@ const createSlide = async (req, res) => {
       stainingMethod,
       notes,
       createdBy: req.user.id,
+    });
+    await createAuditEntry({
+      req, action: "CREATE", module: "Slides", resourceType: "Slide", resourceId: slide._id,
+      description: "Slide created", newData: { slideId: slide.slideId, case: String(slide.case), block: String(slide.block), status: slide.status },
     });
 
     res.status(201).json({
@@ -160,24 +165,23 @@ const getSlideById = async (req, res) => {
 
 const updateSlide = async (req, res) => {
   try {
-    const slide = await Slide.findByIdAndUpdate(
-      req.params.id,
-      {
-        slideType: req.body.slideType,
-        stainingMethod: req.body.stainingMethod,
-        notes: req.body.notes,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const slide = await Slide.findById(req.params.id);
 
     if (!slide) {
       return res.status(404).json({
         message: "Slide not found",
       });
     }
+
+    const previousData = { status: slide.status };
+    for (const field of ["slideType", "stainingMethod", "notes"]) {
+      if (req.body[field] !== undefined) slide[field] = req.body[field];
+    }
+    await slide.save();
+    await createAuditEntry({
+      req, action: "UPDATE", module: "Slides", resourceType: "Slide", resourceId: slide._id,
+      description: "Slide updated", previousData, newData: { status: slide.status },
+    });
 
     res.json({
       message: "Slide updated successfully",
@@ -232,6 +236,11 @@ const uploadSlideImage = async (req, res) => {
     };
 
     await slide.save();
+    await createAuditEntry({
+      req, action: "UPDATE", module: "Slides", resourceType: "Slide", resourceId: slide._id,
+      description: "Slide image uploaded", previousData: { hasImage: Boolean(previousFilename) },
+      newData: { hasImage: true, imageContentType: req.file.mimetype, imageSize: req.file.size },
+    });
 
     if (previousFilename && previousFilename !== req.file.filename) {
       const previousPath = getStoredImagePath(previousFilename);

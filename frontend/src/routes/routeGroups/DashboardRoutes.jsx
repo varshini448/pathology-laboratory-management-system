@@ -1,12 +1,15 @@
 import { Route } from "react-router-dom";
+import { lazyRoute } from "../lazyRoute";
 
-import Dashboard from "../../pages/dashboard/Dashboard";
-import AdminDashboard from "../../pages/dashboard/AdminDashboard";
-import PathologistDashboard from "../../pages/dashboard/PathologistDashboard";
-import QualityDashboard from "../../pages/dashboard/QualityDashboard";
-import TechnicianDashboard from "../../pages/dashboard/TechnicianDashboard";
-import DoctorDashboard from "../../pages/doctor/DoctorDashboard";
-import PatientDashboard from "../../pages/patient/PatientDashboard";
+const Dashboard = lazyRoute(() => import("../../pages/dashboard/Dashboard"));
+const AdminDashboard = lazyRoute(() => import("../../pages/dashboard/AdminDashboard"));
+const PathologistDashboard = lazyRoute(() => import("../../pages/dashboard/PathologistDashboard"));
+const QualityDashboard = lazyRoute(() => import("../../pages/dashboard/QualityDashboard"));
+const TechnicianDashboard = lazyRoute(() => import("../../pages/dashboard/TechnicianDashboard"));
+const DoctorDashboard = lazyRoute(() => import("../../pages/doctor/DoctorDashboard"));
+const PatientDashboard = lazyRoute(() => import("../../pages/patient/PatientDashboard"));
+const DoctorCaseDetails = lazyRoute(() => import("../../pages/external/DoctorCaseDetails"));
+const PatientCaseDetails = lazyRoute(() => import("../../pages/external/PatientCaseDetails"));
 import RoleRoute from "../RoleRoute";
 
 const DashboardRoutes = (
@@ -25,6 +28,7 @@ const DashboardRoutes = (
                 path="/doctor-dashboard"
                 element={<DoctorDashboard />}
             />
+            <Route path="/doctor/cases/:caseId" element={<DoctorCaseDetails />} />
         </Route>
 
         <Route
@@ -36,6 +40,7 @@ const DashboardRoutes = (
                 path="/patient-dashboard"
                 element={<PatientDashboard />}
             />
+            <Route path="/patient/cases/:caseId" element={<PatientCaseDetails />} />
         </Route>
 
         <Route

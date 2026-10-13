@@ -4,9 +4,14 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 import VerifyEmail from "../pages/auth/VerifyEmail";
-import { resetPassword, verifyEmailToken } from "../services/authService";
+import {
+  requestPasswordReset,
+  resetPassword,
+  verifyEmailToken,
+} from "../services/authService";
 
 vi.mock("../services/authService", () => ({
+  requestPasswordReset: vi.fn(),
   resetPassword: vi.fn(),
   verifyEmailToken: vi.fn(),
 }));
@@ -23,7 +28,10 @@ describe("authentication recovery pages", () => {
     consoleLog.mockRestore();
   });
 
-  test("forgot password does not claim success when secure delivery is unavailable", () => {
+  test("forgot password calls the backend and reports unavailable secure delivery", async () => {
+    requestPasswordReset.mockRejectedValue(new Error(
+      "Password reset delivery is not configured. Please contact your system administrator."
+    ));
     render(<MemoryRouter><ForgotPassword /></MemoryRouter>);
 
     fireEvent.change(screen.getByLabelText("Email or Employee/Medical ID"), {
@@ -31,7 +39,11 @@ describe("authentication recovery pages", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Send Reset Instructions" }));
 
-    expect(screen.getByText(/password reset delivery is not configured/i)).toBeInTheDocument();
+    await waitFor(() => expect(requestPasswordReset).toHaveBeenCalledWith({
+      accountType: "internal",
+      identifier: "person@example.test",
+    }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(/password reset delivery is not configured/i);
     expect(screen.queryByText(/instructions will be sent/i)).not.toBeInTheDocument();
     expect(consoleLog).not.toHaveBeenCalled();
   });

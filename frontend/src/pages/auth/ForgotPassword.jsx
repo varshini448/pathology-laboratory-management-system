@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { requestPasswordReset } from "../../services/authService";
 
 const ForgotPassword = () => {
   const [accountType, setAccountType] = useState("internal");
@@ -7,6 +8,7 @@ const ForgotPassword = () => {
   const [identifier, setIdentifier] = useState("");
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleAccountTypeChange = (type) => {
     setAccountType(type);
@@ -14,7 +16,7 @@ const ForgotPassword = () => {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError("");
@@ -28,9 +30,21 @@ const ForgotPassword = () => {
       return;
     }
 
-    setError(
-      "Password reset delivery is not configured. Please contact your system administrator."
-    );
+    try {
+      setLoading(true);
+      const response = await requestPasswordReset({
+        accountType,
+        identifier: identifier.trim(),
+      });
+      setError(response.message || "Password recovery request completed.");
+    } catch (requestError) {
+      setError(
+        requestError.message ||
+          "Password recovery is unavailable. Please contact your system administrator."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -107,7 +121,7 @@ const ForgotPassword = () => {
           </div>
 
           {error && (
-            <div className="login-message error">
+            <div className="login-message error" role="alert" aria-live="assertive">
               {error}
             </div>
           )}
@@ -115,8 +129,9 @@ const ForgotPassword = () => {
           <button
             type="submit"
             className="auth-button"
+            disabled={loading}
           >
-            Send Reset Instructions
+            {loading ? "Checking availability..." : "Send Reset Instructions"}
           </button>
 
         </form>

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
+    "test:integration": "node --require ./integration/load-test-env.js --test ./integration/*.test.js",
     "start": "node src/server.js"
   },
   "keywords": [],

@@ -1,13 +1,14 @@
 import { Route } from "react-router-dom";
+import { lazyRoute } from "../lazyRoute";
 
-import Reports from "../../pages/reports/Reports";
-import CreateReport from "../../pages/reports/CreateReport";
-import ReportDetails from "../../pages/reports/ReportDetails";
-import EditReport from "../../pages/reports/EditReport";
-import SignOutReport from "../../pages/reports/SignOutReport";
-import PathologistWorkspace from "../../pages/reports/PathologistWorkspace";
-import DraftReports from "../../pages/reports/DraftReports";
-import SignOutReports from "../../pages/reports/SignOutReports";
+const Reports = lazyRoute(() => import("../../pages/reports/Reports"));
+const CreateReport = lazyRoute(() => import("../../pages/reports/CreateReport"));
+const ReportDetails = lazyRoute(() => import("../../pages/reports/ReportDetails"));
+const EditReport = lazyRoute(() => import("../../pages/reports/EditReport"));
+const SignOutReport = lazyRoute(() => import("../../pages/reports/SignOutReport"));
+const PathologistWorkspace = lazyRoute(() => import("../../pages/reports/PathologistWorkspace"));
+const DraftReports = lazyRoute(() => import("../../pages/reports/DraftReports"));
+const SignOutReports = lazyRoute(() => import("../../pages/reports/SignOutReports"));
 
 import RoleRoute from "../RoleRoute";
 

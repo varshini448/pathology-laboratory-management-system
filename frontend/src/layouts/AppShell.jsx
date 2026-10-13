@@ -108,6 +108,32 @@ const AppShell = () => {
               <span className="app-shell-nav-text">Overview</span>
             </NavLink>
 
+            {role === "DOCTOR" && (
+              <>
+                <NavLink to="/doctor-dashboard#assigned-cases" className={navClassName}>
+                  <span className="app-shell-nav-icon">▣</span>
+                  <span className="app-shell-nav-text">Assigned Cases</span>
+                </NavLink>
+                <NavLink to="/doctor-dashboard#assigned-reports" className={navClassName}>
+                  <span className="app-shell-nav-icon">▤</span>
+                  <span className="app-shell-nav-text">Reports</span>
+                </NavLink>
+              </>
+            )}
+
+            {role === "PATIENT" && (
+              <>
+                <NavLink to="/patient-dashboard#my-cases" className={navClassName}>
+                  <span className="app-shell-nav-icon">▣</span>
+                  <span className="app-shell-nav-text">My Pathology Cases</span>
+                </NavLink>
+                <NavLink to="/patient-dashboard#final-reports" className={navClassName}>
+                  <span className="app-shell-nav-icon">▤</span>
+                  <span className="app-shell-nav-text">Finalized Reports</span>
+                </NavLink>
+              </>
+            )}
+
             {isInternalRole && <NavLink to="/cases" className={navClassName}>
               <span className="app-shell-nav-icon">▣</span>
               <span className="app-shell-nav-text">Cases</span>
@@ -148,6 +174,11 @@ const AppShell = () => {
             {isInternalRole && <NavLink to="/tat" className={navClassName}>
               <span className="app-shell-nav-icon">◷</span>
               <span className="app-shell-nav-text">TAT & Performance</span>
+            </NavLink>}
+
+            {isInternalRole && <NavLink to="/workflow/bottlenecks" className={navClassName}>
+              <span className="app-shell-nav-icon">⚠</span>
+              <span className="app-shell-nav-text">Bottleneck Review</span>
             </NavLink>}
           </div>}
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardHeader from "../dashboard/components/DashboardHeader";
 import DashboardStatCard from "../dashboard/components/DashboardStatCard";
 import DashboardSection from "../dashboard/components/DashboardSection";
@@ -110,6 +111,7 @@ const PatientDashboard = () => {
             />
           </section>
 
+          <div id="my-cases">
           <DashboardSection
             title="My Pathology Cases"
             subtitle="Only cases associated with your account are shown."
@@ -134,7 +136,7 @@ const PatientDashboard = () => {
                   <tbody>
                     {cases.map((item) => (
                       <tr key={item._id}>
-                        <td>{item.caseId}</td>
+                        <td><Link to={`/patient/cases/${encodeURIComponent(item.caseId)}`}>{item.caseId}</Link></td>
                         <td>{item.caseType || "—"}</td>
                         <td>{item.status || "—"}</td>
                         <td>{item.priority || "—"}</td>
@@ -146,7 +148,9 @@ const PatientDashboard = () => {
               </div>
             )}
           </DashboardSection>
+          </div>
 
+          <div id="final-reports">
           <DashboardSection
             title="Finalized Reports"
             subtitle="Only finalized reports are included in this patient view."
@@ -184,6 +188,7 @@ const PatientDashboard = () => {
               </div>
             )}
           </DashboardSection>
+          </div>
         </>
       )}
     </main>

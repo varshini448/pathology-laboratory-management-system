@@ -37,10 +37,12 @@ describe("role dashboard data", () => {
   test("doctor and patient dashboards consume their account-scoped API data", async () => {
     const view = render(<MemoryRouter><DoctorDashboard /></MemoryRouter>);
     expect(await screen.findByText("CASE-1")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "CASE-1" })).toHaveAttribute("href", "/doctor/cases/CASE-1");
     expect(getDoctorDashboard).toHaveBeenCalled();
     view.unmount();
     render(<MemoryRouter><PatientDashboard /></MemoryRouter>);
     expect(await screen.findByText("CASE-1")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "CASE-1" })).toHaveAttribute("href", "/patient/cases/CASE-1");
     expect(getPatientDashboard).toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: "Refresh my records" }));
     await waitFor(() => expect(getPatientDashboard).toHaveBeenCalledTimes(2));

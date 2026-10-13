@@ -125,7 +125,10 @@ const getDoctorDashboard = async (req, res) => {
     const caseIds = cases.map((item) => item._id);
 
     const reports = caseIds.length
-      ? await Report.find({ case: { $in: caseIds } })
+      ? await Report.find({
+          case: { $in: caseIds },
+          reportStatus: "FINAL",
+        })
           .select(
             "reportId case diagnosis microscopicFindings grossFindings interpretation recommendations reportStatus reviewedAt createdAt"
           )

@@ -1,5 +1,6 @@
 const Specimen = require("../models/Specimen");
 const Case = require("../models/Case");
+const { createAuditEntry } = require("../services/lifecycleEventService");
 
 const getSpecimenError = (error, fallback) => {
   if (error.code === 11000) return { status: 409, message: "A specimen with this identifier already exists." };
@@ -27,6 +28,10 @@ const createSpecimen = async (req, res) => {
       notes,
       collectedBy: req.user.id,
       createdBy: req.user.id,
+    });
+    await createAuditEntry({
+      req, action: "CREATE", module: "Specimens", resourceType: "Specimen", resourceId: specimen._id,
+      description: "Specimen created", newData: { specimenId: specimen.specimenId, case: String(specimen.case), status: specimen.status },
     });
 
     res.status(201).json({
@@ -104,27 +109,24 @@ const getSpecimenById = async (req, res) => {
 
 const updateSpecimen = async (req, res) => {
   try {
-    const specimen = await Specimen.findByIdAndUpdate(
-      req.params.id,
-      {
-        specimenType: req.body.specimenType,
-        collectionSite: req.body.collectionSite,
-        collectionDate: req.body.collectionDate,
-        receivedDate: req.body.receivedDate,
-        condition: req.body.condition,
-        notes: req.body.notes,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const specimen = await Specimen.findById(req.params.id);
 
     if (!specimen) {
       return res.status(404).json({
         message: "Specimen not found",
       });
     }
+
+    const previousData = { status: specimen.status, condition: specimen.condition };
+    for (const field of ["specimenType", "collectionSite", "collectionDate", "receivedDate", "condition", "notes"]) {
+      if (req.body[field] !== undefined) specimen[field] = req.body[field];
+    }
+    await specimen.save();
+    await createAuditEntry({
+      req, action: "UPDATE", module: "Specimens", resourceType: "Specimen", resourceId: specimen._id,
+      description: "Specimen updated", previousData,
+      newData: { status: specimen.status, condition: specimen.condition },
+    });
 
     res.json({
       message: "Specimen updated successfully",

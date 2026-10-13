@@ -9,3 +9,8 @@ export const getWorkflowEventsByCase = async (caseId) => {
   const response = await api.get(`/workflow/case/${caseId}`);
   return response;
 };
+
+export const getWorkflowBottlenecks = async () => {
+  const response = await api.get("/workflow/bottlenecks");
+  return response.data;
+};

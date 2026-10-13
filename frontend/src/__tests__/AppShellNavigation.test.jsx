@@ -33,4 +33,20 @@ describe("application shell access links", () => {
     expect(screen.queryByRole("link", { name: /Doctor Directory/ })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /Patient Directory/ })).not.toBeInTheDocument();
   });
+
+  test("shows doctor case and report destinations", async () => {
+    getCurrentUser.mockReturnValue({ name: "Doctor", role: "DOCTOR" });
+    renderShell();
+    expect(screen.getByRole("link", { name: /Assigned Cases/ })).toHaveAttribute("href", "/doctor-dashboard#assigned-cases");
+    await screen.findByRole("heading", { name: "Admin content" });
+    expect(screen.getByRole("link", { name: /Reports/ })).toHaveAttribute("href", "/doctor-dashboard#assigned-reports");
+  });
+
+  test("shows patient case and finalized report destinations", async () => {
+    getCurrentUser.mockReturnValue({ name: "Patient", role: "PATIENT" });
+    renderShell();
+    await screen.findByRole("heading", { name: "Admin content" });
+    expect(screen.getByRole("link", { name: /My Pathology Cases/ })).toHaveAttribute("href", "/patient-dashboard#my-cases");
+    expect(screen.getByRole("link", { name: /Finalized Reports/ })).toHaveAttribute("href", "/patient-dashboard#final-reports");
+  });
 });

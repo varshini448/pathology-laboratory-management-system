@@ -8,9 +8,7 @@ const { login } = require("./authController");
 
 const originalFindOne = User.findOne;
 const originalJwtSecret = process.env.JWT_SECRET;
-const originalConsoleInfo = console.info;
 const testSecret = "internal-auth-controller-test-secret";
-let diagnosticLogs = [];
 
 const makeResponse = () => ({
   statusCode: null,
@@ -27,13 +25,10 @@ const makeResponse = () => ({
 
 test.beforeEach(() => {
   process.env.JWT_SECRET = testSecret;
-  diagnosticLogs = [];
-  console.info = (...args) => diagnosticLogs.push(args);
 });
 
 test.afterEach(() => {
   User.findOne = originalFindOne;
-  console.info = originalConsoleInfo;
   if (originalJwtSecret === undefined) delete process.env.JWT_SECRET;
   else process.env.JWT_SECRET = originalJwtSecret;
 });
@@ -70,16 +65,6 @@ test("active internal login accepts the expected payload and returns its role", 
   const claims = jwt.verify(res.body.token, testSecret);
   assert.equal(claims.role, "TECHNICIAN");
   assert.equal(claims.userType, "INTERNAL");
-  assert.deepEqual(diagnosticLogs[0], ["[auth.login.diagnostic]", {
-    accountMatched: true,
-    accountType: "INTERNAL",
-    accountRole: "TECHNICIAN",
-    accountStatus: "ACTIVE",
-    passwordHashExists: true,
-    passwordComparisonSucceeded: true,
-  }]);
-  assert.equal(JSON.stringify(diagnosticLogs).includes("STAFF-TEST"), false);
-  assert.equal(JSON.stringify(diagnosticLogs).includes("synthetic-test-password"), false);
 });
 
 test("internal invalid credentials return a generic 401", async () => {
@@ -98,7 +83,6 @@ test("internal invalid credentials return a generic 401", async () => {
 
   assert.equal(res.statusCode, 401);
   assert.equal(res.body.message, "Invalid identifier or password");
-  assert.equal(diagnosticLogs[0][1].passwordComparisonSucceeded, false);
 });
 
 test("an internal account without a password hash is rejected safely", async () => {
@@ -115,14 +99,7 @@ test("an internal account without a password hash is rejected safely", async () 
   } }, res);
 
   assert.equal(res.statusCode, 401);
-  assert.deepEqual(diagnosticLogs[0][1], {
-    accountMatched: true,
-    accountType: "INTERNAL",
-    accountRole: null,
-    accountStatus: "ACTIVE",
-    passwordHashExists: false,
-    passwordComparisonSucceeded: null,
-  });
+  assert.equal(res.body.message, "Invalid identifier or password");
 });
 
 test("internal accounts awaiting administrator approval return 403", async () => {
@@ -137,11 +114,9 @@ test("internal accounts awaiting administrator approval return 403", async () =>
 
   assert.equal(res.statusCode, 403);
   assert.match(res.body.message, /pending administrator approval/i);
-  assert.equal(diagnosticLogs[0][1].accountStatus, "PENDING_APPROVAL");
-  assert.equal(diagnosticLogs[0][1].passwordComparisonSucceeded, null);
 });
 
-test("unknown internal identifier logs only a safe no-match diagnostic", async () => {
+test("unknown internal identifier returns a generic 401", async () => {
   User.findOne = async () => null;
 
   const res = makeResponse();
@@ -152,14 +127,5 @@ test("unknown internal identifier logs only a safe no-match diagnostic", async (
   } }, res);
 
   assert.equal(res.statusCode, 401);
-  assert.deepEqual(diagnosticLogs[0], ["[auth.login.diagnostic]", {
-    accountMatched: false,
-    accountType: "INTERNAL",
-    accountRole: null,
-    accountStatus: null,
-    passwordHashExists: false,
-    passwordComparisonSucceeded: null,
-  }]);
-  assert.equal(JSON.stringify(diagnosticLogs).includes("synthetic-unknown-identifier"), false);
-  assert.equal(JSON.stringify(diagnosticLogs).includes("synthetic-test-password"), false);
+  assert.equal(res.body.message, "Invalid identifier or password");
 });

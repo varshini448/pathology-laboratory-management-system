@@ -1,4 +1,5 @@
 const Doctor = require("../models/Doctor");
+const { createAuditEntry, notifyWithoutBlocking } = require("../services/lifecycleEventService");
 
 // GET PENDING DOCTORS
 const getPendingDoctors = async (req, res) => {
@@ -43,9 +44,26 @@ const approveDoctor = async (req, res) => {
       });
     }
 
+    const previousStatus = doctor.status;
     doctor.status = "ACTIVE";
 
     await doctor.save();
+    await createAuditEntry({
+      req, action: "VERIFY", module: "Doctor Verification", resourceType: "Doctor", resourceId: doctor._id,
+      description: "Doctor account verified and approved", previousData: { status: previousStatus },
+      newData: { status: doctor.status },
+    });
+    await notifyWithoutBlocking({
+      recipients: [{ id: doctor._id, model: "Doctor" }],
+      eventKey: `doctor-approved:${doctor._id}`,
+      title: "Your doctor account was verified",
+      message: "You can now sign in to your doctor dashboard.",
+      type: "SUCCESS",
+      module: "Doctor Verification",
+      resourceType: "Doctor",
+      resourceId: doctor._id,
+      actionUrl: "/login",
+    });
 
     return res.status(200).json({
       message: "Doctor verified and approved successfully",
@@ -88,9 +106,26 @@ const rejectDoctor = async (req, res) => {
       });
     }
 
+    const previousStatus = doctor.status;
     doctor.status = "INACTIVE";
 
     await doctor.save();
+    await createAuditEntry({
+      req, action: "REJECT", module: "Doctor Verification", resourceType: "Doctor", resourceId: doctor._id,
+      description: "Doctor account verification rejected", previousData: { status: previousStatus },
+      newData: { status: doctor.status },
+    });
+    await notifyWithoutBlocking({
+      recipients: [{ id: doctor._id, model: "Doctor" }],
+      eventKey: `doctor-rejected:${doctor._id}`,
+      title: "Your doctor account request was declined",
+      message: "Your doctor account request was declined. Contact the laboratory administrator for assistance.",
+      type: "WARNING",
+      module: "Doctor Verification",
+      resourceType: "Doctor",
+      resourceId: doctor._id,
+      actionUrl: "/login",
+    });
 
     return res.status(200).json({
       message: "Doctor verification rejected",

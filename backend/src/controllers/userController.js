@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { createAuditEntry, notifyWithoutBlocking } = require("../services/lifecycleEventService");
 
 // GET PENDING APPROVALS
 const getPendingApprovals = async (req, res) => {
@@ -73,9 +74,26 @@ const approveUser = async (req, res) => {
       });
     }
 
+    const previousStatus = user.status;
     user.status = "ACTIVE";
 
     await user.save();
+    await createAuditEntry({
+      req, action: "APPROVE", module: "User Approvals", resourceType: "User", resourceId: user._id,
+      description: "Staff account approved", previousData: { status: previousStatus, role: user.role },
+      newData: { status: user.status, role: user.role },
+    });
+    await notifyWithoutBlocking({
+      recipients: [{ id: user._id, model: "User" }],
+      eventKey: `staff-approved:${user._id}`,
+      title: "Your staff account was approved",
+      message: "You can now sign in to the laboratory platform.",
+      type: "SUCCESS",
+      module: "User Approvals",
+      resourceType: "User",
+      resourceId: user._id,
+      actionUrl: "/login",
+    });
 
     return res.status(200).json({
       message: "User approved successfully",
@@ -122,9 +140,26 @@ const rejectUser = async (req, res) => {
       });
     }
 
+    const previousStatus = user.status;
     user.status = "INACTIVE";
 
     await user.save();
+    await createAuditEntry({
+      req, action: "REJECT", module: "User Approvals", resourceType: "User", resourceId: user._id,
+      description: "Staff account rejected", previousData: { status: previousStatus, role: user.role },
+      newData: { status: user.status, role: user.role },
+    });
+    await notifyWithoutBlocking({
+      recipients: [{ id: user._id, model: "User" }],
+      eventKey: `staff-rejected:${user._id}`,
+      title: "Your staff account request was declined",
+      message: "Your staff account request was declined. Contact the laboratory administrator for assistance.",
+      type: "WARNING",
+      module: "User Approvals",
+      resourceType: "User",
+      resourceId: user._id,
+      actionUrl: "/login",
+    });
 
     return res.status(200).json({
       message: "User rejected successfully",

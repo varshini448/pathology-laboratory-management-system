@@ -1,20 +1,18 @@
 import { Route } from "react-router-dom";
+import { lazyRoute } from "../lazyRoute";
 
-import Cases from "../../pages/cases/Cases";
-import CaseDetails from "../../pages/cases/CaseDetails";
-import AddCase from "../../pages/cases/AddCase";
-
-import Specimens from "../../pages/specimens/Specimens";
-import SpecimenDetails from "../../pages/specimens/SpecimenDetails";
-import AddSpecimen from "../../pages/specimens/AddSpecimen";
-
-import Blocks from "../../pages/blocks/Blocks";
-import BlockDetails from "../../pages/blocks/BlockDetails";
-import AddBlock from "../../pages/blocks/AddBlock";
-
-import Slides from "../../pages/slides/Slides";
-import SlideDetails from "../../pages/slides/SlideDetails";
-import AddSlide from "../../pages/slides/AddSlide";
+const Cases = lazyRoute(() => import("../../pages/cases/Cases"));
+const CaseDetails = lazyRoute(() => import("../../pages/cases/CaseDetails"));
+const AddCase = lazyRoute(() => import("../../pages/cases/AddCase"));
+const Specimens = lazyRoute(() => import("../../pages/specimens/Specimens"));
+const SpecimenDetails = lazyRoute(() => import("../../pages/specimens/SpecimenDetails"));
+const AddSpecimen = lazyRoute(() => import("../../pages/specimens/AddSpecimen"));
+const Blocks = lazyRoute(() => import("../../pages/blocks/Blocks"));
+const BlockDetails = lazyRoute(() => import("../../pages/blocks/BlockDetails"));
+const AddBlock = lazyRoute(() => import("../../pages/blocks/AddBlock"));
+const Slides = lazyRoute(() => import("../../pages/slides/Slides"));
+const SlideDetails = lazyRoute(() => import("../../pages/slides/SlideDetails"));
+const AddSlide = lazyRoute(() => import("../../pages/slides/AddSlide"));
 import RoleRoute from "../RoleRoute";
 
 const LaboratoryRoutes = (

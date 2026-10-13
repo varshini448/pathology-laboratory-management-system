@@ -4,8 +4,22 @@ const notificationSchema = new mongoose.Schema(
   {
     recipient: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      refPath: "recipientModel",
       required: true,
+    },
+
+    recipientModel: {
+      type: String,
+      enum: ["User", "Doctor", "Patient"],
+      default: "User",
+      required: true,
+    },
+
+    dedupeKey: {
+      type: String,
+      trim: true,
+      sparse: true,
+      unique: true,
     },
 
     title: {

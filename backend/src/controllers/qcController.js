@@ -1,6 +1,7 @@
 const QCRecord = require("../models/QCRecord");
 const Case = require("../models/Case");
 const Slide = require("../models/Slide");
+const { createAuditEntry, notifyRolesWithoutBlocking } = require("../services/lifecycleEventService");
 
 const getQCError = (error) => {
   if (error.code === 11000) return { status: 409, message: "A QC record with this identifier already exists." };
@@ -24,6 +25,26 @@ const createQCRecord = async (req, res) => {
       labelingCheck, documentationCheck, overallStatus, findings, correctiveAction,
       reviewedBy: req.user.id,
     });
+
+    await createAuditEntry({
+      req, action: "CREATE", module: "Quality Control", resourceType: "QCRecord", resourceId: qcRecord._id,
+      description: "Quality control decision recorded",
+      newData: { qcId: qcRecord.qcId, case: String(qcRecord.case), slide: String(qcRecord.slide), overallStatus: qcRecord.overallStatus },
+    });
+    if (["FAILED", "NEEDS_REVIEW"].includes(qcRecord.overallStatus)) {
+      await notifyRolesWithoutBlocking({
+        roles: ["QUALITY_MANAGER"],
+        eventKey: `qc-decision:${qcRecord._id}:${qcRecord.overallStatus}`,
+        title: "Quality control requires attention",
+        message: "A quality control decision requires review in the laboratory workspace.",
+        type: "QC_ALERT",
+        priority: qcRecord.overallStatus === "FAILED" ? "HIGH" : "MEDIUM",
+        module: "Quality Control",
+        resourceType: "QCRecord",
+        resourceId: qcRecord._id,
+        actionUrl: "/quality-dashboard",
+      });
+    }
 
     const populatedQCRecord = await QCRecord.findById(qcRecord._id)
       .populate("case", "caseId caseType priority status")
@@ -103,22 +124,40 @@ const getQCRecordById = async (req, res) => {
 
 const updateQCRecord = async (req, res) => {
   try {
-    const qcRecord = await QCRecord.findByIdAndUpdate(
-      req.params.id,
-      {
-        sectionQuality: req.body.sectionQuality,
-        stainingQuality: req.body.stainingQuality,
-        labelingCheck: req.body.labelingCheck,
-        documentationCheck: req.body.documentationCheck,
-        overallStatus: req.body.overallStatus,
-        findings: req.body.findings,
-        correctiveAction: req.body.correctiveAction,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
+    const qcRecord = await QCRecord.findById(req.params.id);
+    if (!qcRecord) return res.status(404).json({ message: "QC record not found" });
+    const previousData = {
+      overallStatus: qcRecord.overallStatus,
+      sectionQuality: qcRecord.sectionQuality,
+      stainingQuality: qcRecord.stainingQuality,
+      labelingCheck: qcRecord.labelingCheck,
+      documentationCheck: qcRecord.documentationCheck,
+    };
+    for (const field of ["sectionQuality", "stainingQuality", "labelingCheck", "documentationCheck", "overallStatus", "findings", "correctiveAction"]) {
+      if (req.body[field] !== undefined) qcRecord[field] = req.body[field];
+    }
+    qcRecord.reviewedBy = req.user.id;
+    await qcRecord.save();
+    await createAuditEntry({
+      req, action: "UPDATE", module: "Quality Control", resourceType: "QCRecord", resourceId: qcRecord._id,
+      description: "Quality control decision updated", previousData,
+      newData: { overallStatus: qcRecord.overallStatus, sectionQuality: qcRecord.sectionQuality, stainingQuality: qcRecord.stainingQuality, labelingCheck: qcRecord.labelingCheck, documentationCheck: qcRecord.documentationCheck },
+    });
+    if (["FAILED", "NEEDS_REVIEW"].includes(qcRecord.overallStatus)) {
+      await notifyRolesWithoutBlocking({
+        roles: ["QUALITY_MANAGER"],
+        eventKey: `qc-decision:${qcRecord._id}:${qcRecord.overallStatus}`,
+        title: "Quality control requires attention",
+        message: "A quality control decision requires review in the laboratory workspace.",
+        type: "QC_ALERT",
+        priority: qcRecord.overallStatus === "FAILED" ? "HIGH" : "MEDIUM",
+        module: "Quality Control",
+        resourceType: "QCRecord",
+        resourceId: qcRecord._id,
+        actionUrl: "/quality-dashboard",
+      });
+    }
+    const populated = await QCRecord.findById(qcRecord._id)
       .populate("case", "caseId caseType priority status")
       .populate("slide", "slideId slideType stainingMethod status")
       .populate("reviewedBy", "name email role");
@@ -131,7 +170,7 @@ const updateQCRecord = async (req, res) => {
 
     res.json({
       message: "QC record updated successfully",
-      qcRecord,
+      qcRecord: populated,
     });
   } catch (error) {
     const response = getQCError(error);
