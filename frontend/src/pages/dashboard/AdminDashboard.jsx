@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Plus, ShieldCheck } from "lucide-react";
 import { getAuthUser } from "../../utils/authStorage";
-import AdminDashboardOverview from "./AdminDashboardOverview";
 import AdminDashboardManagement from "./AdminDashboardManagement";
 import "../../styles/admin-dashboard/admin-dashboard.css";
 import "../../styles/admin-dashboard/admin-dashboard-stats.css";
@@ -37,7 +36,6 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      <AdminDashboardOverview />
       <AdminDashboardManagement />
     </main>
   );
