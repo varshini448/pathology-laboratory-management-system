@@ -176,10 +176,7 @@ const AppShell = () => {
               <span className="app-shell-nav-text">TAT & Performance</span>
             </NavLink>}
 
-            {isInternalRole && <NavLink to="/workflow/bottlenecks" className={navClassName}>
-              <span className="app-shell-nav-icon">⚠</span>
-              <span className="app-shell-nav-text">Bottleneck Review</span>
-            </NavLink>}
+
           </div>}
 
           {canViewAudit && <div className="app-shell-nav-section">

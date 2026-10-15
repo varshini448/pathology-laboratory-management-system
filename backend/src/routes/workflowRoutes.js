@@ -7,18 +7,8 @@ const {
   createWorkflowEvent,
   getWorkflowEventsByCase,
 } = require("../controllers/workflowController");
-const {
-  getWorkflowBottleneckSummary,
-} = require("../controllers/workflowBottleneckController");
 
 const router = express.Router();
-
-router.get(
-  "/bottlenecks",
-  protect,
-  authorize("ADMIN", "TECHNICIAN", "PATHOLOGIST", "QUALITY_MANAGER"),
-  getWorkflowBottleneckSummary
-);
 
 router.post(
   "/",
