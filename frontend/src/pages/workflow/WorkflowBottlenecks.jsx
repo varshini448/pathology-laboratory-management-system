@@ -7,6 +7,7 @@ import DashboardSection from "../dashboard/components/DashboardSection";
 import { getWorkflowBottlenecks } from "../../services/workflowService";
 import "../dashboard/dashboard.css";
 import "./workflow-bottlenecks.css";
+import { getWorkflowBottleneckRecommendation } from "./workflowBottleneckRecommendations";
 
 const formatStage = (stage) => stage
   .toLowerCase()
@@ -132,6 +133,11 @@ const WorkflowBottlenecks = () => {
                       </div>
                       <span className="workflow-bottleneck-threshold">Threshold: {formatElapsed(stage.thresholdMinutes)}</span>
                     </header>
+                    <div className="workflow-bottleneck-recommendation">
+                      <strong>Recommended operational action</strong>
+                      <p>{getWorkflowBottleneckRecommendation(stage.stage).action}</p>
+                      <small>{getWorkflowBottleneckRecommendation(stage.stage).rationale}</small>
+                    </div>
                     <ul>
                       {stage.delayedCases.map((item) => (
                         <li key={`${stage.stage}-${item.caseId}`}>

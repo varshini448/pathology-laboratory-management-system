@@ -207,3 +207,33 @@
     gap: 9px;
   }
 }
+
+/* Rule-based operational recommendations */
+.workflow-bottleneck-recommendation {
+  display: grid;
+  gap: 6px;
+  margin: 14px 17px 0;
+  padding: 13px 15px;
+  border: 1px solid #d7e6ed;
+  border-left: 4px solid #3483a0;
+  border-radius: 9px;
+  background: #f5fafc;
+}
+
+.workflow-bottleneck-recommendation strong {
+  color: #173b4b;
+  font-size: 13px;
+}
+
+.workflow-bottleneck-recommendation p {
+  margin: 0;
+  color: #375360;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.workflow-bottleneck-recommendation small {
+  color: #64747d;
+  font-size: 12px;
+  line-height: 1.5;
+}
