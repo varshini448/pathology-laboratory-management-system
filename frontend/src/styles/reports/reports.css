@@ -392,3 +392,72 @@
         width: 100%;
     }
 }
+
+/* Report print / Save as PDF */
+.report-print-document {
+  display: none;
+}
+
+.report-print-button {
+  font: inherit;
+  cursor: pointer;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .report-print-document,
+  .report-print-document * {
+    visibility: visible !important;
+  }
+
+  .report-print-document {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    background: #fff !important;
+  }
+
+  .report-print-view {
+    display: block !important;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .report-print-view h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .print-report-content p,
+  .print-report-meta,
+  .report-print-view footer {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-report-status {
+    margin-top: 8px !important;
+    font-weight: 700;
+  }
+}

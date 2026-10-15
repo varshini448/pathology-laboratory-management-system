@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashboardHeader from "../dashboard/components/DashboardHeader";
 import DashboardStatCard from "../dashboard/components/DashboardStatCard";
 import DashboardSection from "../dashboard/components/DashboardSection";
@@ -16,6 +16,10 @@ const formatDate = (value) => {
 };
 
 const PatientDashboard = () => {
+  const location = useLocation();
+  const isCasesPage = location.pathname === "/patient/cases";
+  const isReportsPage = location.pathname === "/patient/reports";
+  const isSectionPage = isCasesPage || isReportsPage;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -48,6 +52,8 @@ const PatientDashboard = () => {
     };
   }, [reloadKey]);
 
+
+
   const stats = data?.stats || {};
   const cases = data?.cases || [];
   const reports = data?.reports || [];
@@ -55,7 +61,7 @@ const PatientDashboard = () => {
   return (
     <main className="dashboard-page">
       <DashboardHeader
-        title="Patient Dashboard"
+        title={isCasesPage ? "My Pathology Cases" : isReportsPage ? "Finalized Reports" : "Patient Dashboard"}
         subtitle="View your pathology cases, progress, and finalized reports."
         userName={data?.account?.name}
         role="PATIENT"
@@ -90,7 +96,7 @@ const PatientDashboard = () => {
 
       {!loading && !error && (
         <>
-          <section className="dashboard-stat-grid" aria-label="Patient statistics">
+          {!isSectionPage && <section className="dashboard-stat-grid" aria-label="Patient statistics">
             <DashboardStatCard
               title="My Cases"
               value={stats.totalCases ?? 0}
@@ -109,9 +115,9 @@ const PatientDashboard = () => {
               subtitle="Reports signed out and available"
               icon={<FileCheck2 />}
             />
-          </section>
+          </section>}
 
-          <div id="my-cases">
+          {!isReportsPage && <div id="my-cases">
           <DashboardSection
             title="My Pathology Cases"
             subtitle="Only cases associated with your account are shown."
@@ -148,9 +154,9 @@ const PatientDashboard = () => {
               </div>
             )}
           </DashboardSection>
-          </div>
+          </div>}
 
-          <div id="final-reports">
+          {!isCasesPage && <div id="final-reports">
           <DashboardSection
             title="Finalized Reports"
             subtitle="Only finalized reports are included in this patient view."
@@ -188,7 +194,7 @@ const PatientDashboard = () => {
               </div>
             )}
           </DashboardSection>
-          </div>
+          </div>}
         </>
       )}
     </main>

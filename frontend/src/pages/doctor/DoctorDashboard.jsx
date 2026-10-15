@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashboardHeader from "../dashboard/components/DashboardHeader";
 import DashboardStatCard from "../dashboard/components/DashboardStatCard";
 import DashboardSection from "../dashboard/components/DashboardSection";
@@ -16,6 +16,10 @@ const formatDate = (value) => {
 };
 
 const DoctorDashboard = () => {
+  const location = useLocation();
+  const isCasesPage = location.pathname === "/doctor/assigned-cases";
+  const isReportsPage = location.pathname === "/doctor/assigned-reports";
+  const isSectionPage = isCasesPage || isReportsPage;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -48,6 +52,8 @@ const DoctorDashboard = () => {
     };
   }, [reloadKey]);
 
+
+
   const stats = data?.stats || {};
   const cases = data?.cases || [];
   const reports = data?.reports || [];
@@ -55,7 +61,7 @@ const DoctorDashboard = () => {
   return (
     <main className="dashboard-page">
       <DashboardHeader
-        title="Doctor Dashboard"
+        title={isCasesPage ? "Assigned Cases" : isReportsPage ? "Assigned Reports" : "Doctor Dashboard"}
         subtitle="Monitor your assigned pathology cases and reports."
         userName={data?.account?.name}
         role={data?.account?.specialization || "DOCTOR"}
@@ -90,7 +96,7 @@ const DoctorDashboard = () => {
 
       {!loading && !error && (
         <>
-          <section className="dashboard-stat-grid" aria-label="Doctor statistics">
+          {!isSectionPage && <section className="dashboard-stat-grid" aria-label="Doctor statistics">
             <DashboardStatCard
               title="Assigned Cases"
               value={stats.assignedCases ?? 0}
@@ -115,9 +121,9 @@ const DoctorDashboard = () => {
               subtitle="Finalized reports for your cases"
               icon={<FileCheck2 />}
             />
-          </section>
+          </section>}
 
-          <div id="assigned-cases">
+          {!isReportsPage && <div id="assigned-cases">
           <DashboardSection
             title="Assigned Cases"
             subtitle="Only cases assigned to your doctor account are shown."
@@ -156,9 +162,9 @@ const DoctorDashboard = () => {
               </div>
             )}
           </DashboardSection>
-          </div>
+          </div>}
 
-          <div id="assigned-reports">
+          {!isCasesPage && <div id="assigned-reports">
           <DashboardSection
             title="Reports for Assigned Cases"
             subtitle="Finalized reports for your assigned cases are available here."
@@ -195,7 +201,7 @@ const DoctorDashboard = () => {
               </div>
             )}
           </DashboardSection>
-          </div>
+          </div>}
         </>
       )}
     </main>

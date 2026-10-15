@@ -28,6 +28,8 @@ const DashboardRoutes = (
                 path="/doctor-dashboard"
                 element={<DoctorDashboard />}
             />
+            <Route path="/doctor/assigned-cases" element={<DoctorDashboard />} />
+            <Route path="/doctor/assigned-reports" element={<DoctorDashboard />} />
             <Route path="/doctor/cases/:caseId" element={<DoctorCaseDetails />} />
         </Route>
 
@@ -40,6 +42,8 @@ const DashboardRoutes = (
                 path="/patient-dashboard"
                 element={<PatientDashboard />}
             />
+            <Route path="/patient/cases" element={<PatientDashboard />} />
+            <Route path="/patient/reports" element={<PatientDashboard />} />
             <Route path="/patient/cases/:caseId" element={<PatientCaseDetails />} />
         </Route>
 

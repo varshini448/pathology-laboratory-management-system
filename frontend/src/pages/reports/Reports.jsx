@@ -26,6 +26,8 @@ const Reports = () => {
     <RecordListPage
       title="Pathology reports"
       description="Review report drafts and finalized case reports."
+      actionTo="/reports/create"
+      actionLabel="Create Report"
       columns={[
         { key: "reportId", label: "Report", render: (report) => <Link className="record-list-link" to={`/reports/${report._id}`}>{report.reportId}</Link> },
         { key: "case", label: "Case", render: (report) => report.case?.caseId || "—" },

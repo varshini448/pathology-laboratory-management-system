@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { getReportById } from "../../services/reportService";
 import PageHeader from "../../components/layout/PageHeader";
 import LoadingState from "../../components/ui/LoadingState";
+import ReportPrintView from "../../components/reports/ReportPrintView";
 
 const ReportDetails = () => {
   const { id } = useParams();
@@ -59,12 +60,16 @@ const ReportDetails = () => {
         actions={
           <div className="report-page-actions">
             <Link className="record-list-action" to="/reports">All reports</Link>
+            <button type="button" className="record-list-action report-print-button" onClick={() => window.print()}>
+              Print / Save as PDF
+            </button>
             {report.reportStatus === "DRAFT" && <Link className="record-list-action" to={`/reports/${report._id}/edit`}>Edit draft</Link>}
             {report.reportStatus === "DRAFT" && <Link className="record-list-action" to={`/reports/${report._id}/sign-out`}>Final sign-out</Link>}
           </div>
         }
       />
 
+      <div className="report-screen-details">
       <section className="report-info-panel report-details-panel">
 
       <p>
@@ -129,6 +134,27 @@ const ReportDetails = () => {
       )}
 
       </section>
+      </div>
+
+      <div className="report-print-document">
+        <ReportPrintView report={{
+          reportId: report.reportId,
+          caseId: report.case?.caseId,
+          slideId: report.slide?.slideId,
+          patientName: report.case?.patient?.name || report.patient?.name,
+          diagnosis: report.diagnosis,
+          microscopicFindings: report.microscopicFindings,
+          grossFindings: report.grossFindings,
+          interpretation: report.interpretation,
+          recommendations: report.recommendations,
+          preparedBy: report.preparedBy?.name,
+          reviewedBy: report.reviewedBy?.name,
+          reviewedAt: report.reviewedAt
+            ? new Date(report.reviewedAt).toLocaleString()
+            : "-",
+          reportStatus: report.reportStatus,
+        }} />
+      </div>
     </main>
   );
 };

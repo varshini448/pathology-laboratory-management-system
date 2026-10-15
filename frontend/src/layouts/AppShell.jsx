@@ -10,7 +10,7 @@ import "../styles/design/global-search-notifications.css";
 const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 
 const AppShell = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
@@ -110,11 +110,11 @@ const AppShell = () => {
 
             {role === "DOCTOR" && (
               <>
-                <NavLink to="/doctor-dashboard#assigned-cases" className={navClassName}>
+                <NavLink to="/doctor/assigned-cases" className={navClassName}>
                   <span className="app-shell-nav-icon">▣</span>
                   <span className="app-shell-nav-text">Assigned Cases</span>
                 </NavLink>
-                <NavLink to="/doctor-dashboard#assigned-reports" className={navClassName}>
+                <NavLink to="/doctor/assigned-reports" className={navClassName}>
                   <span className="app-shell-nav-icon">▤</span>
                   <span className="app-shell-nav-text">Reports</span>
                 </NavLink>
@@ -123,11 +123,11 @@ const AppShell = () => {
 
             {role === "PATIENT" && (
               <>
-                <NavLink to="/patient-dashboard#my-cases" className={navClassName}>
+                <NavLink to="/patient/cases" className={navClassName}>
                   <span className="app-shell-nav-icon">▣</span>
                   <span className="app-shell-nav-text">My Pathology Cases</span>
                 </NavLink>
-                <NavLink to="/patient-dashboard#final-reports" className={navClassName}>
+                <NavLink to="/patient/reports" className={navClassName}>
                   <span className="app-shell-nav-icon">▤</span>
                   <span className="app-shell-nav-text">Finalized Reports</span>
                 </NavLink>

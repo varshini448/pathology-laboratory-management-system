@@ -6,6 +6,7 @@ const ReportPrintView = ({ report = {} }) => {
       <header>
         <p>PATHOLOGY LABORATORY MANAGEMENT SYSTEM</p>
         <h1>PATHOLOGY REPORT</h1>
+        <p className="print-report-status">STATUS: {report.reportStatus || "DRAFT"}</p>
       </header>
 
       <section className="print-report-meta">
@@ -22,6 +23,11 @@ const ReportPrintView = ({ report = {} }) => {
         <div>
           <span>Patient</span>
           <strong>{report.patientName || "-"}</strong>
+        </div>
+
+        <div>
+          <span>Slide ID</span>
+          <strong>{report.slideId || "-"}</strong>
         </div>
       </section>
 
@@ -51,6 +57,11 @@ const ReportPrintView = ({ report = {} }) => {
         <div>
           <span>Reviewed By</span>
           <strong>{report.reviewedBy || "-"}</strong>
+        </div>
+
+        <div>
+          <span>Reviewed At</span>
+          <strong>{report.reviewedAt || "-"}</strong>
         </div>
       </footer>
     </article>
