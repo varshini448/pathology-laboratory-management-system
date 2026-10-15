@@ -260,3 +260,100 @@
     width: 100%;
   }
 }
+
+/* Report Draft Assistant */
+.report-assistant {
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-subtle);
+}
+
+.report-assistant-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.report-assistant-label {
+  color: var(--color-brand-700);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+}
+
+.report-assistant h3 {
+  margin: 6px 0 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+}
+
+.report-assistant h4 {
+  margin: 18px 0 8px;
+  color: var(--color-text-primary);
+}
+
+.report-assistant p {
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.report-assistant-toggle,
+.report-assistant-copy {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-brand-800);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+.report-assistant-metrics {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.report-assistant-results ul {
+  padding-left: 22px;
+  color: var(--color-text-secondary);
+}
+
+.report-assistant-preview {
+  max-height: 300px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+  line-height: 1.55;
+}
+
+.report-assistant-disclaimer {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--color-brand-600);
+  background: var(--color-surface);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 640px) {
+  .report-assistant {
+    padding: 14px;
+  }
+
+  .report-assistant-heading {
+    align-items: flex-start;
+  }
+}
