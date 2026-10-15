@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { RefreshCw } from "lucide-react";
 
 import { getAllCaseTAT } from "../../services/tatService";
+import { getCasePriorityRecommendations } from "./tatPriorityAssistant";
 import "../../styles/tat/tat.css";
 const formatDuration = (minutes) => {
   if (minutes === null || minutes === undefined) {
@@ -120,6 +121,8 @@ const TATDashboard = () => {
     (caseData) => !caseData.isCompleted
   ).length;
 
+  const priorityRecommendations = getCasePriorityRecommendations(tatData);
+
   return (
     <div className="tat-page">
       {/* Page Header */}
@@ -179,6 +182,61 @@ const TATDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Rule-based case priority assistant */}
+      <section
+        className="tat-card tat-priority-assistant"
+        aria-labelledby="case-priority-assistant-title"
+      >
+        <div className="tat-card-header">
+          <div>
+            <p className="tat-eyebrow">RULE-BASED DECISION SUPPORT</p>
+            <h2 id="case-priority-assistant-title">
+              Intelligent Case Priority Assistant
+            </h2>
+            <p>
+              Highlights open cases using recorded priority and turnaround status.
+            </p>
+          </div>
+        </div>
+
+        <p className="tat-method-note">
+          These are operational suggestions based on configured rules, not
+          machine-learning predictions or clinical decisions. Verify each case
+          before taking action.
+        </p>
+
+        {priorityRecommendations.length === 0 ? (
+          <div className="tat-empty">
+            <h3>No open cases to prioritize</h3>
+            <p>No open cases are available in the current TAT records.</p>
+          </div>
+        ) : (
+          <ol className="tat-priority-list">
+            {priorityRecommendations.map((item, index) => (
+              <li key={item.caseId || index}>
+                <span className="tat-priority-rank">{index + 1}</span>
+                <div className="tat-priority-content">
+                  <span className="tat-priority-label">
+                    Priority recommendation
+                  </span>
+                  <span className={getPriorityClass(item.priority)}>
+                    {item.priority || "NORMAL"}
+                  </span>
+                  <p>{item.assistantReasons.join(" · ")}</p>
+                </div>
+                <div className="tat-priority-time">
+                  <small>Elapsed / target</small>
+                  <strong>
+                    {formatDuration(item.tatMinutes)} /{" "}
+                    {formatDuration(item.targetMinutes)}
+                  </strong>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
 
       {/* Case TAT Table */}
       <div className="tat-card">

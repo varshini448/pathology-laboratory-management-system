@@ -577,3 +577,89 @@
         padding-right: 18px;
     }
 }
+
+/* Intelligent Case Priority Assistant */
+.tat-priority-assistant {
+  margin-bottom: 24px;
+}
+
+.tat-priority-assistant .tat-method-note {
+  margin-bottom: 16px;
+}
+
+.tat-priority-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tat-priority-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #dfe5ec;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.tat-priority-rank {
+  display: grid;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8eefc;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.tat-priority-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tat-priority-content .tat-badge {
+  margin-left: 10px;
+}
+
+.tat-priority-content p {
+  margin: 8px 0 0;
+  color: #5b6573;
+  line-height: 1.5;
+}
+
+.tat-priority-time {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tat-priority-time small {
+  color: #5b6573;
+}
+
+.tat-priority-time strong {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .tat-priority-list li {
+    flex-wrap: wrap;
+  }
+
+  .tat-priority-content {
+    flex-basis: calc(100% - 46px);
+  }
+
+  .tat-priority-time {
+    width: 100%;
+    padding-left: 46px;
+    text-align: left;
+  }
+}
