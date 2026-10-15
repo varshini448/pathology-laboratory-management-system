@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getQCRecords } from "../../services/qcService";
 import { getAuthUser } from "../../utils/authStorage";
+import { getQCAnomalyInsights } from "./qcAnomalyInsights";
 import "../../styles/qc-dashboard.css";
 
 const STATUS_CONFIG = {
@@ -108,6 +109,11 @@ const QCDashboard = () => {
       passRate: total ? Math.round((passed / total) * 100) : 0,
     };
   }, [qcRecords]);
+
+  const anomalyInsights = useMemo(
+    () => getQCAnomalyInsights(qcRecords),
+    [qcRecords]
+  );
 
   const recentRecords = useMemo(
     () =>
@@ -384,6 +390,122 @@ const QCDashboard = () => {
             </div>
           )}
         </article>
+      </section>
+
+      <section className="qc-panel qc-anomaly-panel" aria-labelledby="qc-anomaly-title">
+        <div className="qc-anomaly-content">
+          <div className="qc-panel-heading">
+            <div>
+              <h2 id="qc-anomaly-title">QC Pattern &amp; Anomaly Insights</h2>
+              <p>
+                Rule-based operational flags calculated from the loaded QC records.
+                These insights support review and do not establish a clinical diagnosis.
+              </p>
+            </div>
+            <span className="qc-panel-icon qc-anomaly-icon">
+              <Activity size={19} aria-hidden="true" />
+            </span>
+          </div>
+
+          <div className="qc-anomaly-metrics" aria-label="Insight summary">
+            <div className="qc-anomaly-metric">
+              <span>Records analyzed</span>
+              <strong>{anomalyInsights.recordsAnalyzed}</strong>
+            </div>
+            <div className="qc-anomaly-metric">
+              <span>Records flagged</span>
+              <strong>{anomalyInsights.flaggedRecordCount}</strong>
+            </div>
+            <div className="qc-anomaly-metric">
+              <span>Repeated patterns</span>
+              <strong>{anomalyInsights.patterns.length}</strong>
+            </div>
+          </div>
+
+          {anomalyInsights.recordsAnalyzed === 0 ? (
+            <div className="qc-inline-empty">
+              Add QC records to generate rule-based insights.
+            </div>
+          ) : anomalyInsights.flaggedRecordCount === 0 ? (
+            <div className="qc-anomaly-empty" role="status">
+              <CheckCircle2 size={20} aria-hidden="true" />
+              <div>
+                <strong>No configured QC flags detected</strong>
+                <p>
+                  The loaded records did not match the current rules. This does
+                  not replace the laboratory's normal quality review.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="qc-anomaly-results">
+              <div className="qc-anomaly-section-heading">
+                <h3>Recommended follow-up</h3>
+                <span>{anomalyInsights.flaggedRecordCount} records to review</span>
+              </div>
+
+              <ul className="qc-anomaly-list">
+                {anomalyInsights.flaggedRecords.slice(0, 5).map(({ record, flags }) => (
+                  <li className="qc-anomaly-item" key={record._id || record.qcId}>
+                    <span className="qc-anomaly-indicator" aria-hidden="true" />
+                    <div className="qc-anomaly-item-main">
+                      <strong>{record.qcId || "QC record"}</strong>
+                      <span>
+                        Case {getReference(record.case, "caseId")}
+                        {" · "}
+                        Slide {getReference(record.slide, "slideId")}
+                      </span>
+                      <ul className="qc-anomaly-flags">
+                        {flags.map((flag) => (
+                          <li key={flag.code}>
+                            <strong>{flag.title}:</strong> {flag.action}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              {anomalyInsights.flaggedRecords.length > 5 && (
+                <p className="qc-anomaly-more">
+                  Showing 5 of {anomalyInsights.flaggedRecords.length} flagged records.
+                  Review the QC records page for the remaining entries.
+                </p>
+              )}
+            </div>
+          )}
+
+          {anomalyInsights.patterns.length > 0 && (
+            <div className="qc-anomaly-patterns">
+              <h3>Repeated patterns across records</h3>
+              <ul>
+                {anomalyInsights.patterns.map((pattern) => (
+                  <li key={pattern.code}>
+                    <span>
+                      <strong>{pattern.title}</strong>
+                      <small>{pattern.action}</small>
+                    </span>
+                    <span className="qc-anomaly-count">
+                      {pattern.count} records
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p>
+                Repetition means the same rule matched at least two records;
+                it does not prove a common cause.
+              </p>
+            </div>
+          )}
+
+          <div className="qc-anomaly-footer">
+            <span>Decision support only · Confirm findings with authorized laboratory staff.</span>
+            <Link to="/qc/records" className="qc-text-link">
+              Review QC records <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
       </section>
 
       <section className="qc-panel qc-recent-panel">
