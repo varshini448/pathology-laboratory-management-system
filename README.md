@@ -1,10 +1,10 @@
-# Pathology Intelligence Platform
+# Pathology Laboratory Management System
 
-A professional full-stack **Pathology Laboratory Management and Intelligence Platform** designed to digitize laboratory workflows, improve operational visibility, support quality management, and provide AI-assisted insights for pathology laboratory teams.
+A professional full-stack **Pathology Laboratory Management system ** designed to digitize laboratory workflows, improve operational visibility, support quality management, and provide AI-assisted insights for pathology laboratory teams.
 
 The platform manages the complete pathology case lifecycle — from patient registration and specimen collection to workflow processing, quality control, pathology reporting, and final sign-out.
 
-> **Project Type:** Full-Stack Academic / Final-Year Project  
+> **Project Type:** Full-Stack Academic / Pre Final-Year Project  
 > **Architecture:** MERN Stack  
 > **Status:** Active Development  
 > **License:** MIT
